@@ -1,0 +1,843 @@
+global proc shelf_vo_clothTools () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a NURBS circle on the grid" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Circle" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "circle.png" 
+        -image1 "circle.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "circle -c 0 0 0 -nr 0 1 0 -sw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -ch 1; objectMoveCommand" 
+        -sourceType "mel" 
+        -doubleClickCommand "CreateNURBSCircleOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a NURBS square on the grid" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Square" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "square.png" 
+        -image1 "square.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "nurbsSquarePreset(0,0,0,0,0,1,0,1,1,1,3,1)" 
+        -sourceType "mel" 
+        -doubleClickCommand "CreateNURBSSquareOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a NURBS sphere on the grid" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Sphere" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "sphere.png" 
+        -image1 "sphere.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "sphere -p 0 0 0 -ax 0 1 0 -ssw 0 -esw 360 -r 1 -d 3 -ut 0 -tol 0.01 -s 8 -nsp 4 -ch 1;objectMoveCommand" 
+        -sourceType "mel" 
+        -doubleClickCommand "CreateNURBSSphereOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a curve on the grid or live surface specifying control vertices" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "CV Curve Tool" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "curveCV.png" 
+        -image1 "curveCV.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "CVCurveTool" 
+        -sourceType "mel" 
+        -doubleClickCommand "CVCurveToolOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Make cubic curve along selected vertices." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "import pymel.core as pm\n\ndef prompt_curve_name():\n    #global cu..." 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "vCrv" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "curveEP.png" 
+        -image1 "curveEP.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\noutput_curve_name = uf.prompt_string(promptTitle = 'Curve Name', promptMessage = 'Enter curve name')\nselection = pm.ls(sl=1, flatten = True)\nuf.curve_on_vertices(name = output_curve_name, vertices = selection)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select curve(s)" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Reverse Direction" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "reverse.png" 
+        -image1 "reverse.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "reversePreset 1 1 0" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Duplicate edges as curves." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Duplicate Surface Curves" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "duplicateCurve.png" 
+        -image1 "duplicateCurve.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "duplicateCurvePresetArgList( \"2\", {\"1\",\"0\",\"0\",\"2\"} )" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Attach curves" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Attach" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "attachCurves.png" 
+        -image1 "attachCurves.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "doAttachCurveArgList 2 { \"1\", \"0\", \"1\", \"1\", \"0.5\", \"0\", \"0.1\" }" 
+        -sourceType "mel" 
+        -doubleClickCommand "AttachCurveOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Rebuild curve options" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Rebuild Curve Option Box" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "rebuildCurve.png" 
+        -image1 "rebuildCurve.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "RebuildCurveOptions" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a curve on the grid or live surface specifying edit points" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "EP Curve Tool" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "curveEP.png" 
+        -image1 "curveEP.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "EPCurveTool" 
+        -sourceType "mel" 
+        -doubleClickCommand "EPCurveToolOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Delete construction history on the selected object(s)" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "History" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Hist" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconEdit.png" 
+        -image1 "menuIconEdit.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "DeleteHistory" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Delete modeling history on the selected object(s)" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Non-Deformer History" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "NH" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconEdit.png" 
+        -image1 "menuIconEdit.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "BakeNonDefHistory" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select an object(s)" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Freeze Transformations" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "FT" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "FreezeTransformations" 
+        -sourceType "mel" 
+        -doubleClickCommand "FreezeTransformationsOptions" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "Freeze TRS" ( "import pymel.core as pm\n\npm.makeIdentity(rotate = True, scale = True, translate = True, apply = True)" )
+        -mip 0
+        -mi "Freeze Translate" ( "import pymel.core as pm\n\npm.makeIdentity(rotate = False, scale = False, translate = True, apply = True)" )
+        -mip 1
+        -mi "Freeze Rotate" ( "import pymel.core as pm\n\npm.makeIdentity(rotate = True, scale = False, translate = False, apply = True)" )
+        -mip 2
+        -mi "Freeze TS" ( "import pymel.core as pm\n\npm.makeIdentity(rotate = False, scale = True, translate = True, apply = True)" )
+        -mip 3
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select an object(s)" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Center Pivot" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "CP" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "CenterPivot" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "move object A to object B" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "import pymel.core as pm\n\npm.matchTransform(pos = True, rot = Fal..." 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "a2b" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import pymel.core as pm\n\npm.matchTransform(pos = True, rot = False, scale = False)\n\nselection = pm.ls(sl=1)[0]\n\npm.select(selection)" 
+        -sourceType "python" 
+        -doubleClickCommand "import pymel.core as pm\n\npm.matchTransform(pos = True, rot = True, scale = False)\n\nselection = pm.ls(sl=1)[0]\n\npm.select(selection)" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "make transform in world space" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "import pymel.core as pm\n\ntransform_list = pm.ls(sl=1)\n\nfor trans..." 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "TRNS" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import pymel.core as pm\n\ntransform_list = pm.ls(sl=1)\n\nfor transform in transform_list:\n    original_location = pm.xform(transform, q=True, worldSpace = True, relative=True, rotatePivot=True)\n    print (original_location)\n    original_rotation = pm.xform(transform, query = True, rotation = True, worldSpace = True)\n    transform_parent = transform.getParent()\n    pm.parent(transform, world = True)\n    pm.move (rotatePivotRelative = True, x=0, y=0, z=0)\n    pm.makeIdentity(transform, apply = True, translate = True, rotate = False, scale = True)\n    pm.xform(transform, ws=True, translation= original_location)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Loft" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Loft" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "loft" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "skin.png" 
+        -image1 "skin.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "doPerformLoft(\"1\", {\"1\",\"0\",\"1\",\"0\",\"3\",\"10\",\"0\",\"0\"} )" 
+        -sourceType "mel" 
+        -doubleClickCommand "LoftOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "extrude" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Extrude" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "ext" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "extrude.png" 
+        -image1 "extrude.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "performSweepPreset(1,0,0,2,0,1,0,1,0,0,1,0,1,3)" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Rebuild surfaces options" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "rebuildSurfaceDialogItem" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "rebuildSurface.png" 
+        -image1 "rebuildSurface.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "RebuildSurfacesOptions" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Turn to ribbon" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "\nimport pymel.core as pm\nimport vo_faceTools as fat\nreload(fat)\n\n#..." 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "rbnize" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "\nimport pymel.core as pm\nimport rigTools.vo_faceTools as fat\nreload(fat)\n\n#turn into ribbon\nsegments = 8\nfollicle_list = []\nribbon_locator_list = []\nribbonGEO = pm.ls(sl=1)[0]\nribbon_name = str(ribbonGEO)\ncurrent_name = ''\nfor i in range(segments+0):\n    uPosition_factor = 1/float(segments)\n    currentUposition = uPosition_factor * (float(i)+0.0)\n    print 'follicle'\n    last_follicle = fat.create_follicle(oNurbs = ribbonGEO, uPos=.75, vPos = currentUposition)\n    print('last follicle = ' + last_follicle.getParent())\n    pm.addAttr(last_follicle, longName = 'metaParent', attributeType = 'message')\n    pm.addAttr(last_follicle, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')\n    ribbonGEO.metaParent >> last_follicle.metaParent\n    follicle_list.append(last_follicle)\n    if i < (segments/2):\n        currentSide = 'R_'\n    else:\n        currentSide = 'L_'\n    current_name = currentSide + ribbon_name\n    #currentJointName = currentSide + current_name\n    print( current_name)\n    current_locator = uf.nest_transform(name = current_name+'_LOC', action = 'child', target = last_follicle.getParent(), transformObj = 'locator')\n    current_group = uf.nest_transform(name = current_name + '_GRP', action = 'parent', target = current_locator, transformObj = 'group')\n    pm.addAttr(current_locator, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')\n    ribbon_locator_list = ribbon_locator_list + [current_locator]\n    ribbonGEO.metaParent >> current_locator.metaParent\n\n#target = pm.ls(sl=1)[0]\n#fat.create_follicle(oNurbs = target, uPos=0.54, vPos = 0.5)" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+        -mi "ribbon v2" ( "\n\nimport pymel.core as pm\nimport rigTools.vo_faceTools as fat\nreload(fat)\n\n\n#fat.super_ribbon(start = 'Luna_skirt_01_ISO', end = 'Luna_skirt_04_ISO', segments = 4, ribbonName = 'Luna_squetch_ribbon')\n#====        ===============   FIX NAMING CONSTRUCTION!!    =========       =====#\n\n#turn into ribbon\nsegments = 14\nfollicle_list = []\nribbon_locator_list = []\nribbonGEO = pm.ls(sl=1)[0]\nribbon_name = str(ribbonGEO)\ncurrent_name = ''\nfor i in range(segments+0):\n    uPosition_factor = 1/float(segments)\n    currentUposition = uPosition_factor * (float(i)+0.0)\n    print 'follicle'\n    last_follicle = fat.create_follicle(oNurbs = ribbonGEO, uPos=.5, vPos = currentUposition)\n    print('last follicle = ' + last_follicle.getParent())\n    current_name = str(last_follicle.getParent())\n    pm.addAttr(last_follicle, longName = 'metaParent', attributeType = 'message')\n    pm.addAttr(last_follicle, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')\n    ribbonGEO.metaParent >> last_follicle.metaParent\n    follicle_list.append(last_follicle)\n    current_locator = uf.nest_transform(name = current_name+'_LOC', action = 'child', target = last_follicle.getParent(), transformObj = 'locator')\n    current_group = uf.nest_transform(name = current_name + '_OST', action = 'parent', target = current_locator, transformObj = 'group')\n    pm.addAttr(current_locator, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')\n    ribbon_locator_list.append(current_locator)\n    ribbonGEO.metaParent >> current_locator.metaParent\n\n#target = pm.ls(sl=1)[0]\n#fat.create_follicle(oNurbs = target, uPos=0.54, vPos = 0.5)\n#pm.createNode('follicle', name=pName)\n\n\nimport maya.cmds as cmds\n\nprint selection\n\ncmds.select(cl = 1)\ncmds.select(selection, tgl = 1)\n\n" )
+        -mip 0
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Make follicles on target surface" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Create Hair" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "follicle" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "hairCreate.png" 
+        -image1 "hairCreate.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "\nimport pymel.core as pm\nimport vo_faceTools as fat\nreload(fat)\n\n#turn into ribbon\nsegments = 8\nfollicle_list = []\nribbon_locator_list = []\nribbonGEO = pm.ls(sl=1)[0]\nribbon_name = str(ribbonGEO)\ncurrent_name = ''\nfor i in range(segments+0):\n    uPosition_factor = 1/float(segments)\n    currentUposition = uPosition_factor * (float(i)+0.0)\n    print 'follicle'\n    last_follicle = fat.create_follicle(oNurbs = ribbonGEO, uPos=currentUposition, vPos = .25)\n    print('last follicle = ' + last_follicle.getParent())\n    pm.addAttr(last_follicle, longName = 'metaParent', attributeType = 'message')\n    pm.addAttr(last_follicle, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')\n    ribbonGEO.metaParent >> last_follicle.metaParent\n    follicle_list.append(last_follicle)\n    if i < (segments/2):\n        currentSide = 'R_'\n    else:\n        currentSide = 'L_'\n    current_name = currentSide + ribbon_name\n    #currentJointName = currentSide + current_name\n    print( current_name)\n    current_locator = uf.nest_transform(name = current_name+'_LOC', action = 'child', target = last_follicle.getParent(), transformObj = 'locator')\n    current_group = uf.nest_transform(name = current_name + '_GRP', action = 'parent', target = current_locator, transformObj = 'group')\n    pm.addAttr(current_locator, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')\n    ribbon_locator_list = ribbon_locator_list + [current_locator]\n    ribbonGEO.metaParent >> current_locator.metaParent" 
+        -sourceType "python" 
+        -doubleClickCommand "CreateHairOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create follicles by object location" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "fol" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "objFol" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "'''\n\n\njsObjFol\n\n\n'''\n\n\n# Select objects to create follicles based on the locations of, followed by the object\n# to create follicles on. Then Run.\n\n\nimport maya.cmds as mc\nimport maya.mel as mel\n\n\ndef jsObjFol():\n    \n    sel = mc.ls (sl=True)\n    length = len(sel)\n    shape = mc.listRelatives (sel[length-1], s = True)\n    type = mc.objectType (shape[0])\n    \n    if type == 'mesh':\n    \n        for obj in sel:\n            \n            if obj == sel[-1]:\n                pass\n            else:\n                \n                loc = mc.spaceLocator ()[0]\n                cnst = mc.parentConstraint (obj, loc)\n                mc.delete (cnst)\n                \n                closest = cmds.createNode ('closestPointOnMesh')\n                mc.connectAttr (sel[-1] + '.outMesh', closest + '.inMesh')\n                pos = mc.xform (loc, t = True, q = True)\n                mc.setAttr (closest + '.inPositionX', pos[0])\n                mc.setAttr (closest + '.inPositionY', pos[1])\n                mc.setAttr (closest + '.inPositionZ', pos[2])\n                \n                face = mc.getAttr (closest + '.closestFaceIndex')\n                clus = mc.cluster ('%s.f[%s]' %(sel[-1], face))[1]\n                loc2 = mc.spaceLocator ()[0]\n                cnst = mc.parentConstraint (clus, loc2)\n                mc.delete (cnst)\n                \n                closest2 = cmds.createNode ('closestPointOnMesh')\n                mc.connectAttr (sel[-1] + '.outMesh', closest2 + '.inMesh')\n                pos2 = mc.xform (loc2, t = True, q = True)\n                mc.setAttr (closest2 + '.inPositionX', pos2[0])\n                mc.setAttr (closest2 + '.inPositionY', pos2[1])\n                mc.setAttr (closest2 + '.inPositionZ', pos2[2])\n                \n                fol = mc.createNode (\"follicle\")\n                folTrans = mc.listRelatives (fol, type = 'transform', p = True)\n                mc.connectAttr (fol + \".outRotate\", folTrans[0] + \".rotate\")\n                mc.connectAttr (fol + \".outTranslate\", folTrans[0] + \".translate\")\n                mc.connectAttr (sel[-1] + '.worldMatrix', fol + '.inputWorldMatrix')\n                mc.connectAttr (sel[-1] + '.outMesh', fol + '.inputMesh')\n                mc.setAttr(fol + \".simulationMethod\", 0)\n                \n                u = mc.getAttr (closest2 + '.result.parameterU')\n                v = mc.getAttr (closest2 + '.result.parameterV')\n                mc.setAttr (fol + '.parameterU', u)\n                mc.setAttr (fol + '.parameterV', v)\n                \n                mc.delete (closest, closest2, loc2, loc, clus)\n\n\n                mc.select (folTrans)\n                    \n    elif type == 'nurbsSurface':\n        \n        for obj in sel:\n            \n            if obj == sel[-1]:\n                pass\n            else:\n                closest = cmds.createNode ('closestPointOnSurface')\n                print shape[0], closest\n                mc.connectAttr (shape[0] + '.worldSpace', closest + '.inputSurface')\n                pos = mc.xform (obj, t = True, q = True)\n                mc.setAttr (closest + '.inPositionX', pos[0])\n                mc.setAttr (closest + '.inPositionY', pos[1])\n                mc.setAttr (closest + '.inPositionZ', pos[2])\n                \n                fol = mc.createNode (\"follicle\")\n                folTrans = mc.listRelatives (fol, type = 'transform', p = True)\n                mc.connectAttr (fol + \".outRotate\", folTrans[0] + \".rotate\")\n                mc.connectAttr (fol + \".outTranslate\", folTrans[0] + \".translate\")\n                mc.connectAttr (shape[0] + '.worldSpace', fol + '.inputSurface')\n                mc.setAttr(fol + \".simulationMethod\", 0)\n                \n                u = mc.getAttr (closest + '.result.parameterU')\n                v = mc.getAttr (closest + '.result.parameterV')\n                mc.setAttr (fol + '.parameterU', u)\n                mc.setAttr (fol + '.parameterV', v)\n                \n                mc.delete (closest)\n                \n                if obj not in sel[length - 1]:\n                    mc.delete (obj)        \n\n\njsObjFol()" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a NURBS cylinder on the grid" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Cylinder" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "cylinder.png" 
+        -image1 "cylinder.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "cylinder -p 0 0 0 -ax 0 1 0 -ssw 0 -esw 360 -r 1 -hr 2 -d 3 -ut 0 -tol 0.01 -s 8 -nsp 1 -ch 1; objectMoveCommand;" 
+        -sourceType "mel" 
+        -doubleClickCommand "CreateNURBSCylinderOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a NURBS plane on the grid" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Plane" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "plane.png" 
+        -image1 "plane.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "nurbsPlane -p 0 0 0 -ax 0 1 0 -w 1 -lr 1 -d 3 -u 1 -v 1 -ch 1; objectMoveCommand" 
+        -sourceType "mel" 
+        -doubleClickCommand "CreateNURBSPlaneOptions" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Create a linear curve from eps of the selected components or transforms" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Curve [ Linear ]" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "C[L]" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "<cgm.core.cgm_General.Callback object at 0x000001DB71B61BE0>" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+
+} 
