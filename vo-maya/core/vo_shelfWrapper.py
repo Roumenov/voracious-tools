@@ -10,8 +10,8 @@
 
 
 import pymel.core as pm
-import vo_usefulFunctions as uf
-reload(uf)
+#import vo_usefulFunctions as uf
+#reload(uf)
 
 
 
