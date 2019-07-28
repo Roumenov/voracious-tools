@@ -1,5 +1,5 @@
 import pymel.core as pm
-import vo_usefulFunctions as uf
+import vo-maya.core.vo_general as uf
 reload(uf)
 
 target_list = pm.ls(sl=1)
@@ -196,7 +196,7 @@ for item in eye_targets:
 import pymel.core as pm
 import rigTools
 reload(rigTools.vo_controls)
-import vo_usefulFunctions as uf
+import vo-maya.core.vo_general as uf
 reload(uf)
 
 
@@ -324,7 +324,7 @@ for target in tag_list:
 pm.select(pm.ls('*.noExport', objectsOnly = True), replace = True)
 
 import pymel.core as pm
-import vo_usefulFunctions as uf
+import vo-maya.core.vo_general as uf
 reload(uf)
 
 target_list = pm.ls(sl=1)

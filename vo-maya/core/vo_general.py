@@ -1,7 +1,7 @@
 import pymel.core as pm
 import maya.cmds as cmds
 import math
-#a few functions that are actually usable
+#general utilities, no dependencies on the rest of vo-maya
 
 
 def strip_suffix(inputString='', suffix=''):

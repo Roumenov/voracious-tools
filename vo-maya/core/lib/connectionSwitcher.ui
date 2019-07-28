@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ConnectionSwitcher</class>
+ <widget class="QMainWindow" name="ConnectionSwitcher">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>330</width>
+    <height>215</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>330</width>
+    <height>215</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>330</width>
+    <height>215</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>330</width>
+     <height>195</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>330</width>
+     <height>195</height>
+    </size>
+   </property>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>211</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>191</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QFrame" name="frame_2">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QWidget" name="horizontalLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>191</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>connectionsSwitcher</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="all_checkBox">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>fillter all on or off</string>
+            </property>
+            <property name="statusTip">
+             <string>fillter all on or off</string>
+            </property>
+            <property name="whatsThis">
+             <string>fillter all on or off</string>
+            </property>
+            <property name="text">
+             <string>all</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_4">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QWidget" name="gridLayoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>189</width>
+           <height>42</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="keyFrame_checkBox">
+            <property name="toolTip">
+             <string>filter connections for keyframes</string>
+            </property>
+            <property name="statusTip">
+             <string>filter connections for keyframes</string>
+            </property>
+            <property name="whatsThis">
+             <string>filter connections for keyframes</string>
+            </property>
+            <property name="text">
+             <string>keyframe</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="constraint_checkBox">
+            <property name="toolTip">
+             <string>filter connections for constraints</string>
+            </property>
+            <property name="statusTip">
+             <string>filter connections for constraints</string>
+            </property>
+            <property name="whatsThis">
+             <string>filter connections for constraints</string>
+            </property>
+            <property name="text">
+             <string>constraint</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="expression_checkBox">
+            <property name="toolTip">
+             <string>filter connections for expressions</string>
+            </property>
+            <property name="statusTip">
+             <string>filter connections for expressions</string>
+            </property>
+            <property name="whatsThis">
+             <string>filter connections for expressions</string>
+            </property>
+            <property name="text">
+             <string>expression</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="directConnection_checkBox">
+            <property name="toolTip">
+             <string>filter connections for direct connections</string>
+            </property>
+            <property name="statusTip">
+             <string>filter connections for direct connections</string>
+            </property>
+            <property name="whatsThis">
+             <string>filter connections for direct connections</string>
+            </property>
+            <property name="text">
+             <string>direct connection</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_3">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>72</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QWidget" name="gridLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>191</width>
+           <height>71</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="1" column="2">
+           <widget class="QPushButton" name="copy_pushButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>paste connections from selected objects in sequence</string>
+            </property>
+            <property name="statusTip">
+             <string>paste connections from selected objects in sequence</string>
+            </property>
+            <property name="whatsThis">
+             <string>paste connections from selected objects in sequence</string>
+            </property>
+            <property name="accessibleName">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Copy</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QPushButton" name="move_pushButton">
+            <property name="toolTip">
+             <string>move the connection from first selected object to second selected object</string>
+            </property>
+            <property name="statusTip">
+             <string>move the connection from first selected object to second selected object</string>
+            </property>
+            <property name="whatsThis">
+             <string>move the connection from first selected object to second selected object</string>
+            </property>
+            <property name="accessibleName">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Move</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QPushButton" name="cut_pushButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>cut connections from selected objects in sequence</string>
+            </property>
+            <property name="statusTip">
+             <string>cut connections from selected objects in sequence</string>
+            </property>
+            <property name="whatsThis">
+             <string>cut connections from selected objects in sequence</string>
+            </property>
+            <property name="accessibleName">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Cut</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QPushButton" name="switch_pushButton">
+            <property name="toolTip">
+             <string>switch the connections from both objects with the selected filters</string>
+            </property>
+            <property name="statusTip">
+             <string>switch the connections from both objects with the selected filters</string>
+            </property>
+            <property name="whatsThis">
+             <string>switch the connections from both objects with the selected filters</string>
+            </property>
+            <property name="accessibleName">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Switch</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QPushButton" name="paste_pushButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="toolTip">
+             <string>paste connections from previous &quot;cut&quot; or &quot;copy&quot; function, do keep in mind that it works in sequence and will keep this sequence untill tool is restarted</string>
+            </property>
+            <property name="statusTip">
+             <string>paste connections from previous &quot;cut&quot; or &quot;copy&quot; function, do keep in mind that it works in sequence and will keep this sequence untill tool is restarted</string>
+            </property>
+            <property name="whatsThis">
+             <string>paste connections from previous &quot;cut&quot; or &quot;copy&quot; function, do keep in mind that it works in sequence and will keep this sequence untill tool is restarted</string>
+            </property>
+            <property name="text">
+             <string>Paste</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QPushButton" name="break_pushButton">
+            <property name="toolTip">
+             <string>break the connections of the selected filter (note:  leaves junk nodes)</string>
+            </property>
+            <property name="statusTip">
+             <string>break the connections of the selected filter (note:  leaves junk nodes)</string>
+            </property>
+            <property name="whatsThis">
+             <string>break the connections of the selected filter (note:  leaves junk nodes)</string>
+            </property>
+            <property name="accessibleName">
+             <string/>
+            </property>
+            <property name="text">
+             <string>Break</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="Line" name="line_4">
+    <property name="geometry">
+     <rect>
+      <x>205</x>
+      <y>-30</y>
+      <width>16</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="maintainOffset_checkBox">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>50</y>
+      <width>121</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>choose to maintain offset </string>
+    </property>
+    <property name="statusTip">
+     <string>choose to maintain offset </string>
+    </property>
+    <property name="whatsThis">
+     <string>choose to maintain offset </string>
+    </property>
+    <property name="text">
+     <string>Maintain Offset</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>10</y>
+      <width>191</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Create Constraints:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="point_pushButton">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>70</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>pointConstraint</string>
+    </property>
+    <property name="statusTip">
+     <string>pointConstraint</string>
+    </property>
+    <property name="whatsThis">
+     <string>pointConstraint</string>
+    </property>
+    <property name="text">
+     <string>Point</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="orient_pushButton">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>100</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>orientConstraint</string>
+    </property>
+    <property name="statusTip">
+     <string>orientConstraint</string>
+    </property>
+    <property name="whatsThis">
+     <string>orientConstraint</string>
+    </property>
+    <property name="text">
+     <string>Orient</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="parent_pushButton">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>130</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>parentConstraint</string>
+    </property>
+    <property name="statusTip">
+     <string>parentConstraint</string>
+    </property>
+    <property name="whatsThis">
+     <string>parentConstraint</string>
+    </property>
+    <property name="text">
+     <string>Parent</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="poleVector_pushButton">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>160</y>
+      <width>81</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>poleVectorConstraint</string>
+    </property>
+    <property name="statusTip">
+     <string>poleVectorConstraint</string>
+    </property>
+    <property name="whatsThis">
+     <string>poleVectorConstraint</string>
+    </property>
+    <property name="text">
+     <string>PoleVector</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line_5">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>30</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_6">
+    <property name="geometry">
+     <rect>
+      <x>199</x>
+      <y>-20</y>
+      <width>20</width>
+      <height>301</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

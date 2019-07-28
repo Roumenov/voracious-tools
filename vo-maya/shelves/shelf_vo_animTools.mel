@@ -817,7 +817,7 @@ global proc shelf_vo_animTools () {
         -backgroundColor 0 0 0 
         -highlightColor 0.321569 0.521569 0.65098 
         -align "center" 
-        -label "import pymel.core as pm\nimport vo_sceneTools as st\nreload(st)\n\ns..." 
+        -label "import pymel.core as pm\nimport vo_export as st\nreload(st)\n\ns..." 
         -labelOffset 0
         -rotation 0
         -flipX 0
@@ -831,7 +831,7 @@ global proc shelf_vo_animTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "import pymel.core as pm\nimport vo_sceneTools as st\nreload(st)\n\nst.export_character('auto')" 
+        -command "import pymel.core as pm\nimport vo_export as st\nreload(st)\n\nst.export_character('auto')" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1

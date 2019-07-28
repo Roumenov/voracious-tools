@@ -1,6 +1,6 @@
 
 import vo_controls
-import vo_faceTools
+import vo_ribbons
 
 """
 
