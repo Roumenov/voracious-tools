@@ -1,3 +1,10 @@
+"""
+    functions for character export
+    TODO    add proc for exporting animated props
+    TODO    replace cmds.file usage with whatever the pymel equivalent is
+
+"""
+
 import pymel.core as pm
 import maya.cmds as cmds
 import sys

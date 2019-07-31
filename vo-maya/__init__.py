@@ -1,7 +1,8 @@
 
 """
     vo-maya
-    set up paths and stuff here
+    set up paths for plugins, icons, etc
+    
 """
 
 import os
