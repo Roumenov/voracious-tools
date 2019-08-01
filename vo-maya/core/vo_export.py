@@ -15,6 +15,7 @@ import inspect
 #PURPOSE            check if given joint is skinned
 #PROCEDURE            cycle through connections and find skinCluster nodes
 #PRESUMPTIONS        arg is a single object of type joint
+#TODO       looks like something that belongs in rigging.vo_deformers
 def check_skincluster(jointObject):
     for node in jointObject.connections():
         if node.nodeType() == 'skinCluster':
@@ -28,7 +29,7 @@ def check_skincluster(jointObject):
 #declaring initial variables
 #global playStartTime
 #global playEndTime
-
+#TODO     this really seems like it should be a more generic function in vo_general with a standard set of paths
 def get_export_path():
     #global outputFile
     initial_path = cmds.file(query=True, l=True)[0].replace('.ma','.fbx')
