@@ -19,7 +19,8 @@ def meta_tag(target, tag=''):
         return tag
         #print('%s tag exists'), %(tag)
     else:
-        tag = pm.addAttr(target, longName = attr, attributeType = 'message')
+        #using 'string' over 'message' type so that we can write in data when we need to
+        tag = pm.addAttr(target, longName = attr, attributeType = 'string')
         return tag
 
 
@@ -86,12 +87,33 @@ def set_character_node(target, meshes):
     
 
 
+
+class MetaNode():
+    """
+    class to make network nodes that help find rig and character stuff
+    """
+    def __init__(
+                self,
+                character_part,
+
+                start,
+                end,
+                name = ''
+                ):
+        """
+        @param :
+        """
+        
+        meta_tag(target, tag='metaParent')
+
+
+
 #this def needs to be a class, sinc there are many types of rig parts with different 
 # kinds of data and components.
 
 #PURPOSE            network node to assist other scripts in finding rig components
 #PRESUMPTIONS       corresponding character part and rig components already exist
-class rigPart():
+class RigPart():#TODO   make this subclass of a generic metaNode type
     """
     class to make network nodes that help find rig sub components
     these should always connected to one of: character part or prop
@@ -114,7 +136,7 @@ class rigPart():
 #PURPOSE            network node to assist other scripts in finding character parts
 # TODO    subclass for character props
 #PRESUMPTIONS       corresponding character root is already tagged for
-class characterPart():
+class CharacterPart():
     """
     class to make network nodes that help find rig sub components
     these should always connected to one of: character part or prop
@@ -123,14 +145,15 @@ class characterPart():
                 self,
                 character_node,
                 meta_type,
-                name = ''
+                name = '',
+
                 ):
         """
-        @param : character_node is the character that this part belongs to
+        @param character_node: the character that this part belongs to
         """
         
         #not sure how to handle this and sub-classing yet
-        #meta_tag(target, tag='pCharPart')
+        meta_tag(target, tag='pCharPart')
         meta_tag(target, tag='metaParent')
 
 

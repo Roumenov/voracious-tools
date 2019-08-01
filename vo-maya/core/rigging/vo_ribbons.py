@@ -1,6 +1,6 @@
 import pymel.core as pm
-import vo_usefulFunctions as uf
-reload(uf)
+import vo-maya.core.vo_general as general
+reload(general)
 
 #gets weird if things are scaled
 def make_proxy_pivot(name, target):
@@ -25,7 +25,7 @@ def make_proxy_pivot(name, target):
     #pm.addAttr(axial_ring, longName = 'metaParent', attributeType = 'message')
     #axial_ring[0].setAttr('axialPlane', keyable = True, channelBox = True)
     ring_construction = axial_ring[0].listHistory()[1]
-    arrow_viz = uf.create_object(objName = name + '_arrow', objType = 'arrowX')
+    arrow_viz = general.create_object(objName = name + '_arrow', objType = 'arrowX')
     #pm.curve(name = , degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
     sphere_viz = pm.sphere(name = name + '_sphereViz', axis = [0,1,0])
     sphere_construction = sphere_viz[0].listHistory()[1]
@@ -142,7 +142,7 @@ def build_ribbon(start = '', end = '', match = 'all', segments = 6, ribbonName =
     #connect to face rig or lower face, whatever is the closest rig part
     startJointTrans = pm.xform(start, q=True, ws=True, translation=True)
     endJointTrans = pm.xform(end, q=True, ws=True, translation=True)
-    midJointTrans = uf.average_position(start,end)
+    midJointTrans = general.average_position(start,end)
     
     drive_joint_list = []
     ##pm.setAttr(jointName + '.drawStyle' = 2) hide joints
@@ -166,12 +166,12 @@ def build_ribbon(start = '', end = '', match = 'all', segments = 6, ribbonName =
     pm.addAttr(midJoint, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')
     drive_joint_list = drive_joint_list + [midJoint]
     ribbon_rootGRP.metaParent >> midJoint.metaParent
-    driver_group = uf.nest_transform(name = ribbon_rootName + '_drivers_GRP', action = 'parent', target = midJoint, transformObj = 'group')
+    driver_group = general.nest_transform(name = ribbon_rootName + '_drivers_GRP', action = 'parent', target = midJoint, transformObj = 'group')
     driver_group | startJoint
     driver_group | endJoint
     pm.select(clear = True)
     
-    midEndTrans = uf.average_position(midJoint,end)
+    midEndTrans = general.average_position(midJoint,end)
     midEndJoint = pm.joint(name = ribbonName+ '_RBN_mid_end_J', relative = True, radius = 2, position = midEndTrans)
     pm.addAttr(midEndJoint, longName = 'metaParent', attributeType = 'message')
     pm.addAttr(midEndJoint, longName = 'ribbon', attributeType = 'message')
@@ -181,7 +181,7 @@ def build_ribbon(start = '', end = '', match = 'all', segments = 6, ribbonName =
     driver_group | midEndJoint
     pm.select(clear = True)
     
-    midStartTrans = uf.average_position(midJoint,start)
+    midStartTrans = general.average_position(midJoint,start)
     midStartJoint = pm.joint(name = ribbonName+ '_RBN_mid_start_J', relative = True, radius = 2, position = midStartTrans)
     pm.addAttr(midStartJoint, longName = 'metaParent', attributeType = 'message')
     pm.addAttr(midStartJoint, longName = 'ribbon', attributeType = 'message')
@@ -193,7 +193,7 @@ def build_ribbon(start = '', end = '', match = 'all', segments = 6, ribbonName =
     pm.select(clear = True)
     for driver in drive_joint_list:
         current_group_name = str(driver).replace('_J', '_GRP')
-        current_group = uf.nest_transform(name = current_group_name, action = 'parent', target = driver, transformObj = 'group')
+        current_group = general.nest_transform(name = current_group_name, action = 'parent', target = driver, transformObj = 'group')
     pm.select(clear = True)
     #move everything into position
     pm.xform(ribbon_rootGRP, translation = midJointTrans, worldSpace = True)
@@ -226,8 +226,8 @@ def build_ribbon(start = '', end = '', match = 'all', segments = 6, ribbonName =
         current_name = currentSide + ribbon_rootName
         #currentJointName = currentSide + current_name
         print( current_name)
-        current_locator = uf.nest_transform(name = current_name+'_LOC', action = 'child', target = last_follicle.getParent(), transformObj = 'locator')
-        current_group = uf.nest_transform(name = current_name + '_GRP', action = 'parent', target = current_locator, transformObj = 'group')
+        current_locator = general.nest_transform(name = current_name+'_LOC', action = 'child', target = last_follicle.getParent(), transformObj = 'locator')
+        current_group = general.nest_transform(name = current_name + '_GRP', action = 'parent', target = current_locator, transformObj = 'group')
         pm.addAttr(current_locator, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')
         ribbon_locator_list = ribbon_locator_list + [current_locator]
         ribbon_rootGRP.metaParent >> current_locator.metaParent
@@ -286,7 +286,7 @@ def super_ribbon(start = '', end = '', segments = 5, ribbonName = 'ribbon'):
     #connect to face rig or lower face, whatever is the closest rig part
     startJointTrans = pm.xform(start, q=True, ws=True, translation=True)
     endJointTrans = pm.xform(end, q=True, ws=True, translation=True)
-    midJointTrans = uf.average_position(start,end)
+    midJointTrans = general.average_position(start,end)
     
     drive_joint_list = []
     ##pm.setAttr(jointName + '.drawStyle' = 2) hide joints
@@ -310,15 +310,15 @@ def super_ribbon(start = '', end = '', segments = 5, ribbonName = 'ribbon'):
     pm.addAttr(midJoint, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')
     drive_joint_list = drive_joint_list + [midJoint]
     ribbon_rootGRP.metaParent >> midJoint.metaParent
-    driver_group = uf.nest_transform(name = ribbon_rootName + '_drivers_GRP', action = 'parent', target = midJoint, transformObj = 'group')
+    driver_group = general.nest_transform(name = ribbon_rootName + '_drivers_GRP', action = 'parent', target = midJoint, transformObj = 'group')
     driver_group | startJoint
     driver_group | endJoint
     pm.select(clear = True)
 
     for driver in drive_joint_list:
         current_group_name = str(driver).replace('_DRV', '_GRP')
-        current_group = uf.nest_transform(name = current_group_name, action = 'parent', target = driver, transformObj = 'group')
-        current_offset = uf.nest_transform(name = current_group_name.replace('GRP', 'OST'), action = 'parent', target = driver, transformObj = 'group')
+        current_group = general.nest_transform(name = current_group_name, action = 'parent', target = driver, transformObj = 'group')
+        current_offset = general.nest_transform(name = current_group_name.replace('GRP', 'OST'), action = 'parent', target = driver, transformObj = 'group')
     pm.select(clear = True)
     #move everything into position
     pm.xform(ribbon_rootGRP, translation = midJointTrans, worldSpace = True)
@@ -350,8 +350,8 @@ def super_ribbon(start = '', end = '', segments = 5, ribbonName = 'ribbon'):
         current_name = currentSide + ribbon_rootName
         #currentJointName = currentSide + current_name
         print( current_name)
-        current_locator = uf.nest_transform(name = current_name+'_LOC', action = 'child', target = last_follicle.getParent(), transformObj = 'locator')
-        current_group = uf.nest_transform(name = current_name + '_GRP', action = 'parent', target = current_locator, transformObj = 'group')
+        current_locator = general.nest_transform(name = current_name+'_LOC', action = 'child', target = last_follicle.getParent(), transformObj = 'locator')
+        current_group = general.nest_transform(name = current_name + '_GRP', action = 'parent', target = current_locator, transformObj = 'group')
         pm.addAttr(current_locator, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')
         ribbon_locator_list = ribbon_locator_list + [current_locator]
         ribbon_rootGRP.metaParent >> current_locator.metaParent

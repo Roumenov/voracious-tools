@@ -1,5 +1,5 @@
 import pymel.core as pm
-import vo_usefulFunctions as uf
+import vo-maya.core.vo_general as uf
 reload(uf)
 
 class metaDeformer():

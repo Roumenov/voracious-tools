@@ -202,7 +202,7 @@ def list_link_attrs(Translate = None, Rotate = None, Scale = None, targets = Non
         link_attrs(Translate, Rotate, Scale, source = current_object, target = object_target)
 
 #PURPOSE        Find center point in worldspace between a number of transforms
-#USAGE          uf.average_position(object1, object2, object3)
+#USAGE          average_position(object1, object2, object3)
 #PRESUMPTIONS   only works with transforms as arguments
 
 def average_position(*target_list):
@@ -406,7 +406,7 @@ def create_object(objName = '', objType = '', radius = 1.0):
     pm.addAttr(output, longName = 'metaParent', attributeType = 'message')
     return output
 
-#uf.create_object(objName = 'test_LOC', objType = 'locator', radius = 1.0)
+#create_object(objName = 'test_LOC', objType = 'locator', radius = 1.0)
 
 # nest_transform()
 #PURPOSE
@@ -509,7 +509,7 @@ def object_on_vertex(objName = '', objType = '', radius = 1.0):
     vertex_joint = create_object(objName = objName, objType = objType, radius = radius)
     pm.xform(vertex_joint, translation = cluster_position)
     return vertex_joint
-#uf.object_on_vertex(objName = 'test_joint', objType = 'joint', radius = 1.0)
+#object_on_vertex(objName = 'test_joint', objType = 'joint', radius = 1.0)
 
 def object_on_pivot(objType = 'joint'):
 	"""
@@ -672,9 +672,9 @@ def curve_on_vertices(name, vertices):
     
     return output_curve
 
-#output_curve_name = uf.prompt_string(promptTitle = 'Offset String', promptMessage = 'Enter string to use for curve name')
+#output_curve_name = prompt_string(promptTitle = 'Offset String', promptMessage = 'Enter string to use for curve name')
 #selection = pm.ls(sl=1, flatten = True)
-#uf.curve_on_vertices(name = output_curve_name, vertices = selection)
+#curve_on_vertices(name = output_curve_name, vertices = selection)
 
 
 
@@ -697,9 +697,9 @@ def curve_on_transforms(name, transforms):
     
     return output_curve
 
-#output_curve_name = uf.prompt_string(promptTitle = 'Curve Name', promptMessage = 'Enter curve name')
+#output_curve_name = prompt_string(promptTitle = 'Curve Name', promptMessage = 'Enter curve name')
 #selection = pm.ls(sl=1)
-#uf.curve_on_transforms(name = output_curve_name, transforms = selection)
+#curve_on_transforms(name = output_curve_name, transforms = selection)
 
 
 #PURPOSE        MAKE A BUNCH OF OBJECTS ON A MOTION PATH
@@ -725,18 +725,18 @@ def obj_on_curve(curve, count, obj_type, start_transform = True,end_transform = 
         current_object = create_object(objName = current_name, objType = obj_type, radius = 1.0)
         motion_path = pm.pathAnimation(curve,current_object, fractionMode = True, follow = True, followAxis = 'z', upAxis = 'y', worldUpType = 'vector', worldUpVector = (0,1,0), inverseUp = False, inverseFront = False, bank = False, startTimeU = u_value)
     return motion_path
-#transform_count = int(uf.prompt_string())
+#transform_count = int(prompt_string())
 #transform_on_curve(count = transform_count, start_transform = True,end_transform = True)
 
 
 def curve_chain():
     pass
-    #output_curve_name = uf.prompt_string(promptTitle = 'Offset String', promptMessage = 'Enter string to use for offset')
+    #output_curve_name = prompt_string(promptTitle = 'Offset String', promptMessage = 'Enter string to use for offset')
     #transform_list = pm.ls(sl=True)
     
     #curve_on_transforms(name = output_curve_name, transforms = transform_list)
 
-    #transform_count = int(uf.prompt_string())
+    #transform_count = int(prompt_string())
     #transform_on_curve(count = transform_count, start_transform = True,end_transform = True)
 
 
@@ -847,7 +847,7 @@ def load_csv(sourcename = '', targetname = '', filename = 'JointMapping.csv', di
         item_b = line.split(",")[1]
         column_b.append(item_b.split("\r\n")[0])
     return column_a, column_b
-#src_list, dest_list = uf.load_csv(sourcename = '', targetname = '', filename = 'JointMapping.csv', directory = 'Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/')
+#src_list, dest_list = load_csv(sourcename = '', targetname = '', filename = 'JointMapping.csv', directory = 'Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/')
 
 def list_match(source_list=None,destination_list=None, operation = 'match', sourceName = ['skel_', 'Skel_'], destName = ['character_','Corsac_']):
     #iterate through source_list by index, then match it to destination_list?
@@ -875,7 +875,7 @@ def list_match(source_list=None,destination_list=None, operation = 'match', sour
             pass
     print('fin')
 
-#uf.list_match(source_list = src_list,destination_list = dest_list, operation = 'match', sourceName = ['skel_', 'Skel_'], destName = ['character_','Luna_'])
+#list_match(source_list = src_list,destination_list = dest_list, operation = 'match', sourceName = ['skel_', 'Skel_'], destName = ['character_','Luna_'])
 
 
 #================== ----------- 
@@ -951,5 +951,5 @@ def list_rename(source_list=None,destination_list=None, sourceName = ['skel_', '
             pass
     print('fin')
 
-#uf.list_rename(source_list=genchar_table[0],destination_list=genchar_table[1], sourceName = ['character_','GenChar_'], destName = ['skel_', 'skel:Skel_'])
+#list_rename(source_list=genchar_table[0],destination_list=genchar_table[1], sourceName = ['character_','GenChar_'], destName = ['skel_', 'skel:Skel_'])
 

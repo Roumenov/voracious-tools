@@ -2,9 +2,9 @@
 
 import maya.cmds as cmds
 import pymel.core as pm
-import vo_usefulFunctions as uf
+import core.vo_general as general
 
-class pControl():
+class Control():#TODO   search/replace references to pControl with Control
     """
     class for building controls for potionomics rigs
     """
@@ -38,7 +38,7 @@ class pControl():
         else:
             self.control_object = pm.circle (ch = 1, name = base_name + '_CTL', radius = scale, nrx = 1, nry = 0, nrz = 0)[0]
 
-        self.root_offset = uf.nest_transform(name = base_name + '_GRP', action = 'parent', target = self.control_object, transformObj = 'group')
+        self.root_offset = general.nest_transform(name = base_name + '_GRP', action = 'parent', target = self.control_object, transformObj = 'group')
         #pm.group(name = base_name + '_GRP', world = True)
         
         if pm.objExists(parent):
@@ -65,11 +65,11 @@ class pControl():
         pm.scaleConstraint(self.control_object,target_object, mo = True)
         
         self.control_object.setAttr('lineWidth', line_width)
-        uf.attr_lock(self.control_object, attr = 'visibility', lock = True)
+        general.attr_lock(self.control_object, attr = 'visibility', lock = True)
         if len(lock_channels):
             for attribute_val in lock_channels:
                 if type(attribute_val) == 'string':
-                    uf.attr_lock(self.control_object, attr = attribute_val, lock = True)
+                    general.attr_lock(self.control_object, attr = attribute_val, lock = True)
             
         #public members
         #self.control = control_object
@@ -83,7 +83,7 @@ class pControl():
             else:
                 current_offset_name = base_name + '_OS' + str(index + 1)
             #create group
-            last_offset = uf.nest_transform(name = current_offset_name, action = 'parent', target = last_offset, transformObj = 'group')
+            last_offset = general.nest_transform(name = current_offset_name, action = 'parent', target = last_offset, transformObj = 'group')
             #parent offset under previous offset
             #save ref to this offset
     def link(self, target, position = 'parent', offset = '_GRP', link = 'constrain'):
@@ -104,10 +104,10 @@ def link_controls(parent,child, offset = '_GRP', link = 'constrain'):
     parent.metaParent >> child.metaParent
     #child.root_offset
     child_offset = str(child).replace('_CTL',offset)        ##not reliable, need to upgrade to use class features
-    #if uf.check_connections(target = child_offset):
+    #if general.check_connections(target = child_offset):
     #    constraint = pm.parentConstraint (parent,child_offset, mo = 1, weight = 1)
     #else:
-    #    child_offset = uf.nest_transform(name = str(child).replace('_CTL','_OST'), action = 'parent', target = child, transformObj = 'group')
+    #    child_offset = general.nest_transform(name = str(child).replace('_CTL','_OST'), action = 'parent', target = child, transformObj = 'group')
     #    constraint = pm.parentConstraint (parent,child_offset, mo = 1, weight = 1)
     constraint = pm.parentConstraint (parent,child_offset, mo = 1, weight = 1)
     constraint.setAttr('interpType', 2)
@@ -132,7 +132,7 @@ def chain_controls(controls, offset = '_GRP'):
 def match_micro(source, flip = 'none'):
     if source.hasAttr('microController'):
         try:
-            joint_target = uf.meta_traverse(source = source, relation = 'child', tag = 'jointSkin')[0]
+            joint_target = general.meta_traverse(source = source, relation = 'child', tag = 'jointSkin')[0]
             control_grp = pm.ls(str(source).replace('_CTL','_GRP'))[0]
         except:
             pm.warning('problem finding joint_target or control_grp')
@@ -159,7 +159,7 @@ def match_micro(source, flip = 'none'):
     elif source.hasAttr('controller'):
         pm.warning("make sure this doesn't fuck anything!")
         try:
-            joint_target = uf.meta_traverse(source = source, relation = 'child', tag = 'jointSkin')[0]
+            joint_target = general.meta_traverse(source = source, relation = 'child', tag = 'jointSkin')[0]
             control_grp = pm.ls(str(source).replace('_CTL','_GRP'))[0]
         except:
             pm.warning('problem finding joint_target or control_grp')
@@ -192,12 +192,12 @@ def match_micro(source, flip = 'none'):
 def match_macro(source):
     if source.hasAttr('controller'):
         try:
-            #joint_target = uf.meta_traverse(source = source, relation = 'child', tag = 'jointSkin')[0]
+            #joint_target = general.meta_traverse(source = source, relation = 'child', tag = 'jointSkin')[0]
             control_grp = pm.ls(str(source).replace('_CTL','_GRP'))[0]
-            child_controls = uf.meta_traverse(source = source, relation = 'child', tag = 'jointSkin')[0]
-            target_locator = uf.nest_transform(name = str(source)+ '_target_position', action = 'child', target = source, transformObj = 'locator', transformRadius = 1.0)
+            child_controls = general.meta_traverse(source = source, relation = 'child', tag = 'jointSkin')[0]
+            target_locator = general.nest_transform(name = str(source)+ '_target_position', action = 'child', target = source, transformObj = 'locator', transformRadius = 1.0)
             pm.parent(target_locator, world = True)
-            brow_position = uf.average_position(*brow_controls)
+            brow_position = general.average_position(*brow_controls)
             offset_joint = pm.joint(name = str(brow_main_control)+ '_offset_thing', relative = False, radius = 2, position = brow_position)
             pm.parent(offset_joint, world = True)
             offset_joint | target_locator
@@ -205,8 +205,8 @@ def match_macro(source):
             pm.warning('problem finding target location')
         try:
             for micro_controller in brow_controls:
-                joint_target_list = joint_target_list+ [uf.meta_traverse(source = control_object, relation = 'child', tag = 'jointSkin')[0]]
-            final_position = uf.average_position(*joint_target_list)
+                joint_target_list = joint_target_list+ [general.meta_traverse(source = control_object, relation = 'child', tag = 'jointSkin')[0]]
+            final_position = general.average_position(*joint_target_list)
             pm.xform(offset_joint, translation = final_position, worldSpace = True)
             pm.matchTransform(brow_main_grp, target_position, pos = True, rot = False, scale = False)
             pm.delete(offset_joint)
