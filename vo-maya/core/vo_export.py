@@ -147,13 +147,10 @@ def export_character(param):
     """
     if param == 'auto':
         import_references()
-        print('refs imported')
         export_path = get_export_path()
-        print(export_path)
         muffins = pm.ls('*.jointSkin', objectsOnly = True)
         bake_animation(muffins)
         pm.delete(pm.ls('*.noExport', objectsOnly = True))
-        print('deleted crap')
         pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
         cmds.file(export_path, exportSelected=True, type="FBX export")
     elif param == 'nonsense':
@@ -198,7 +195,9 @@ def export_prop(param):
 
 
 
-
+def potionomics_export(param):
+    #
+    pass
 
 
 
