@@ -68,7 +68,6 @@ def import_references():
                 if ref.isLoaded():
                     done = False
                     print ("remaining refs = ")
-                    #ref.importContents()
                     ref.importContents(removeNamespace = True) #---- remove namespace doesn't seem to work
                 else:
                     print ("All references imported")
@@ -76,8 +75,7 @@ def import_references():
         print ("Imported " + str(totalRefs) + " references")
         return True
 
-#target_object = pm.ls(sl=1)[0]
-#remove_object_namespace(target_object)
+#TODO:      integrate this into import function so we don't have to do this manually
 def remove_object_namespace(object):
     target_namespace = object.namespace()
     print 'removing namespace :: ' + target_namespace
@@ -85,10 +83,7 @@ def remove_object_namespace(object):
 
 
 
-#def set_timeline(auto,startVal= 0,endVal = 0): eventually add these option flags
 def set_timeline():
-    #global playStartTime
-    #global playEndTime
     playStartTime = pm.playbackOptions(query = True, minTime = True)
     playEndTime = pm.playbackOptions(query = True, maxTime = True)
     playStartTime = int(playStartTime)
@@ -140,6 +135,14 @@ def bake_animation(bakeList):#changed to list input
 #                       ACTION ZONE!!!!
 #
 ####====                    ========                    ====####
+
+def export_skeletal_mesh(target):
+    """
+    @param target:  target is mClass MetaRig
+    """
+    #skinned_mesh = combine_skinMeshes(target.skinMeshes)
+    #reparent skinned_mesh
+
 
 def export_character(param):
     """

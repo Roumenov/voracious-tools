@@ -13,6 +13,11 @@ import pymel.core as pm
 #       ==== CORE FUNCTIONS ====        #
 
 def meta_tag(target, tag=''):
+    """
+    @param: target = pyNodeObject
+    """
+    node = r9Meta.MetaClass(target.name())
+    node.addAttr(tag)
 
     if target.hasAttr(attr):
         tag = target.getAttr(attr)
@@ -160,3 +165,54 @@ class CharacterPart():
 class characterProp(characterPart):
     def __init__(self, character_node, name):
         pass
+
+
+
+"""
+Joint Rename
+"""
+
+
+
+if string[-2] == 'J':
+    new_string = string.replace(string['J','_0'])
+elif string[-1] === 'J':
+    new_string = string.replace(string['J','_0'])
+
+
+
+"""
+Saffron metaRig test setup
+
+"""
+
+import Red9.core.Red9_Meta as r9Meta
+import maya.cmds as cmds
+
+#make a new blank mClass MayaNode
+character_name = pm.ls('*.potionomicsCharacterRoot', objectsOnly = True)[0].name()
+root = r9Meta.MetaClass(character_name)
+root.delAttr('potionomicsCharacterRoot')
+
+
+mRig=r9Meta.MetaRig(name='SaffronRig')
+mRig.rigType = 'character'
+#mRig.rename('Rig')
+mRig.mNodeID = 'mSystem'#mNodeID is put what gets slapped onto the next objects' attrs
+
+node = r9Meta.MetaClass('Saffron_MainHipC')
+node.addAttr(attr = 'metaParent', attrType = 'message' )
+
+spine_name = character_name.join('Spine')
+spine= mRig.addMetaSubSystem('Spine', 'Centre', nodeName='SpineSystem', attr='SpineSystem')
+spine.addAttr('controls', attrType = 'messageSimple')
+#spine.addRigCtrl()
+spine.addRigCtrl('Saffron_MainHipC','Hips', mirrorData={'side':'Centre','slot':3})  
+#print(spine)
+
+#mRig.delAttr('Facial')
+facial=mRig.addChildMetaNode('MetaFacialRig',attr='Facial',nodeName='FACIAL') #NEW generic method in BaseClass
+#addChildMetaNode seems to be more generic system
+
+pyObject = pm.ls(sl=1)[0]
+print(pyObject.name())

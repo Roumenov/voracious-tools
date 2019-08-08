@@ -7,6 +7,40 @@ import pymel.core as pm
 import vo_general
 
 
+class ShadowMaterial():
+    def __init__(self,
+            color,
+            target
+            ):
+        self.material_reference = pm.createNode("phongE")
+        material_reference.setAttr(color = color)
+    
+class CharacterMakeup():#....   function to create a bunch of materials
+    def __init__(self,
+            targets
+            ):
+        self.base_material = pm.createNode("phongE")
+    def generate_colors(start_color):#.... make the color palette based on starting color
+        return
+    def rank_surfaces():#....   rank surfaces by a rank of volume + poly count
+        #higher density gives a lighter color
+        #largest combined volume and poly count decides order of hue from start_color
+
+        return ordered_surfaces
+
+def hue_shift(rgb, type = ''):
+    if type == 'cool':
+        return
+    elif: type == 'warm':
+        return
+    else:#.... return complement
+        if rgb > 180:
+            complement = 360-rgb
+        else:
+            complement = 360-rgb
+            return complement
+
+complementary_color(41.539)
 
 def select_by_material(materialName):
     

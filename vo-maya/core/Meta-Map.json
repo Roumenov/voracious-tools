@@ -1,0 +1,163 @@
+{
+    "character" : "",
+    "spine" : ["Hip","Chest",""],
+    "neck" : [],
+    "head" : [],
+    "arm" : [{"Clavicle" : "Clavicle"},
+        {"Shoulder" : "ShoulderCurve"},
+        {"UpperArm" : "UpperArmCurve"},
+        {"Elbow" : "ElbowCurve"},
+        {"Wrist" : "Wrist"}],
+    "leg" : [],
+    "hand" : []
+}
+
+
+
+_ROOT	_ROOTJ
+
+_lFinger1J1 
+
+"_L_" :   "_l",
+"_01" : "01J1",
+"Spine_Top" : "SpineTop",
+"Thigh_01" : "UpperLegCurveJ1",
+"Shin" : "LowerLegCurve",
+"Clavicle" : "Clavicle",
+"Shoulder" : "ShoulderCurve",
+"UpperArm" : "UpperArmCurve",
+"Elbow" : "ElbowCurve",
+"Wrist" : "Wrist",
+"_01" : "J1",
+
+
+{
+    "numbers" : [{"1_01" : "1J1"}, "1_02" : "1J2", "1_03" : "1J3"]
+,
+    "2_01" : "2J1",
+    "2_02" : "2J2",
+    "2_03" : "2J3",
+    "3_01" : "3J1",
+    "3_02" : "3J2",
+    "3_03" : "3J3",
+    "4_01" : "4J1",
+    "4_02" : "4J2",
+    "4_03" : "4J3"]
+}
+
+    {
+        "firstName": "John",
+        "lastName": "Smith",
+        "isAlive": true,
+        "age": 27,
+        "address": {
+        "streetAddress": "21 2nd Street",
+            "city": "New York",
+            "state": "NY",
+            "postalCode": "10021-3100"
+        },
+        "phoneNumbers": [
+            {
+                "type": "home",
+                "number": "212 555-1234"
+            },
+            {
+                "type": "office",
+                "number": "646 555-4567"
+            },
+            {
+                "type": "mobile",
+                "number": "123 456-7890"
+            }
+        ],
+        "children": [],
+        "spouse": null
+    }
+
+
+
+_Spine_01 : _Spine01J
+_Spine_02 : _Spine02J
+_Spine_03 : _Spine03J
+_Spine_Top : _SpineTopJ
+_Neck_01 : _Neck01J
+_Neck_02 : _Neck02J
+_Head : _HeadJ
+_Jaw : _JawJ
+_chin : _JawTipJ
+_L_Clavicle	_lClavicleJ
+_L_Shoulder	_lShoulderCurveJ
+_L_Elbow	_lElbowCurveJ
+_L_Wrist	_lWristJ
+_L_Palm	_lPalmJ
+_L_Thumb_01	_lThumbJ1
+_L_Thumb_02	_lThumbJ2
+_L_Thumb_03	_lThumbJ3
+_L_Finger1_01	_lFinger1J1
+_L_Finger1_02	_lFinger1J2
+_L_Finger1_03	_lFinger1J3
+_L_Finger2_01	_lFinger2J1
+_L_Finger2_02	_lFinger2J2
+_L_Finger2_03	_lFinger2J3
+_L_Finger3_01	_lFinger3J1
+_L_Finger3_02	_lFinger3J2
+_L_Finger3_03	_lFinger3J3
+_L_Finger4_01	_lFinger4J1
+_L_Finger4_02	_lFinger4J2
+_L_Finger4_03	_lFinger4J3
+_L_UpperArm_01	_lUpperArmCurveJ1
+_L_UpperArm_02	_lUpperArmCurveJ2
+_L_UpperArm_03	_lUpperArmCurveJ3
+_L_LowerArm_01	_lForearmJ
+_L_LowerArm_01	_lLowerArmCurveJ1
+_L_LowerArm_02	_lLowerArmCurveJ2
+_L_LowerArm_03	_lLowerArmCurveJ3
+_R_Clavicle	_rClavicleJ
+_R_Shoulder	_rShoulderCurveJ
+_R_Elbow	_rElbowCurveJ
+_R_Wrist	_rWristJ
+_R_Palm	_rPalmJ
+_R_Thumb_01	_rThumbJ1
+_R_Thumb_02	_rThumbJ2
+_R_Thumb_03	_rThumbJ3
+_R_Finger1_01	_rFinger1J1
+_R_Finger1_02	_rFinger1J2
+_R_Finger1_03	_rFinger1J3
+_R_Finger2_01	_rFinger2J1
+_R_Finger2_02	_rFinger2J2
+_R_Finger2_03	_rFinger2J3
+_R_Finger3_01	_rFinger3J1
+_R_Finger3_02	_rFinger3J2
+_R_Finger3_03	_rFinger3J3
+_R_Finger4_01	_rFinger4J1
+_R_Finger4_02	_rFinger4J2
+_R_Finger4_03	_rFinger4J3
+_R_UpperArm_01	_rUpperArmCurveJ1
+_R_UpperArm_02	_rUpperArmCurveJ2
+_R_UpperArm_03	_rUpperArmCurveJ3
+_R_LowerArm_01	_rForearmJ
+_R_LowerArm_01	_rLowerArmCurveJ1
+_R_LowerArm_02	_rLowerArmCurveJ2
+_R_LowerArm_03	_rLowerArmCurveJ3
+_L_Hip	_lHipCurveJ
+_L_Knee	_lKneeCurveJ
+_L_Ankle	_lAnkleJ
+_L_Ball	_lBallJ
+_L_Toe	_lToeJ
+_R_Hip	_rHipCurveJ
+_R_Knee	_rKneeCurveJ
+_R_Ankle	_rAnkleJ
+_R_Ball	_rBallJ
+_R_Toe	_rToeJ
+_L_Thigh_01	_lUpperLegCurveJ1
+_L_Thigh_02	_lUpperLegCurveJ2
+_L_Thigh_03	_lUpperLegCurveJ3
+_L_Shin_01	_lLowerLegCurveJ1
+_L_Shin_02	_lLowerLegCurveJ2
+_L_Shin_03	_lLowerLegCurveJ3
+_R_Thigh_01	_rUpperLegCurveJ1
+_R_Thigh_02	_rUpperLegCurveJ2
+_R_Thigh_03	_rUpperLegCurveJ3
+_R_Shin_01	_rLowerLegCurveJ1
+_R_Shin_02	_rLowerLegCurveJ2
+_R_Shin_03	_rLowerLegCurveJ3
