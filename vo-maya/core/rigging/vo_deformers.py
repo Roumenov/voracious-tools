@@ -155,3 +155,16 @@ class CombineSeparateSkinnedMesh():
         cmds.showWindow(CombSepSkinMeshWin)   
         
 #CombineSeparateSkinnedMesh()                         
+
+
+from skinningTool.skinningTools import SkinningTools as skinTool
+
+#cmds.select(self.skinTool.combineSkinnedMeshes(selection), r=1)
+
+selection = cmds.ls(sl=True)
+
+skin_tool_instance = skinTool()
+
+cmds.select(skin_tool_instance.combineSkinnedMeshes(selection), r=1)
+
+skinTool.combineSkinnedMeshes()
