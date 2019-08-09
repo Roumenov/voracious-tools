@@ -156,7 +156,7 @@ class CombineSeparateSkinnedMesh():
         
 #CombineSeparateSkinnedMesh()                         
 
-
+import maya.cmds as cmds
 from skinningTool.skinningTools import SkinningTools as skinTool
 
 #cmds.select(self.skinTool.combineSkinnedMeshes(selection), r=1)
@@ -166,5 +166,7 @@ selection = cmds.ls(sl=True)
 skin_tool_instance = skinTool()
 
 cmds.select(skin_tool_instance.combineSkinnedMeshes(selection), r=1)
+#this call works in that it finds the functions and supplies args
+#but the cmds.SkinWeights call seems to be wrong and I don't know how to correct that....
+type(skin_tool_instance)
 
-skinTool.combineSkinnedMeshes()
