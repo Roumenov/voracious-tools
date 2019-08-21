@@ -44,8 +44,10 @@ class NameString():
                 self.side = components[1]
                 self.suffix = components[-1]  #....    this isn't reliable because of how many items end in numbers
                 self.warble = '_'.join(components[2:-1])
-    )
-    
+                return
+
+    def get_number():
+        return
 
 #PURPOSE/PROCEDURE      create prompt that requests name input, then returns input
 #PRESUMPTIONS   user knows the name they want and doesn't have a reason to click elsewhere, user only needs one name
