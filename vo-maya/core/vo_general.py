@@ -34,6 +34,19 @@ def strip_prefix(inputString='', prefix=''):
         print "prefix not found"
         return inputString
 
+
+class NameString():
+    def __init__(
+            self,
+            target):
+                self.components = target.name().split()
+                self.name = components[0]
+                self.side = components[1]
+                self.suffix = components[-1]  #....    this isn't reliable because of how many items end in numbers
+                self.warble = '_'.join(components[2:-1])
+    )
+    
+
 #PURPOSE/PROCEDURE      create prompt that requests name input, then returns input
 #PRESUMPTIONS   user knows the name they want and doesn't have a reason to click elsewhere, user only needs one name
 def prompt_string(promptTitle = '', promptMessage = ''):
