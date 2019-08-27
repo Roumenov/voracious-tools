@@ -12,7 +12,7 @@ import pymel.core as pm
 
 #       ==== CORE FUNCTIONS ====        #
 
-def meta_tag(target, tag=''):
+def meta_tag(target, tag='', type = 'string'):#type defaults to string?
     """
     @param: target = pyNodeObject
     """
@@ -174,17 +174,16 @@ Joint Rename
 
 
 
-if string[-2] == 'J':
-    new_string = string.replace(string['J','_0'])
-elif string[-1] === 'J':
-    new_string = string.replace(string['J','_0'])
+#if string[-2] == 'J':
+#    new_string = string.replace(string['J','_0'])
+#elif string[-1] === 'J':
+#    new_string = string.replace(string['J','_0'])
 
 
 
 """
 Saffron metaRig test setup
 
-"""
 
 import Red9.core.Red9_Meta as r9Meta
 import maya.cmds as cmds
@@ -216,3 +215,6 @@ facial=mRig.addChildMetaNode('MetaFacialRig',attr='Facial',nodeName='FACIAL') #N
 
 pyObject = pm.ls(sl=1)[0]
 print(pyObject.name())
+
+"""
+
