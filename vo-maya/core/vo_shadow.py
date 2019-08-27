@@ -15,32 +15,61 @@ class ShadowMaterial():
         self.material_reference = pm.createNode("phongE")
         material_reference.setAttr(color = color)
     
-class CharacterMakeup():#....   function to create a bunch of materials
+class CharacterMakeup():#....   class to create a bunch of materials on a character
     def __init__(self,
             targets
             ):
         self.base_material = pm.createNode("phongE")
+        self.start_color = self.base_material.
+
     def generate_colors(start_color):#.... make the color palette based on starting color
         return
     def rank_surfaces():#....   rank surfaces by a rank of volume + poly count
         #higher density gives a lighter color
         #largest combined volume and poly count decides order of hue from start_color
-
         return ordered_surfaces
+    def make_materials():
+        return
+    def get_materials():
+        return
 
+#TODO....   alter this to actually work with an rgb input instead of single float number
 def hue_shift(rgb, type = ''):
+    """
+    @param rgb: rgb param is deceptive, it's actually just a single float instead of a tuple
+    """
     if type == 'cool':
+        #bring it closer to 180
         return
-    elif: type == 'warm':
+    elif type == 'warm':
+        #bring it closer to 0 or 360
         return
+    elif type == 'ambient':#dark complementary color
+        if rgb > 180:
+            ambient = 360-rgb
+        else:
+            ambient = 360-rgb
+        #set ambient 
+        return ambient
     else:#.... return complement
         if rgb > 180:
             complement = 360-rgb
         else:
             complement = 360-rgb
-            return complement
+        return complement
 
-complementary_color(41.539)
+"""
+color_value = (1, 1, 0.0)
+base_material.setColor(col = color_value)
+
+base_material.setAmbientColor(ambient_color = color_value)
+#https://stackoverflow.com/questions/24852345/hsv-to-rgb-color-conversion
+
+"""
+#hue_shift(rgb=41.539)
+
+#TODO....   once hue shift works, make a version that creates color nodes so it all changes dynamically
+
 
 def select_by_material(materialName):
     
