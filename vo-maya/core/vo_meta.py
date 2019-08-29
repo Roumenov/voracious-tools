@@ -16,7 +16,7 @@ def meta_tag(target, tag='', type = 'string'):#type defaults to string?
     """
     @param: target = pyNodeObject
     """
-    node = r9Meta.MetaClass(target.name())
+    node = core.r9Meta.MetaClass(target.name())
     node.addAttr(tag)
 
     if target.hasAttr(attr):
@@ -185,21 +185,21 @@ Joint Rename
 Saffron metaRig test setup
 
 
-import Red9.core.Red9_Meta as r9Meta
+import Red9.core.Red9_Meta as core.r9Meta
 import maya.cmds as cmds
 
 #make a new blank mClass MayaNode
 character_name = pm.ls('*.potionomicsCharacterRoot', objectsOnly = True)[0].name()
-root = r9Meta.MetaClass(character_name)
+root = core.r9Meta.MetaClass(character_name)
 root.delAttr('potionomicsCharacterRoot')
 
 
-mRig=r9Meta.MetaRig(name='SaffronRig')
+mRig=core.r9Meta.MetaRig(name='SaffronRig')
 mRig.rigType = 'character'
 #mRig.rename('Rig')
 mRig.mNodeID = 'mSystem'#mNodeID is put what gets slapped onto the next objects' attrs
 
-node = r9Meta.MetaClass('Saffron_MainHipC')
+node = core.r9Meta.MetaClass('Saffron_MainHipC')
 node.addAttr(attr = 'metaParent', attrType = 'message' )
 
 spine_name = character_name.join('Spine')
