@@ -18,7 +18,9 @@ def launch_sequence():
     print('launching . . .')
     import pathSetup as ps  #....       import instance of pathSetup
     #utils.executeDeferred("ps.test_func(VO_DIR)")
+    ps.addShelfPath(VO_SHELF_PATH)
     ps.addIconsPath(VO_ICON_PATH)
+    
     for shelf in shelf_contents:
         shelf_path = os.path.normpath(os.path.join(VO_SHELF_PATH,shelf)).replace('\\', '/')
         print(shelf_path)

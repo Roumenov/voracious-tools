@@ -27,6 +27,17 @@ def path_check(path,environPath):
 ###                                                                  ###
 ############        ================================        ############
 
+
+def add_path(path, pathName):
+    print('adding %s path') % (pathName)
+
+    iconsPath = os.environ.get(pathName)
+
+    if os.path.exists(path) and path not in iconsPath:
+        os.environ[pathName] += '%s%s' % (os.pathsep, path)
+    else:
+        return False
+
 def addIconsPath(path):
     print('adding icon path')
     #if not path:
@@ -40,6 +51,18 @@ def addIconsPath(path):
         return False
         #log.info('Red9 Icons Path already setup')
 
+def addShelfPath(path):
+    print('adding icon path')
+    #if not path:
+    #    path = os.path.join(vo_maya.VO_DIR, 'icons')
+    shelfPath = os.environ.get('MAYA_SHELF_PATH')
+
+    if os.path.exists(path) and path not in shelfPath:
+        #log.info('Adding vo-icons To XBM Paths : %s' % path)
+        os.environ['MAYA_SHELF_PATH'] += '%s%s' % (os.pathsep, path)
+    else:
+        return False
+        #log.info('Red9 Icons Path already setup')
 
 def add_shelf(path):
     #path = vo_maya.VO_SHELF_PATH
