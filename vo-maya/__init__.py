@@ -8,11 +8,19 @@ VO_ICON_PATH = os.path.normpath(os.path.join(VO_DIR, 'icons')).replace('\\', '/'
 #PLUGIN_DIR = os.path.normpath(os.path.join(VO_DIR, 'plug-ins')).replace('\\', '/')
 VO_SHELF_PATH = os.path.normpath(os.path.join(VO_DIR, 'shelves')).replace('\\', '/')
 
-shelf_contents = os.listdir(VO_SHELF_PATH)
+#shelf_contents = os.listdir(VO_SHELF_PATH)
 
-print('pathoing!')
-print(VO_SHELF_PATH)
-print(shelf_contents)
+def return_paths(param = ''):
+    if param == 'VO_DIR':
+        return VO_DIR
+    elif param == 'VO_ICON_PATH':
+        return VO_ICON_PATH
+    elif param == 'VO_SHELF_PATH':
+        return VO_SHELF_PATH
+    else:
+        return VO_DIR, VO_ICON_PATH, VO_SHELF_PATH
+
+print(return_paths(param = ''))
 
 def launch_sequence():
     print('launching . . .')

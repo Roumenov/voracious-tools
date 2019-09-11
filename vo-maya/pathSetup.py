@@ -51,6 +51,8 @@ def addIconsPath(path):
         return False
         #log.info('Red9 Icons Path already setup')
 
+#TODO:   figure out whether this is useful at all.
+#        Since importing shelf copies it to shelves folder
 def addShelfPath(path):
     print('adding icon path')
     #if not path:
@@ -64,7 +66,7 @@ def addShelfPath(path):
         return False
         #log.info('Red9 Icons Path already setup')
 
-def add_shelf(path):
+def load_shelf(path):
     #path = vo_maya.VO_SHELF_PATH
     print('loading shelves')
     #print(shelf_path)
@@ -87,3 +89,46 @@ def add_shelf(path):
     # restore users top shelf
     cmds.shelfTabLayout(gShelfTopLevel, e=True, st=top)
 
+
+
+def delete_shelf(shelf_name):
+    '''
+    Delete maya shelf and update maya shelf optionVars
+    :param shelf_name: string: name of the shelf to be deleted
+    :return:
+    '''
+    #if mayaIsBatch():
+    #    return
+    if not cmds.shelfLayout(shelf_name, q=True, ex=True):
+        return
+
+    shelfs = cmds.optionVar(q='numShelves')
+    current_shelf = None
+
+    # Shelf preferences.
+    for i in range(shelfs + 1):
+        if shelf_name == cmds.optionVar(q="shelfName%i" % i):
+            current_shelf = i
+            break
+
+    try:
+        if current_shelf:
+            # manage shelve ids
+            for i in range(current_shelf, shelfs + 1):
+                cmds.optionVar(iv=("shelfLoad%s" % str(i), cmds.optionVar(q="shelfLoad%s" % str(i + 1))))
+                cmds.optionVar(sv=("shelfName%s" % str(i), cmds.optionVar(q="shelfName%s" % str(i + 1))))
+                cmds.optionVar(sv=("shelfFile%s" % str(i), cmds.optionVar(q="shelfFile%s" % str(i + 1))))
+
+        cmds.optionVar(remove="shelfLoad%s" % shelfs)
+        cmds.optionVar(remove="shelfName%s" % shelfs)
+        cmds.optionVar(remove="shelfFile%s" % shelfs)
+        cmds.optionVar(iv=("numShelves", shelfs - 1))
+
+        cmds.deleteUI(shelf_name, layout=True)
+        #pref_file = os.path.join(mayaPrefs(), 'prefs', 'shelves', 'shelf_%s.mel.deleted' % shelf_name)
+        if os.path.exists(pref_file):
+            os.remove(pref_file)
+        mel.eval("shelfTabChange")
+        #log.info('Shelf deleted: % s' % shelf_name)
+    except StandardError, err:
+        #log.warning('shelf management failed : %s' % err)
