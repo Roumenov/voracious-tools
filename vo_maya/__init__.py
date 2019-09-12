@@ -10,6 +10,11 @@ VO_SHELF_PATH = os.path.normpath(os.path.join(VO_DIR, 'shelves')).replace('\\', 
 
 #shelf_contents = os.listdir(VO_SHELF_PATH)
 
+
+def _reload():
+    return
+
+
 def return_paths(param = ''):
     if param == 'VO_DIR':
         return VO_DIR
@@ -24,12 +29,14 @@ print(return_paths(param = ''))
 
 def launch_sequence():
     print('launching . . .')
+    shelf_contents = os.listdir(VO_SHELF_PATH)
     import pathSetup as ps  #....       import instance of pathSetup
     #utils.executeDeferred("ps.test_func(VO_DIR)")
     ps.addShelfPath(VO_SHELF_PATH)
     ps.addIconsPath(VO_ICON_PATH)
     
     for shelf in shelf_contents:
+        ps.delete_shelf(shelf)
         shelf_path = os.path.normpath(os.path.join(VO_SHELF_PATH,shelf)).replace('\\', '/')
         print(shelf_path)
         ps.add_shelf(shelf_path)

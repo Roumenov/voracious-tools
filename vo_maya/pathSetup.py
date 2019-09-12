@@ -97,38 +97,13 @@ def delete_shelf(shelf_name):
     :param shelf_name: string: name of the shelf to be deleted
     :return:
     '''
-    #if mayaIsBatch():
-    #    return
+    if cmds.about(batch=True):
+        return
     if not cmds.shelfLayout(shelf_name, q=True, ex=True):
         return
 
-    shelfs = cmds.optionVar(q='numShelves')
-    current_shelf = None
+    # Shelf preferences....
 
-    # Shelf preferences.
-    for i in range(shelfs + 1):
-        if shelf_name == cmds.optionVar(q="shelfName%i" % i):
-            current_shelf = i
-            break
-
-    try:
-        if current_shelf:
-            # manage shelve ids
-            for i in range(current_shelf, shelfs + 1):
-                cmds.optionVar(iv=("shelfLoad%s" % str(i), cmds.optionVar(q="shelfLoad%s" % str(i + 1))))
-                cmds.optionVar(sv=("shelfName%s" % str(i), cmds.optionVar(q="shelfName%s" % str(i + 1))))
-                cmds.optionVar(sv=("shelfFile%s" % str(i), cmds.optionVar(q="shelfFile%s" % str(i + 1))))
-
-        cmds.optionVar(remove="shelfLoad%s" % shelfs)
-        cmds.optionVar(remove="shelfName%s" % shelfs)
-        cmds.optionVar(remove="shelfFile%s" % shelfs)
-        cmds.optionVar(iv=("numShelves", shelfs - 1))
-
-        cmds.deleteUI(shelf_name, layout=True)
-        #pref_file = os.path.join(mayaPrefs(), 'prefs', 'shelves', 'shelf_%s.mel.deleted' % shelf_name)
-        if os.path.exists(pref_file):
-            os.remove(pref_file)
-        mel.eval("shelfTabChange")
-        #log.info('Shelf deleted: % s' % shelf_name)
-    except StandardError, err:
-        #log.warning('shelf management failed : %s' % err)
+    #https://help.autodesk.com/cloudhelp/2018/CHS/Maya-Tech-Docs/CommandsPython/
+    cmds.deleteUI(shelf_name, layout=True)
+    mel.eval("shelfTabChange")
