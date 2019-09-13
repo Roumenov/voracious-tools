@@ -4,7 +4,6 @@
     set up paths for plugins, icons, shelves, etc
 """
 
-print('begin path setup')
 import maya.mel as mel
 import os
 import maya.cmds as cmds
@@ -54,7 +53,7 @@ def addIconsPath(path):
 #TODO:   figure out whether this is useful at all.
 #        Since importing shelf copies it to shelves folder
 def addShelfPath(path):
-    print('adding icon path')
+    print('adding shelf path')
     #if not path:
     #    path = os.path.join(vo_maya.VO_DIR, 'icons')
     shelfPath = os.environ.get('MAYA_SHELF_PATH')
@@ -106,4 +105,4 @@ def delete_shelf(shelf_name):
 
     #https://help.autodesk.com/cloudhelp/2018/CHS/Maya-Tech-Docs/CommandsPython/
     cmds.deleteUI(shelf_name, layout=True)
-    mel.eval("shelfTabChange")
+    #mel.eval("shelfTabChange")

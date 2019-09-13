@@ -3,7 +3,7 @@ import maya.utils as utils
 import maya.cmds as cmds
 #import pathSetup as ps
 
-VO_DIR = os.path.normpath(os.path.dirname(__file__))##....  gets this script's filepath
+VO_DIR = os.path.normpath(os.path.dirname(__file__)).replace('\\', '/')##....  gets this script's filepath
 VO_ICON_PATH = os.path.normpath(os.path.join(VO_DIR, 'icons')).replace('\\', '/')
 #PLUGIN_DIR = os.path.normpath(os.path.join(VO_DIR, 'plug-ins')).replace('\\', '/')
 VO_SHELF_PATH = os.path.normpath(os.path.join(VO_DIR, 'shelves')).replace('\\', '/')
@@ -32,13 +32,13 @@ def launch_sequence():
     shelf_contents = os.listdir(VO_SHELF_PATH)
     import pathSetup as ps  #....       import instance of pathSetup
     #utils.executeDeferred("ps.test_func(VO_DIR)")
-    ps.addShelfPath(VO_SHELF_PATH)
     ps.addIconsPath(VO_ICON_PATH)
+    #ps.addShelfPath(VO_SHELF_PATH)
     
     for shelf in shelf_contents:
-        ps.delete_shelf(shelf)
+        #ps.delete_shelf(shelf)
         shelf_path = os.path.normpath(os.path.join(VO_SHELF_PATH,shelf)).replace('\\', '/')
-        print(shelf_path)
+        #print(shelf_path)
         ps.add_shelf(shelf_path)
     """
     try:
@@ -60,7 +60,7 @@ def launch_sequence():
 #utils.executeDeferred("import pathSetup;pathSetup.test_func()")
 
 
-utils.executeDeferred(launch_sequence())
+####utils.executeDeferred(launch_sequence())
 
 #launch_sequence()
 

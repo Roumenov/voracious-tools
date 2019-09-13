@@ -1,4 +1,4 @@
-global proc shelf_vo_rigging () {
+global proc shelf_vo_rigTools () {
     global string $gBuffStr;
     global string $gBuffStr0;
     global string $gBuffStr1;
