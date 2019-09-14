@@ -710,8 +710,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -742,8 +742,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 36
+        -height 36
         -manage 1
         -visible 1
         -preventOverride 0
@@ -807,8 +807,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -824,7 +824,7 @@ global proc shelf_vo_animTools () {
         -flipY 0
         -useAlpha 1
         -font "plainLabelFont" 
-        -imageOverlayLabel "expo"
+        -imageOverlayLabel "expo" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
         -image "export_ICO.png" 
@@ -832,7 +832,7 @@ global proc shelf_vo_animTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "import pymel.core as pm\nimport vo_export as st\nreload(st)\n\nst.export_character('auto')" 
+        -command "import pymel.core as pm\nimport vo_sceneTools as st\nreload(st)\n\nst.export_character('auto')" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1

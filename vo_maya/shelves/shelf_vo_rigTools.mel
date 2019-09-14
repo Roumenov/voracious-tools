@@ -12,41 +12,6 @@ global proc shelf_vo_rigTools () {
         -manage 1
         -visible 1
         -preventOverride 0
-        -annotation "Niels Vaes Eye Rigger" 
-        -enableBackground 0
-        -backgroundColor 0 0 0 
-        -highlightColor 0.321569 0.521569 0.65098 
-        -align "center" 
-        -label "Eye Rigger" 
-        -labelOffset 0
-        -rotation 0
-        -flipX 0
-        -flipY 0
-        -useAlpha 1
-        -font "plainLabelFont" 
-        -imageOverlayLabel "eye" 
-        -overlayLabelColor 0.8 0.8 0.8 
-        -overlayLabelBackColor 0 0 0 0.5 
-        -image "commandButton.png" 
-        -image1 "commandButton.png" 
-        -style "iconOnly" 
-        -marginWidth 1
-        -marginHeight 1
-        -command "import EyeRig.nv_eye_rigger\nreload(EyeRig.nv_eye_rigger)" 
-        -sourceType "python" 
-        -commandRepeatable 1
-        -flat 1
-        -mi "eye attrs" ( "eye_targets = pm.ls(sl=1)\n#pm.addAttr(longName = 'iris', type = 'float')\n\nfor item in eye_targets:\n    if item.hasAttr('blink'):\n        pm.addAttr(item,longName = 'blink', attributeType = 'double', defaultValue = 0.0)\n        item.setAttr('blink', keyable = True)\n    else:\n        pass\n    if item.hasAttr('pupilRadius'):\n        pm.addAttr(item, longName = 'pupilRadius', attributeType = 'double', defaultValue = 1.0)\n        item.setAttr('pupilRadius', keyable = True)\n    if item.hasAttr('irisRadius'):\n        pm.addAttr(item,longName = 'irisRadius', attributeType = 'double', defaultValue = 1.0)\n        item.setAttr('irisRadius', keyable = True)\n    \n    pm.addAttr(item,longName = 'stretchX', attributeType = 'double', defaultValue = 1.0)\n    item.setAttr('stretchX', keyable = True)\n    pm.addAttr(item,longName = 'stretchY', attributeType = 'double', defaultValue = 1.0)\n    item.setAttr('stretchY', keyable = True)\n    pm.addAttr(item,longName = 'irisAngle', attributeType = 'double', defaultValue = 0.0)\n    item.setAttr('irisAngle', keyable = True)\n\nfor item in eye_targets:\n    pm.addAttr(item,longName = 'irisX', attributeType = 'double', defaultValue = 1.0)\n    item.setAttr('irisX', keyable = True)\n    pm.addAttr(item,longName = 'irisY', attributeType = 'double', defaultValue = 1.0)\n    item.setAttr('irisY', keyable = True)\n\n" )
-        -mip 0
-    ;
-    shelfButton
-        -enableCommandRepeat 1
-        -enable 1
-        -width 35
-        -height 35
-        -manage 1
-        -visible 1
-        -preventOverride 0
         -annotation "Rapid Rig Advanced" 
         -enableBackground 0
         -backgroundColor 0 0 0 
@@ -70,12 +35,16 @@ global proc shelf_vo_rigTools () {
         -sourceType "mel" 
         -commandRepeatable 1
         -flat 1
+        -mi "Launch NV Eye Rigger" ( "import EyeRig.nv_eye_rigger\nreload(EyeRig.nv_eye_rigger)" )
+        -mip 0
+        -mi "Eye Attrs" ( "eye_targets = pm.ls(sl=1)\n#pm.addAttr(longName = 'iris', type = 'float')\n\nfor item in eye_targets:\n    if item.hasAttr('blink'):\n        pm.addAttr(item,longName = 'blink', attributeType = 'double', defaultValue = 0.0)\n        item.setAttr('blink', keyable = True)\n    else:\n        pass\n    if item.hasAttr('pupilRadius'):\n        pm.addAttr(item, longName = 'pupilRadius', attributeType = 'double', defaultValue = 1.0)\n        item.setAttr('pupilRadius', keyable = True)\n    if item.hasAttr('irisRadius'):\n        pm.addAttr(item,longName = 'irisRadius', attributeType = 'double', defaultValue = 1.0)\n        item.setAttr('irisRadius', keyable = True)\n    \n    pm.addAttr(item,longName = 'stretchX', attributeType = 'double', defaultValue = 1.0)\n    item.setAttr('stretchX', keyable = True)\n    pm.addAttr(item,longName = 'stretchY', attributeType = 'double', defaultValue = 1.0)\n    item.setAttr('stretchY', keyable = True)\n    pm.addAttr(item,longName = 'irisAngle', attributeType = 'double', defaultValue = 0.0)\n    item.setAttr('irisAngle', keyable = True)\n\nfor item in eye_targets:\n    pm.addAttr(item,longName = 'irisX', attributeType = 'double', defaultValue = 1.0)\n    item.setAttr('irisX', keyable = True)\n    pm.addAttr(item,longName = 'irisY', attributeType = 'double', defaultValue = 1.0)\n    item.setAttr('irisY', keyable = True)\n\n" )
+        -mip 1
     ;
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -107,8 +76,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -132,6 +101,39 @@ global proc shelf_vo_rigTools () {
         -marginWidth 1
         -marginHeight 1
         -command "print(\"User defined macro\");" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Show all objects" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Show All" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "All" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconDisplay.png" 
+        -image1 "menuIconDisplay.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "ShowAll" 
         -sourceType "mel" 
         -commandRepeatable 1
         -flat 1
@@ -286,7 +288,7 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "# joint on transform\nimport pymel.core as pm\nimport vo-maya.core.vo_general as uf\nreload(uf)\n\njoint_target_list = pm.ls(sl=1)\njoints = []\nif len(joint_target_list):\n    for joint_target in joint_target_list:\n        \n        joint_name = str(joint_target) + '_JNT'\n        current_joint = uf.create_object(objName = joint_name, objType = 'joint', radius = 1.0)\n        pm.matchTransform(current_joint, joint_target)\n        joints.append(current_joint)\nelse:\n    current_joint = uf.create_object(objName = 'joint_00', objType = 'joint', radius = 1.0)\n    joints.append(current_joint)\npm.select(joints, replace = True)\n" 
+        -command "# joint on transform\nimport pymel.core as pm\nimport vo_maya.core.vo_general as uf\nreload(uf)\n\njoint_target_list = pm.ls(sl=1)\njoints = []\nif len(joint_target_list):\n    for joint_target in joint_target_list:\n        \n        joint_name = str(joint_target) + '_JNT'\n        current_joint = uf.create_object(objName = joint_name, objType = 'joint', radius = 1.0)\n        pm.matchTransform(current_joint, joint_target)\n        joints.append(current_joint)\nelse:\n    current_joint = uf.create_object(objName = 'joint_00', objType = 'joint', radius = 1.0)\n    joints.append(current_joint)\npm.select(joints, replace = True)\n" 
         -sourceType "python" 
         -doubleClickCommand "JointTool" 
         -commandRepeatable 1
@@ -716,7 +718,7 @@ global proc shelf_vo_rigTools () {
         -flipY 0
         -useAlpha 1
         -font "plainLabelFont" 
-        -imageOverlayLabel "ui" 
+        -imageOverlayLabel "sknTool" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
         -image "exportSmoothSkin.png" 
@@ -778,6 +780,7 @@ global proc shelf_vo_rigTools () {
         -mip 10
         -mi "Combine Skinned Meshes" ( "\n####\n#\n#       GEOMETRY MANIPULATION\n#\n####\n\nimport maya.cmds as cmds\nimport maya.mel as mel\n\n\ndef CombineSkinnedMeshProc( *args):\n    \n    selection = cmds.ls(sl=True)\n    joint_list = []\n    if(len(selection) == 0):\n        raise TypeError ('Please Select at least two skinned Meshes')\n\t\t\n    elif(len(selection) == 1):\n        raise TypeError ('Please Select at least two skinned Meshes')\t\n\n    textField_obj = cmds.textField( textFieldName, query=True, text=True )\n    \n    if(len(textField_obj) == 0):\n        raise TypeError ('Please Assign a Name')\n           \n    if \" \" in textField_obj:\n        raise TypeError(\"Warning: you are using illegal characters for the name\")\n          \n    if cmds.objExists(textField_obj):\n           raise TypeError(\"Warning: this name is already in use\")\n    \n             \n    for item in selection:       \n        findSkinStart = mel.eval('findRelatedSkinCluster ' + item)\n        \n        if cmds.objExists (findSkinStart):\n            print findSkinStart\n                 \n        else:\n            raise TypeError(\"Please Select at least two skinned Meshes \") \n            \n        matrix_array = cmds.getAttr(findSkinStart + \".matrix\", mi = True)\n    \n        for i in matrix_array:\n            list = cmds.connectionInfo(findSkinStart + \".matrix[\" + str(i) + \"]\", sourceFromDestination = True)\n            joint = list.split(\".\")\n            joint_list.append(joint[0])         \n                    \n    if (len(selection) > 0):\n            print selection\n            for i in range(1):\n                duplicateObj = cmds.duplicate (selection)\n                createGrp = cmds.group (duplicateObj)        \n                combine = cmds.polyUnite (createGrp, name = textField_obj)\n                deleteHistory = cmds.delete (combine, ch=True)\n                deleteGrp = cmds.select (cmds.delete (createGrp))\n                cmds.textField( textFieldName, e=True, text='')   \n                newskin = cmds.skinCluster(joint_list,textField_obj, n=textField_obj + \"_SKC\")\n                newSelect = cmds.select (joint_list, selection, textField_obj, add= True )\n                transfer = cmds.copySkinWeights (nm=True, sa =\"closestPoint\", ia =\"closestJoint\")\n                delete = cmds.delete (selection)\n                selectnewobj = cmds.select (textField_obj)\n                cleanSkinEnd = mel.eval('removeUnusedInfluences ')\n             \n                \n                deselect = cmds.select (cl=True)\n                \n              \ndef SeparateSkinnedMeshProc( *args):\n    \n    selection = cmds.ls(sl=True)\n    \n    if(len(selection) == 0):\n        raise TypeError ('Please Select a Skinned Mesh')\n\t\t\n    elif(len(selection) > 1):\n        raise TypeError ('Please Select only one Skinned Mesh to separate')\t\n\n    textField_obj = cmds.textField( textFieldName, query=True, text=True )\n    \n    if(len(textField_obj) == 0):\n        raise TypeError ('Please Assign a Name')\n    \n    if \" \" in textField_obj:\n        raise TypeError(\"Warning: you are using illegal characters for the name\")\n        \n    if cmds.objExists(textField_obj):\n           raise TypeError(\"Warning: this name is already in use\")  \n    \n    \n    for item in selection:       \n        findSkinStart = mel.eval('findRelatedSkinCluster ' + item)\n        \n        if cmds.objExists (findSkinStart):\n            print findSkinStart\n                 \n        else:\n            raise TypeError(\"Please Select a Skinned Mesh \")         \n    \n    if len (selection) > 0:\n            print selection\n            for i in range(1):\n                duplicateObj = cmds.duplicate (selection, name = textField_obj)\n                     \n                separate = cmds.polySeparate (duplicateObj, name = textField_obj + \"NewSkin*\", ch=True)\n                deleteHistory = cmds.delete (separate, ch=True)\n\n                \n                deselect01 = cmds.select (cl=True)\n                selectnewmeshes = cmds.select( textField_obj, hi=True)\n                deselGrp = cmds.select(textField_obj, d=True)\n                givenlist = cmds.ls (sl=True)\n                mesh = givenlist\n                \n                for index in range(len(mesh)):\n                    print mesh[index]\n                    joints = cmds.skinCluster (item , q=True , inf=True)\n                    cmds.textField( textFieldName, e=True, text='')\n                    for obj in mesh:\n                        findSkinEnd = mel.eval('findRelatedSkinCluster ' + obj)\n        \n                        if cmds.objExists (findSkinEnd):\n                            print findSkinEnd\n                        else:\n                            newskin = cmds.skinCluster(obj, joints, n=textField_obj + \"_SKC\")\n                            break\n                            \n                    newSelect = cmds.select (joints, selection, obj , add= True)\n                    transfer = cmds.copySkinWeights (nm=True, sa =\"closestPoint\", ia =\"closestJoint\")\n                    cleanSkinEnd = mel.eval('removeUnusedInfluences ')\n                       \n                cmds.select (cl=True)\n                cmds.delete (selection)\n               \n\n\nclass CombineSeparateSkinnedMesh():\n    def __init__(self):\n        \n        global textFieldName\n        \n        if cmds.window('CombSepSkinMeshWin', exists=True):\n           cmds.deleteUI('CombSepSkinMeshWin')\n\t\t\n        CombSepSkinMeshWin = cmds.window (\"CombSepSkinMeshWin\", title=\"Combine Separate Skinned Mesh\", widthHeight=(300, 120), s=0)\n        cmds.columnLayout(adjustableColumn=True )\n        cmds.text( label='Assign Name to New Mesh' )\n        textFieldName = cmds.textField()\n        spacenoedit = cmds.textField( ed = False)\n        cmds.button( label='Combine Skinned Mesh', c=CombineSkinnedMeshProc)\n        cmds.button( label='Separate Skinned Mesh', c=SeparateSkinnedMeshProc)\n        cmds.setParent( '..' )\n        cmds.showWindow(CombSepSkinMeshWin)   \n        \nCombineSeparateSkinnedMesh()" )
         -mip 11
+        -mi "Max Influence = 4" ( "\n\n{ \n        /*SCRIPT PARAMETER*/\n\tint $MaxInfluence = 4;\n\t/******************/\n\t\n\tstring $Selection[] = `ls -sl`;\n\tstring $Skin = `findRelatedSkinCluster $Selection[0]`;\n\t\n\tint $VertsCount[] = `polyEvaluate -v $Selection[0]`;\n\tint $i = 0;\n\t\n\tfor(; $i < ($VertsCount[0] + 1); $i++)    // Iterate over all mesh vertices\n\t{\n\t\tstring $Vertex = $Selection[0] + \".vtx[\" + $i + \"]\";    // Variable to store current vertex\n\t\tfloat $Weights[] = `skinPercent -ignoreBelow 0.0001 -query -value $Skin $Vertex`;    // Array of all influences not null\n\t\t\n\t\tif(size($Weights) > $MaxInfluence)       // If (number of influences > max number of influences)\n\t\t{\n\t\t    int $j;\n\t\t    float $Max[]; for($j = 0; $j < size($Weights); $j++) $Max[$j] = 0.0;    // Init Max array\n\t\t    \n\t\t\tfor($W in $Weights)    // Iterate over all positive influences\n\t\t\t{\n\t\t\t\tint $k;\n\t\t\t\n\t\t\t\tfor($j = size($Weights); $j >= 0 && $W > $Max[$j]; $j--); $j++;    // Move the target influence down until the bottom is reached (-1) or the next influence is greater\n\t\t\t\t\n\t\t\t\tfor($k = size($Weights); $k > $j; $k--)\n\t\t\t\t{\n\t\t\t\t\t$Max[$k] = $Max[$k - 1];\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t$Max[$k] = $W;\n\t\t\t}\n\t\t\t\n\t\t\tfloat $PruneValue = $Max[$MaxInfluence] + 0.0001;\n\t\t\tprint ($PruneValue + \"\\n\");\n\t\t\tskinPercent -pruneWeights $PruneValue $Skin $Vertex;\n\t\t}\t\t\n\t}\n}" )
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -1044,7 +1047,7 @@ global proc shelf_vo_rigTools () {
         -mip 6
         -mi "Link Scale" ( "import pymel.core as pm\nimport vo-maya.core.vo_general as uf\nreload(uf)\nuf.list_link_attrs(Scale = 'xyz', targets = pm.ls(sl=1))\n" )
         -mip 7
-        -mi "MultiParent constraint" ( "import pymel.core as pm\nimport vo-maya.core.vo_general as uf\nreload(uf)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nuf.multi_constrain(satellites, target)" )
+        -mi "MultiParent constraint" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as uf\nreload(uf)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nuf.multi_constrain(satellites, target)" )
         -mip 8
         -mi "MultiPoint constraint" ( "import pymel.core as pm\nimport vo-maya.core.vo_general as uf\nreload(uf)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nuf.multi_constrain(satellites, target, constraintType = 'point')" )
         -mip 9
@@ -1214,8 +1217,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 23
-        -height 23
+        -width 35
+        -height 34
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1306,8 +1309,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1353,8 +1356,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1504,39 +1507,6 @@ global proc shelf_vo_rigTools () {
         -manage 1
         -visible 1
         -preventOverride 0
-        -annotation "Show all objects" 
-        -enableBackground 0
-        -backgroundColor 0 0 0 
-        -highlightColor 0.321569 0.521569 0.65098 
-        -align "center" 
-        -label "Show All" 
-        -labelOffset 0
-        -rotation 0
-        -flipX 0
-        -flipY 0
-        -useAlpha 1
-        -font "plainLabelFont" 
-        -imageOverlayLabel "All" 
-        -overlayLabelColor 0.8 0.8 0.8 
-        -overlayLabelBackColor 0 0 0 0.5 
-        -image "menuIconDisplay.png" 
-        -image1 "menuIconDisplay.png" 
-        -style "iconOnly" 
-        -marginWidth 1
-        -marginHeight 1
-        -command "ShowAll" 
-        -sourceType "mel" 
-        -commandRepeatable 1
-        -flat 1
-    ;
-    shelfButton
-        -enableCommandRepeat 1
-        -enable 1
-        -width 35
-        -height 35
-        -manage 1
-        -visible 1
-        -preventOverride 0
         -annotation "Hypergraph Hierarchy" 
         -enableBackground 0
         -backgroundColor 0 0 0 
@@ -1568,8 +1538,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
