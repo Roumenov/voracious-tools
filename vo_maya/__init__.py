@@ -25,7 +25,7 @@ def return_paths(param = ''):
     else:
         return VO_DIR, VO_ICON_PATH, VO_SHELF_PATH
 
-print(return_paths(param = ''))
+#print(return_paths(param = ''))
 
 def launch_sequence():
     print('launching . . .')
@@ -34,12 +34,16 @@ def launch_sequence():
     #utils.executeDeferred("ps.test_func(VO_DIR)")
     ps.addIconsPath(VO_ICON_PATH)
     #ps.addShelfPath(VO_SHELF_PATH)
-    
+    """
     for shelf in shelf_contents:
-        #ps.delete_shelf(shelf)
+        shelf_name = 'vo_' + shelf.split('_')[2].replace('.mel','')
+        ps.delete_shelf(shelf_name)
         shelf_path = os.path.normpath(os.path.join(VO_SHELF_PATH,shelf)).replace('\\', '/')
         #print(shelf_path)
-        ps.add_shelf(shelf_path)
+        ps.load_shelf(shelf_path)
+    """
+    #TODO:  update user prefs to save shelf changes
+
     """
     try:
         ps.addIconsPath(VO_ICON_PATH)  #....     run setup script with value from this module

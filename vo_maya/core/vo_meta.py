@@ -162,7 +162,7 @@ class CharacterPart():
         meta_tag(target, tag='metaParent')
 
 
-class characterProp(characterPart):
+class characterProp(CharacterPart):
     def __init__(self, character_node, name):
         pass
 
