@@ -37,3 +37,10 @@ def meta_tag_wrapper():
         vo_meta.meta_tag(target)
 
 
+def locator_transform():
+    pm.matchTransform(pos = True, rot = False, scale = False)
+
+    selection = pm.ls(sl=1)[0]
+
+    pm.select(selection)
+
