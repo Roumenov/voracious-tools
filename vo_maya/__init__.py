@@ -1,6 +1,7 @@
 import os
 import maya.utils as utils
 import maya.cmds as cmds
+import core as core
 #import pathSetup as ps
 
 VO_DIR = os.path.normpath(os.path.dirname(__file__)).replace('\\', '/')##....  gets this script's filepath

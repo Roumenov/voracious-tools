@@ -434,7 +434,9 @@ def create_object(objName = '', objType = '', radius = 1.0):
 def nest_transform(name, action, target = None, transformObj = 'locator', transformRadius = 1.0):
     """
     Creates a transform inside a hierarchy.
-    @param action: 'parent' makes new transform parent of target. 'child' makes it child. 'adopt' makes child and adopts all child transforms.
+    @param action: 'parent' makes new transform parent of target.
+    'child' makes it child.
+    'adopt' makes child and adopts all child transforms.
     """
     nested_transform = None
     if not target:
@@ -470,38 +472,38 @@ def nest_transform(name, action, target = None, transformObj = 'locator', transf
 
 
 #gets weird if things are scaled
-def replace_target(useTargetName = True, clearSource = False):
-    object_list = pm.ls (sl = 1)
-    source_object = object_list[0]
-    target_list = object_list[1:]
-    for target in target_list:
-        print( 'replacing :: ' +str(target))
-        transformName = str(source_object)
-        current_replacement = pm.duplicate(source_object)[0]
-        pm.matchTransform(current_replacement, target, scale = False)
-        target_parent = pm.listRelatives(target, parent = True, type = 'transform')[0]
-        target_children = pm.listRelatives(target, children = True, type = 'transform')
-        if target_parent:
-            print( 'parenting to :: ' + str(target_parent))
-            target_parent | current_replacement
-        else:
-            print( 'parent is world')
-            pass
-        for child in target_children:
-            current_replacement | child
-        pm.delete(target)
-        if useTargetName:
-            pm.rename(current_replacement,str(target))
-        else:
-            pm.rename(current_replacement, source_object.shortName())
-            print('using source name')
-        
-        
+def replace(source_object, target, useTargetName = True, clearSource = False):
+    #object_list = pm.ls (sl = 1)
+    #source_object = object_list[0]
+    transformName = str(source_object)
+    current_replacement = pm.duplicate(source_object)[0]
+    pm.matchTransform(current_replacement, target, scale = False)
+    target_parent = pm.listRelatives(target, parent = True, type = 'transform')[0]
+    target_children = pm.listRelatives(target, children = True, type = 'transform')
+    if target_parent:
+        print( 'parenting to :: ' + str(target_parent))
+        target_parent | current_replacement
+    else:
+        print( 'parent is world')
+        pass
+    for child in target_children:
+        current_replacement | child
+    pm.delete(target)
+    if useTargetName:
+        pm.rename(current_replacement,str(target))
+    else:
+        pm.rename(current_replacement, source_object.shortName())
+        print('using source name')
     if clearSource:
         pm.delete(source_object)
     else:
         print('preserved source object')
 
+def multi_replace(source_object, *target_objects):
+    #target_list = object_list[1:]
+    for target in target_objects:
+        replace(source_object, target, useTargetName = True, clearSource = False)
+    return
 
 def joint_on_vertex():
     """Make cluster on selected vertices and replace with a joint."""
@@ -515,18 +517,15 @@ def joint_on_vertex():
     pm.delete(center_cluster)
     return vertex_joint
 
-def object_on_vertex(objName = '', objType = '', radius = 1.0):
-    """Make cluster on selected vertices and replace with a joint."""
-    #target_verts = pm.ls(sl=1)
-    center_cluster = pm.cluster()
-    print( 'center cluster :: ' + str(center_cluster))
-    cluster_position = center_cluster[1].getRotatePivot()
-    print( 'center point :: ' + str(cluster_position))
-    pm.select(clear=True)
+def create_on_vertex(vertices, objName = '', objType = '', radius = 1.0):
+    """Make cluster on vertex list and replace with given object type.
+    @param vertices: flat list of vertices
+    """
+    center_cluster = pm.cluster(vertices)
+    new_object = create_object(objName = objName, objType = objType, radius = radius)
+    pm.matchTransform(new_object, center_cluster, scale = False)
     pm.delete(center_cluster)
-    vertex_joint = create_object(objName = objName, objType = objType, radius = radius)
-    pm.xform(vertex_joint, translation = cluster_position)
-    return vertex_joint
+    return new_object
 #object_on_vertex(objName = 'test_joint', objType = 'joint', radius = 1.0)
 
 def object_on_pivot(objType = 'joint'):
@@ -539,10 +538,6 @@ def object_on_pivot(objType = 'joint'):
 	  When you have the pivot you want run this to create the joint with that pivot
 	*Arguments:*
 		* objType currently does nothing
-	*Keyword Arguments:*
-		* ``None`` 
-	*Returns:*
-		* ``None`` 
 	*Author:*
 	* randall.hess, randall.hess@gmail.com, 9/3/2017 5:17:19 PM
 	"""
