@@ -9,27 +9,38 @@ import pymel.core as pm
 #def meta_find(attr = ''):
     #pm.select(pm.ls(attr, objectsOnly = True), replace = True)
 
+#       ==== ATTR TYPE USAGE ====       #
+"""         because i constantly forget what does what      
+attrType = 'messageSimple'#attr with no value only a name, used for tagging. Returns connected object.
+attrType = 'message'#red9 makes this a multiMessage attr that will return an ordered list
+red9 can assume attr types from the data type being passed(int, bool, float)
+JSON dicts can be passed right in, as well. written in as string attrType
+"""
+
 
 #       ==== CORE FUNCTIONS ====        #
 
-def meta_tag(target, tag='', type = 'string'):#type defaults to string?
+def meta_tag(target, tag='', type = 'string'):#TODO:    deprecate this and replace its usage with r9 commands
     """
+    tag target with a custom attr of given type
     @param: target = pyNodeObject
     """
     node = core.r9Meta.MetaClass(target.name())
     node.addAttr(tag)
 
-    if target.hasAttr(attr):
+#====          ZOMBIE CODE            ====#
+"""    if target.hasAttr(attr):
         tag = target.getAttr(attr)
         return tag
         #print('%s tag exists'), %(tag)
     else:
         #using 'string' over 'message' type so that we can write in data when we need to
         tag = pm.addAttr(target, longName = attr, attributeType = 'string')
-        return tag
+        return tag"""
 
 
 def meta_make_child(source, *target_list):
+    #TODO:      replace with r9 method
     """Make all objects in target_list the meta children of source object."""
     print source
     for target in target_list:

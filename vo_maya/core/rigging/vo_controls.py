@@ -3,6 +3,8 @@
 import maya.cmds as cmds
 import pymel.core as pm
 import core.vo_general as general
+import core.vo_meta as meta
+
 
 class Control():#TODO   search/replace references to pControl with Control
     """

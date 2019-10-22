@@ -12,8 +12,7 @@
 
 import pymel.core as pm
 import vo_meta
-import vo_general
-#import vo-maya.core.vo_general as uf
+import vo_general as general
 #reload(uf)
 
 
@@ -29,7 +28,7 @@ class shelf_wrapper():
         self.name = name
         self.function = function
         self.icon = icon#TODO make default icon path that goes here
-    def method_1(args):
+    def method_1(self,args):
         self.function(args)
 
 
@@ -38,63 +37,55 @@ def meta_tag_wrapper():
         vo_meta.meta_tag(target)
 
 
-def object_at_selection(objName = '', objType = '', radius = 1.0):
+def object_at_selection(name = '', objType = '', radius = 1.0):
     output = []
     for target in pm.ls(sl=1):
-        new_object = create_object(objName = objName, objType = objType, radius = 1.0)
+        new_object = general.create_object(name = name, objType = objType, radius = 1.0)
         output.append(new_object)
         pm.matchTransform(new_object, target, pos = True, rot = True, scale = False)
     pm.select(output, r=1)
     return output
 
-def object_at_select_verts(object_name='', object_type='', radius = 1.0):
-    output = []
-    for target in pm.ls(sl=1):
-        new_object = create_on_vertex(vertices, objName = '', objType = '', radius = 1.0)
-        output.append(new_object)
-    pm.select(output, r=1)
-    return output
+def object_at_select_verts(name='', objType='', radius = 1.0):
+    selection = pm.ls(sl=1, flatten = True)
+    #vertices = pm.ls(pm.polyListComponentConversion(selection, toVertex=True), flatten=True, orderedSelection=True)
+    new_object = general.object_on_vertices(selection, name = name, objType = objType, radius = 1.0)
+    pm.select(new_object, r=1)
+    return new_object
 
-def create_at_vert_subset(vertices, objName = '', objType = '', radius = 1.0, subset_len = 1):
+def object_at_vert_subset(vertices, name = '', objType = '', radius = 1.0, subset_len = 1):
+    #TODO:      make this function more than just zombie code idea
     #make lists of verts by slicing with increments of subset_len
     output = []
     for subset in pm.ls(sl=1):
-        new_object = create_on_vertex(vertices, objName = '', objType = '', radius = 1.0)
+        new_object = general.object_on_vertices(vertices, name = '', objType = '', radius = 1.0)
         output.append(new_object)
     pm.select(output, r=1)
     return output
 
-def primitive_at_selection(axis='y', primitive='cube', ):
+
+def primitive_at_selection(axis='y', primitive='cube'):
     """
+    create primitive at location of each selected item
     @param primitive: takes 'cube', 'cylinder', 'capsule', 'sphere', 'plane', or 'torus'
+    @param axis: takes 'x', 'y', 'z', '-x', '-y', '-z'
     """
-    axis_coordinates = {'x' : [1, 0, 0], 'y' : [0, 1, 0], 'z' : [0, 0, 1], '-x' : [-1, 0, 0], '-y' : [0, -1, 0], '-z' : [0, 0, -1]}
     output = []
     for item in pm.ls(sl=1):
-        if primitive == 'cube':
-            primitive_mesh = pm.polyCube()
-        elif primitive == 'cylinder':
-            primitive_mesh = pm.polyCylinder(axis=axis_coordinates[axis], radius=1, height=2,
-                roundCap=False, subdivisionsX=12, subdivisionsY=1, subdivisionsZ=0)
-        elif primitive == 'capsule':
-            primitive_mesh = pm.polyCylinder(axis=axis_coordinates[axis], radius=1, height=2,
-                roundCap = True, subdivisionsX=12, subdivisionsY=4, subdivisionsZ=4)
-        elif primitive == 'sphere':
-            primitive_mesh = pm.polySphere(axis=axis_coordinates['-x'], radius = 1, subdivisionsX=12, subdivisionsY=8)
-        elif primitive == 'plane':
-            primitive_mesh = pm.polyPlane(axis=axis_coordinates[axis], height = 2.0, width = 2.0, subdivisionsX=1, subdivisionsY=1)
-        elif primitive == 'torus':
-            primitive_mesh = pm.polyTorus(axis=axis_coordinates[axis],
-                radius=1, sectionRadius=0.5, subdivisionsX=12, subdivisionsY=8)
-        elif primitive == 'cone':
-            primitive_mesh = pm.polyCone(axis=axis_coordinates[axis], radius=1, height=2,
-                roundCap=False, subdivisionsX=12, subdivisionsY=1, subdivisionsZ=0)
-        else:
-            primitive_mesh = pm.polyCube(height = 1, width=1, subdivisionsX=0, subdivisionsY=0, subdivisionsZ=0)
-        pm.matchTransform(primitive_mesh, target, pos = True, rot = True, scale = False)
+        name = item.name() + primitive
+        primitive_mesh = general.create_primitive(name=name, primitive=primitive, axis=axis)
+        pm.matchTransform(primitive_mesh, item, pos = True, rot = True, scale = False)
         output.append(primitive_mesh)
     pm.select(output, r=1)
     return output
+
+
+def primitive_at_select_verts(name='cube', primitive='cube', axis='y', radius = 1.0):
+    selection = pm.ls(sl=1, flatten = True)
+    new_object = general.primitive_on_vertices(selection, name = name, primitive = primitive, radius = 1.0)
+    pm.select(new_object, r=1)
+    return new_object
+
 
 def showPrimitiveWindow():
     name = 'primitiveWindow'

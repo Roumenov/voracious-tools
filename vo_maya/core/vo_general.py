@@ -255,7 +255,7 @@ def average_position(*target_list):
 def loc_average(objType = None, *target_list):
     loc_name = 'location_average_00'
     loc_position = average_position(*target_list)
-    loc_object = create_object(objName = loc_name, objType = 'locator', radius = 5.0)
+    loc_object = create_object(name = loc_name, objType = 'locator', radius = 5.0)
     pm.xform(loc_object, translation = loc_position)
     
     return
@@ -337,94 +337,117 @@ def multi_constrain(satellites = [], target = None, constraintType = 'parent', n
 #multi_constrain(satellites, target)
 
 
-#match pivot to target
-
-
 def match_pivot(source = None, target = None):
+    #TODO:      use as basis for rewrite of object_on_pivot?
     """
     Match one object's pivot to another object's pivot without moving either object.
     @param source:      Object whose pivot is going to be matched.
     @param target:      Object whose pivot is going to be changed.
     """
     pivot_value = [(pm.xform (source, q=1, ws=1, piv=1))[0], (pm.xform (source, q=1, ws=1, piv=1))[1], (pm.xform (source, q=1, ws=1, piv=1))[2]]
-    print ('source = '+ str(source))
-    print ('target = ' + str(target))
-    print(pivot_value)
     pm.xform (target, worldSpace = True, piv=(pivot_value))
 
 
+def create_primitive(name='', primitive='cube', axis='y'):
+    """
+    create primitive, just as exciting as it sounds!
+    @param primitive: takes 'cube', 'cylinder', 'capsule', 'sphere', 'plane', or 'torus'
+    @param axis: takes 'x', 'y', 'z', '-x', '-y', '-z'
+    """
+    axis_coordinates = {'x' : [1, 0, 0], 'y' : [0, 1, 0], 'z' : [0, 0, 1], '-x' : [-1, 0, 0], '-y' : [0, -1, 0], '-z' : [0, 0, -1]}
+    if primitive == 'cube':
+        primitive_mesh = pm.polyCube()
+    elif primitive == 'cylinder':
+        primitive_mesh = pm.polyCylinder(axis=axis_coordinates[axis], radius=1, height=2,
+            roundCap=False, subdivisionsX=12, subdivisionsY=1, subdivisionsZ=0)
+    elif primitive == 'capsule':
+        primitive_mesh = pm.polyCylinder(axis=axis_coordinates[axis], radius=1, height=2,
+            roundCap = True, subdivisionsX=12, subdivisionsY=4, subdivisionsZ=4)
+    elif primitive == 'sphere':
+        primitive_mesh = pm.polySphere(axis=axis_coordinates['-x'], radius = 1, subdivisionsX=12, subdivisionsY=8)
+    elif primitive == 'plane':
+        primitive_mesh = pm.polyPlane(axis=axis_coordinates[axis], height = 2.0, width = 2.0, subdivisionsX=1, subdivisionsY=1)
+    elif primitive == 'torus':
+        primitive_mesh = pm.polyTorus(axis=axis_coordinates[axis],
+            radius=1, sectionRadius=0.5, subdivisionsX=12, subdivisionsY=8)
+    elif primitive == 'cone':
+        primitive_mesh = pm.polyCone(axis=axis_coordinates[axis], radius=1, height=2,
+            roundCap=False, subdivisionsX=12, subdivisionsY=1, subdivisionsZ=0)
+    else:
+        primitive_mesh = pm.polyCube(height = 1, width=1, subdivisionsX=0, subdivisionsY=0, subdivisionsZ=0)
+    return primitive_mesh
 
 
-def create_object(objName = '', objType = '', radius = 1.0):
+def create_object(name = '', objType = '', radius = 1.0):
     """
     Create various basic objects. Default is group.
     @param objType: String input accepts, locator, group, sphereShape, cubeShape, coneShape, joint, circleCTL, squareCTL, boxCTL, sphereCTL, arrowX, arrowY, or arrowZ.
     """
     pm.select(clear = True)
     if objType == 'locator':
-        output = pm.spaceLocator(name = objName, relative = True)
+        output = pm.spaceLocator(name = name, relative = True)
         output.setAttr('localScaleX', radius) 
         output.setAttr('localScaleY', radius) 
         output.setAttr('localScaleZ', radius)
     elif objType == 'group':
-        output = pm.group(name = objName, world=True)
+        output = pm.group(name = name, world=True)
     elif objType == 'sphereShape':
-        #shape_name = objName + 'Shape'
-        output = pm.createNode('renderSphere') # name = objName
+        #shape_name = name + 'Shape'
+        output = pm.createNode('renderSphere') # name = name
         output.setAttr('radius', radius)
         output = output.listRelatives(parent = True)[0]
-        pm.rename(output, objName)
+        pm.rename(output, name)
     elif objType == 'cubeShape':
-        #shape_name = objName + 'Shape'
+        #shape_name = name + 'Shape'
         output = pm.createNode('renderBox')
         output.setAttr('sizeX', radius)
         output.setAttr('sizeY', radius)
         output.setAttr('sizeZ', radius)
         output = output.listRelatives(parent = True)[0] # can also use output.getParent()
-        pm.rename(output, objName)
+        pm.rename(output, name)
     elif objType == 'coneShape':
-        #shape_name = objName + 'Shape'
+        #shape_name = name + 'Shape'
         output = pm.createNode('renderCone')
         output.setAttr('coneAngle', radius*10)
         output = output.listRelatives(parent = True)[0]
-        pm.rename(output, objName)
+        pm.rename(output, name)
     elif objType == 'joint':
-        output = pm.joint(name = objName, radius = radius)
+        output = pm.joint(name = name, radius = radius)
     elif objType == 'circleCTL': ##----tries to parent shape instead of transform
-        output = pm.circle (ch = 1, name = objName, radius = radius, nrx = 1, nry = 0, nrz = 0)[0]
+        output = pm.circle (ch = 1, name = name, radius = radius, nrx = 1, nry = 0, nrz = 0)[0]
     elif objType == 'squareCTL':
-        output = pm.curve(name = objName, degree = 1, point = [(1,0,1), (-1,0,1), (-1,0,-1), (1,0,-1), (1,0,1)], knot =[0,1,2,3,4])[0]
+        output = pm.curve(name = name, degree = 1, point = [(1,0,1), (-1,0,1), (-1,0,-1), (1,0,-1), (1,0,1)], knot =[0,1,2,3,4])[0]
     elif objType == 'boxCTL':
         cornerPos = radius * 0.5
-        output = pm.curve(name = objName, degree = 1, point = [(-cornerPos, cornerPos, cornerPos),(cornerPos,cornerPos,cornerPos), (cornerPos,-cornerPos,cornerPos), (-cornerPos, -cornerPos,cornerPos), (-cornerPos,cornerPos,cornerPos), (-cornerPos, cornerPos, -cornerPos), (-cornerPos,-cornerPos,-cornerPos), (cornerPos,-cornerPos,-cornerPos), (cornerPos,-cornerPos,cornerPos),(cornerPos,cornerPos,cornerPos), (cornerPos,cornerPos,-cornerPos), (cornerPos, -cornerPos,-cornerPos), (cornerPos,cornerPos,-cornerPos), (-cornerPos,cornerPos,-cornerPos), (-cornerPos,-cornerPos,-cornerPos), (-cornerPos,-cornerPos,cornerPos)], knot =[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])[0]
+        output = pm.curve(name = name, degree = 1, point = [(-cornerPos, cornerPos, cornerPos),(cornerPos,cornerPos,cornerPos), (cornerPos,-cornerPos,cornerPos), (-cornerPos, -cornerPos,cornerPos), (-cornerPos,cornerPos,cornerPos), (-cornerPos, cornerPos, -cornerPos), (-cornerPos,-cornerPos,-cornerPos), (cornerPos,-cornerPos,-cornerPos), (cornerPos,-cornerPos,cornerPos),(cornerPos,cornerPos,cornerPos), (cornerPos,cornerPos,-cornerPos), (cornerPos, -cornerPos,-cornerPos), (cornerPos,cornerPos,-cornerPos), (-cornerPos,cornerPos,-cornerPos), (-cornerPos,-cornerPos,-cornerPos), (-cornerPos,-cornerPos,cornerPos)], knot =[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])[0]
     elif objType == 'sphereCTL':
-        output = pm.circle (ch = 1, name = objName, radius = radius, nrx = 1, nry = 0, nrz = 0)[0]
-        pm.circle (ch = 1, name = objName + 'subRingY', radius = radius, nrx = 0, nry = 1, nrz = 0)
-        pm.circle (ch = 1, name = objName + 'subRingZ', radius = radius, nrx = 0, nry = 0, nrz = 1)
+        output = pm.circle (ch = 1, name = name, radius = radius, nrx = 1, nry = 0, nrz = 0)[0]
+        pm.circle (ch = 1, name = name + 'subRingY', radius = radius, nrx = 0, nry = 1, nrz = 0)
+        pm.circle (ch = 1, name = name + 'subRingZ', radius = radius, nrx = 0, nry = 0, nrz = 1)
         pm.select(clear = True)
-        pm.select(objName + 'subRingYShape', objName + 'subRingZShape', output)
+        pm.select(name + 'subRingYShape', name + 'subRingZShape', output)
         pm.parent(relative=True,shape=True)
     elif objType == 'arrowX':
-        output = pm.curve(name = objName + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
+        output = pm.curve(name = name + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
         pm.xform(output, relative = True, scale = (radius,radius,radius))
         pm.xform(output, relative = True, rotation = (0,90,0))
         pm.makeIdentity(output, apply = True)
     elif objType == 'arrowY':
-        output = pm.curve(name = objName + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
+        output = pm.curve(name = name + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
         pm.xform(output, relative = True, scale = (radius,radius,radius))
         pm.xform(output, relative = True, rotation = (-90,0,0))
         pm.makeIdentity(output, apply = True)
     elif objType == 'arrowZ':
-        output = pm.curve(name = objName + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
+        output = pm.curve(name = name + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
         pm.xform(output, relative = True, scale = (radius,radius,radius))
         pm.makeIdentity(output, apply = True)
     else:
-        output = pm.group(name = objName, world=True)
+        output = pm.group(name = name, world=True)
         #need to expound on this later....
     pm.addAttr(output, longName = 'metaParent', attributeType = 'message')
     return output
 
-#create_object(objName = 'test_LOC', objType = 'locator', radius = 1.0)
+#create_object(name = 'test_LOC', objType = 'locator', radius = 1.0)
 
 # nest_transform()
 #PURPOSE
@@ -454,7 +477,7 @@ def nest_transform(name, action, target = None, transformObj = 'locator', transf
         transformName = name
     else:
         transformName = target_name + '_nest'
-    nested_transform = create_object(objName = transformName, objType = transformObj, radius = transformRadius)
+    nested_transform = create_object(name = transformName, objType = transformObj, radius = transformRadius)
     pm.matchTransform(nested_transform, target)
     if action == 'parent':
         transform_parent = target.getParent()
@@ -517,18 +540,31 @@ def joint_on_vertex():
     pm.delete(center_cluster)
     return vertex_joint
 
-def create_on_vertex(vertices, objName = '', objType = '', radius = 1.0):
+def object_on_vertices(vertices, name = '', objType = '', radius = 1.0):
     """Make cluster on vertex list and replace with given object type.
     @param vertices: flat list of vertices
     """
     center_cluster = pm.cluster(vertices)
-    new_object = create_object(objName = objName, objType = objType, radius = radius)
+    new_object = create_object(name = name, objType = objType, radius = radius)
     pm.matchTransform(new_object, center_cluster, scale = False)
     pm.delete(center_cluster)
     return new_object
-#object_on_vertex(objName = 'test_joint', objType = 'joint', radius = 1.0)
+#object_on_vertex(name = 'test_joint', objType = 'joint', radius = 1.0)
+
+
+def primitive_on_vertices(vertices, name = '', primitive = 'cube', axis='y', radius = 1.0):
+    """Make cluster on vertex list and replace with given primitive type.
+    @param vertices: flat list of vertices
+    """
+    center_cluster = pm.cluster(vertices)
+    new_primitive = create_primitive(name=name, axis=axis, primitive=primitive)
+    pm.matchTransform(new_primitive, center_cluster, scale = False)
+    pm.delete(center_cluster)
+    return new_primitive
+
 
 def object_on_pivot(objType = 'joint'):
+    #TODO:      check functionality and udpate to support object function
 	"""
 	Create a bone from the customPivot context
 	In component mode of a mesh:
@@ -735,7 +771,7 @@ def obj_on_curve(curve, count, obj_type, start_transform = True,end_transform = 
         print u_value
         #create object
         current_name = 'curvejoint_' + str(index)
-        current_object = create_object(objName = current_name, objType = obj_type, radius = 1.0)
+        current_object = create_object(name = current_name, objType = obj_type, radius = 1.0)
         motion_path = pm.pathAnimation(curve,current_object, fractionMode = True, follow = True, followAxis = 'z', upAxis = 'y', worldUpType = 'vector', worldUpVector = (0,1,0), inverseUp = False, inverseFront = False, bank = False, startTimeU = u_value)
     return motion_path
 #transform_count = int(prompt_string())
@@ -778,7 +814,7 @@ def aim_object(aimer, target, axis = '+x'): ##---- update to make locator, use t
         pass
     skip_val = 'x' # used to read letter value "axis[1]"
     proxy_name = str(aimer)+'_aimer'
-    aim_proxy = create_object(objName = proxy_name, objType = 'locator')
+    aim_proxy = create_object(name = proxy_name, objType = 'locator')
     pm.matchTransform(aim_proxy, aimer)
     aim_constraint = pm.aimConstraint(target,aim_proxy, aimVector = aimer_vector, worldUpType = 'scene', skip = skip_val)
     pm.delete(aim_constraint)
