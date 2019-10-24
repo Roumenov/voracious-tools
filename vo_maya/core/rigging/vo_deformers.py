@@ -6,6 +6,45 @@
 
 import maya.cmds as cmds
 import maya.mel as mel
+import pymel.core as pm
+
+
+def get_blendShape(target):
+    """Get blendshape of target."""
+    if (pm.nodeType(target.getShape()) in ["mesh", "nurbsSurface", "nurbsCurve"]):
+        blendShape = pm.listHistory(target, type="blendShape")[0]
+    else:
+        pm.warning("target doesn't appear to be a mesh, nurbsSurface, or nurbsCurve")
+    return blendShape 
+
+def add_blendShape(new_shape, blend_mesh):
+    """
+    Add blendshape target to mesh with existing blendShape deformer
+
+    Parameters
+    ----------
+    new_shape : mesh, nurbsSurface, nurbsCurve
+    blend_mesh : mesh, nurbsSurface, nurbsCurve
+
+    """
+    #pm.select(blend_mesh)
+    blendShape_node = get_blendShape(blend_mesh)
+    new_index = blendShape_node.numWeights()
+    print(new_index)
+    try:
+        pm.blendShape(blendShape_node, edit=True, target=(blend_mesh, new_index, new_shape, 1.0))
+    except:
+        pm.warning('not working')
+    return
+
+
+####====    USAGE   ====####
+
+#first selected is the new shape, second is the target mesh with a blendshape to add to
+#new_shape, blend_mesh = pm.ls(sl=1)[0:2]
+#add_blendShape(new_shape, blend_mesh)
+
+
 
 
 #TODO:     look into using OpenMaya and pymel to see if these operations can be sped up
