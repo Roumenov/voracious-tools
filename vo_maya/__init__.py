@@ -65,7 +65,7 @@ def launch_sequence():
 #utils.executeDeferred("import pathSetup;pathSetup.test_func()")
 
 
-####utils.executeDeferred(launch_sequence())
+utils.executeDeferred(launch_sequence())
 
 #launch_sequence()
 
