@@ -15,6 +15,7 @@ def get_blendShape(target):
         blendShape = pm.listHistory(target, type="blendShape")[0]
     else:
         pm.warning("target doesn't appear to be a mesh, nurbsSurface, or nurbsCurve")
+        return False
     return blendShape 
 
 def add_blendShape(new_shape, blend_mesh):
@@ -45,6 +46,16 @@ def add_blendShape(new_shape, blend_mesh):
 #add_blendShape(new_shape, blend_mesh)
 
 
+#PURPOSE            check if given joint is skinned
+#PROCEDURE            cycle through connections and find skinCluster nodes
+#PRESUMPTIONS        arg is a single object of type joint
+#TODO       looks like something that belongs in rigging.vo_deformers
+def check_skincluster(jointObject):
+    for node in jointObject.connections():
+        if node.nodeType() == 'skinCluster':
+            return True
+        else:
+            return False
 
 
 #TODO:     look into using OpenMaya and pymel to see if these operations can be sped up

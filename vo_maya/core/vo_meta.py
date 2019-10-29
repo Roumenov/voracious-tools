@@ -39,6 +39,11 @@ def meta_tag(target, tag='', type = 'string'):#TODO:    deprecate this and repla
         return tag"""
 
 
+def tag_blend_meshes(meshes):
+    
+    return
+
+
 def meta_make_child(source, *target_list):
     #TODO:      replace with r9 method
     """Make all objects in target_list the meta children of source object."""

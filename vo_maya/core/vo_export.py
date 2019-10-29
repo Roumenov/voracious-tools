@@ -7,23 +7,19 @@
 
 import pymel.core as pm
 import maya.cmds as cmds
+import rigging.vo_deformers as deformers
 import sys
 import inspect
 
 
 
-#PURPOSE            check if given joint is skinned
-#PROCEDURE            cycle through connections and find skinCluster nodes
-#PRESUMPTIONS        arg is a single object of type joint
-#TODO       looks like something that belongs in rigging.vo_deformers
-def check_skincluster(jointObject):
-    for node in jointObject.connections():
-        if node.nodeType() == 'skinCluster':
-            return True
-        else:
-            return False
 
 
+
+def get_rig_blendshapes(rig):
+    #step 1:        get list of meshes in rig
+    get_blendShape(target)
+    return
 
 
 #declaring initial variables
@@ -190,11 +186,28 @@ def export_prop(param):
         export_path = get_export_path()
         print(export_path)
         muffins = pm.ls('*.jointSkin', objectsOnly = True)
+        muffins = pm.ls('*.jointSkin', objectsOnly = True)
         bake_animation(muffins)
         pm.delete(pm.ls('*.noExport', objectsOnly = True))
         print('deleted crap')
         pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
         cmds.file(export_path, exportSelected=True, type="FBX export")
+        return
+    elif param == 'skel':
+        import_references()
+        print('refs imported')
+        export_path = get_export_path()
+        print(export_path)
+        muffins = pm.ls('*.jointSkin', objectsOnly = True)
+        bake_animation(muffins)
+        pm.delete(pm.ls('*.noExport', objectsOnly = True))
+        print('deleted crap')
+        pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
+        cmds.file(export_path, exportSelected=True, type="FBX export")
+        return
+    else:
+
+        return
 
 
 
