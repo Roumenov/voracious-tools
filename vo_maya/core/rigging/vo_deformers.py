@@ -16,7 +16,7 @@ def get_blendShape(target):
     else:
         pm.warning("target doesn't appear to be a mesh, nurbsSurface, or nurbsCurve")
         return False
-    return blendShape 
+    return blendShape
 
 def add_blendShape(new_shape, blend_mesh):
     """
@@ -26,12 +26,10 @@ def add_blendShape(new_shape, blend_mesh):
     ----------
     new_shape : mesh, nurbsSurface, nurbsCurve
     blend_mesh : mesh, nurbsSurface, nurbsCurve
-
     """
-    #pm.select(blend_mesh)
     blendShape_node = get_blendShape(blend_mesh)
     new_index = blendShape_node.numWeights()
-    print(new_index)
+    #print(new_index)
     try:
         pm.blendShape(blendShape_node, edit=True, target=(blend_mesh, new_index, new_shape, 1.0))
     except:
@@ -44,6 +42,11 @@ def add_blendShape(new_shape, blend_mesh):
 #first selected is the new shape, second is the target mesh with a blendshape to add to
 #new_shape, blend_mesh = pm.ls(sl=1)[0:2]
 #add_blendShape(new_shape, blend_mesh)
+
+
+def param_copy_blendWeight():
+    """proc for making connection attrs for blendShape's weight params"""
+    return
 
 
 #PURPOSE            check if given joint is skinned

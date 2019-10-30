@@ -12,20 +12,33 @@ import sys
 import inspect
 
 
+def publish_rig(rig):
+    """"Save rig binary file in rigs folder
+    """
+    # step 0:   save rig binary
+    # step 1:   delete animation
+    # step 2:   zero rig
+    # step 3:   check children of root nodes for tags
+    # step 4:   check for metaRig
+    # step 5:   update json
+    return
 
 
 
-
-def get_rig_blendshapes(rig):
+def get_rig_blend_meshes(rig):#thois is superfluous since we're using attrs on joints instead of baking blendshape animation
     #step 1:        get list of meshes in rig
-    get_blendShape(target)
+    meshes = rig.getMeshes()
+    #get blend
+
+    deformers.get_blendShape(target)
     return
 
 
 #declaring initial variables
 #global playStartTime
 #global playEndTime
-#TODO     this really seems like it should be a more generic function in vo_general with a standard set of paths
+#TODO     this really seems like it should be a more generic function in vo_general with a standard set of potionomics paths
+#TODO:      make 
 def get_export_path():
     #global outputFile
     initial_path = cmds.file(query=True, l=True)[0].replace('.ma','.fbx')
@@ -45,8 +58,19 @@ def get_export_path():
 #print(get_export_path())
 
 
+
+#PURPOSE            get reference of a maya node
+#PROCEDURE          if object is referenced, return reference node
+#PRESUMPTION        ???     target is a dag object      ???
+def get_reference(target):#TODO:    test in maya
+    if cmds.referenceQuery(target, isNodeReferenced = True):
+        reference = cmds.referenceQuery(target, referenceNode = True)
+    else:
+        pm.warning('target is not referenced')
+    return reference
+
 #PURPOSE            import all referenced scenes
-#PROCEDURE          list pymel references, looop 
+#PROCEDURE          loop over list of all references in scene and import if it's loaded
 #PRESUMPTION        references are only one reference deep, and right now we really only have one
 def import_references():
     done = False
@@ -109,14 +133,14 @@ def remove_prefix(prefix):
             print "no prefix"
 
 
-def bake_animation(bakeList):#changed to list input
+def bake_animation(targets, sampling = 1):#changed to list input
     #pm.select(bakeTarget)
     #set timeline
     playStartTime = int(pm.playbackOptions(query = True, minTime = True))
     playEndTime = int(pm.playbackOptions(query = True, maxTime = True))
     #Bake Animation
-    #for target in bakeList:
-    pm.bakeResults(bakeList, simulation = 1, sampleBy = 1, pok = 1, sac = 0, time = (playStartTime, playEndTime))
+    #for target in targets:
+    pm.bakeResults(targets, simulation = 1, sampleBy = sampling, pok = 1, sac = 0, time = (playStartTime, playEndTime))
 
 
 #def fileExport(arg):
@@ -132,11 +156,25 @@ def bake_animation(bakeList):#changed to list input
 #
 ####====                    ========                    ====####
 
-def export_skeletal_mesh(target):
+def export_skeletal_mesh(rig):
     """
-    @param target:  target is mClass MetaRig
+    @param rig:  rig is mClass MetaRig object or network node
     """
-    #skinned_mesh = combine_skinMeshes(target.skinMeshes)
+    
+    if rig.type == 'mClass':
+        return
+    elif rig.type == 'network':
+        return
+    else:
+        pm.warning('reference is neither mClass or network node')
+
+
+    #delete rig controls and setup structure
+
+    #get skin meshes
+
+    #combine skinned meshes
+    #skinned_mesh = combine_skinMeshes(rig.skinMeshes)
     #reparent skinned_mesh
 
 
@@ -167,8 +205,17 @@ def export_character(param):
         pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
         cmds.file(export_path, exportSelected=True, type="FBX export")
         #try mixing this up
-    elif param == 'manual':
-        pass
+    elif param == 'animation':
+        import_references()
+        export_path = get_export_path()
+        pm.delete(pm.ls('*.skinMesh', objectsOnly = True))
+        pm.delete(pm.ls('*.blendMesh', objectsOnly = True))
+        #muffins = pm.ls('*.jointSkin', objectsOnly = True)
+        bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
+        pm.delete(pm.ls('*.noExport', objectsOnly = True))
+        pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
+        cmds.file(export_path, exportSelected=True, type="FBX export")
+        return
     else:
         pm.warning('no rig selected')
 
@@ -185,7 +232,7 @@ def export_prop(param):
         print('refs imported')
         export_path = get_export_path()
         print(export_path)
-        muffins = pm.ls('*.jointSkin', objectsOnly = True)
+        #muffins = pm.ls('*.jointSkin', objectsOnly = True)
         muffins = pm.ls('*.jointSkin', objectsOnly = True)
         bake_animation(muffins)
         pm.delete(pm.ls('*.noExport', objectsOnly = True))
