@@ -1,6 +1,6 @@
 
-import vo_controls
-import vo_ribbons
+#import vo_controls
+#import vo_ribbons
 
 """
 
