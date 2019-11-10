@@ -1,0 +1,1289 @@
+global proc shelf_CHAR_ANIM () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Set Char" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Set Char" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_setchar.bmp" 
+        -image1 "char_anim_icons/i_setchar.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "/// SET CHAR\n\nif ($autochar==0)\n{\nif (`headsUpDisplay -ex HUDActiveChar`)\n{\nheadsUpDisplay -rem HUDActiveChar;\n}\n\n\nheadsUpDisplay \t-section 2\n\t\t\t-block 0\n\t\t\t-blockSize \"large\"\n\t\t\t-label \"char:\"\n\t\t\t-labelFontSize \"small\"\n\t\t\t-command \"setChar()\"\n\t\t\t-event \"PreFileNewOrOpened\"\n\t\t\tHUDActiveChar;\n}\n\nglobal proc string setChar()\n{\nglobal string $char;\nglobal string $ext[];\nglobal string $namespc[];\nglobal string $selection[];\n\n$selection = `ls -sl`;\nif (size($selection) && `attributeExists \"tag\" $selection[0]`)\n{\n$namespc =  stringToStringArray($selection[0], \":\");\nif (size($namespc)==1)\n{\n$ext = stringToStringArray($namespc[0], \"_\");\t\n$char = $ext[0];\n}\nelse\n{\n$ext = stringToStringArray($namespc[1], \"_\");\t\n$char = stringArrayToString ({$namespc[0],$ext[0]}, \":\");\n}\n}\nreturn $char;\n}\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Auto Char" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Auto Char" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_autochar.bmp" 
+        -image1 "char_anim_icons/i_autochar.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "///// TOGGLE AUTO-CHAR\n\nif (`headsUpDisplay -ex HUDActiveChar`)\n{\nheadsUpDisplay -rem HUDActiveChar;\n}\n\n\nglobal float $autochar;\nglobal string $autois;\nif ($autochar)\n{\n$autochar = 0;\nstring $autois = \"off\";\nheadsUpDisplay -rem HUDautoChar;\nheadsUpDisplay \t-section 2\n\t\t\t-block 0\n\t\t\t-blockSize \"large\"\n\t\t\t-label \"char:\"\n\t\t\t-labelFontSize \"small\"\n\t\t\t-command \"setChar()\"\n\t\t\t-event  \"PreFileNewOrOpened\"\n\t\t\tHUDActiveChar;\n\n}\nelse\n{\n\nif (`headsUpDisplay -ex HUDActiveChar`)\n{\nheadsUpDisplay -rem HUDActiveChar;\n}\nif (`headsUpDisplay -ex HUDautoChar`)\n{\nheadsUpDisplay -rem HUDautoChar;\n}\n\nif (`headsUpDisplay -ex HUDActiveChar`)\n{\nheadsUpDisplay -rem HUDActiveChar;\n}\n\nheadsUpDisplay \t-section 1\n\t\t\t-block 0\n\t\t\t-blockSize \"large\"\n\t\t\t-label \"auto char is\"\n\t\t\t-labelFontSize \"small\"\n\t\t\t-command \"autoChar()\"\n\t\t\t-event  \"PreFileNewOrOpened\"\n\t\t\tHUDautoChar;\n\nheadsUpDisplay \t-section 2\n\t\t\t-block 0\n\t\t\t-blockSize \"large\"\n\t\t\t-label \"char:\"\n\t\t\t-labelFontSize \"small\"\n\t\t\t-command \"setChar()\"\n\t\t\t-event  \"SelectionChanged\"\n               \t-nodeChanges  \"attributeChange\"\n\t\t\tHUDActiveChar;\n\n}\n\n\n\nglobal proc string setChar()\n{\nglobal string $char;\nglobal string $ext[];\nglobal string $namespc[];\nglobal string $selection[];\n\n$selection = `ls -sl`;\nif (size($selection) && `attributeExists \"tag\" $selection[0]`)\n{\n$namespc =  stringToStringArray($selection[0], \":\");\nif (size($namespc)==1)\n{\n$ext = stringToStringArray($namespc[0], \"_\");\t\n$char = $ext[0];\n}\nelse\n{\n$ext = stringToStringArray($namespc[1], \"_\");\t\n$char = stringArrayToString ({$namespc[0],$ext[0]}, \":\");\n}\n\n}\nreturn $char;\n}\n\nglobal proc string autoChar()\n{\nglobal float $autochar;\nglobal string $autois;\n$autochar = 1;\nstring $autois = \"on\";\nreturn $autois;\n}\n\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select body controls" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Select body controls" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -imageOverlayLabel " " 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_select_body.bmp" 
+        -image1 "char_anim_icons/i_select_body.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select body controls\n\nif (`getModifiers`!=1)\n{\nselect -cl;\n}\n\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\nstring $tag = `getAttr ($obj + \".tag\")`;\n$item = stringToStringArray($tag, \"#\");\t\n\nif ($item[1] == \"sel_body\")\n{\nselect -add $obj;\n}\n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select face controls" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Select face controls" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_select_face.bmp" 
+        -image1 "char_anim_icons/i_select_face.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select face controls\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_face\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Select ALL" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Select ALL" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_select_all.bmp" 
+        -image1 "char_anim_icons/i_select_all.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select body controls\n\nif (`getModifiers`!=1)\n{\nselect -cl;\n}\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$item = stringToStringArray($tag, \"#\");\t\n\nif ($item[1] == \"sel_body\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_hair\" || $item[1] == \"sel_hair_A\" || $item[1] == \"sel_hair_B\"|| $item[1] == \"sel_hair_C\"|| $item[1] == \"sel_hair_D\"|| $item[1] == \"sel_hair_E\"|| $item[1] == \"sel_hair_F\"|| $item[1] == \"sel_hair_G\"|| $item[1] == \"sel_hair_H\"|| $item[1] == \"sel_hair_I\")\n{\nselect -add $obj;\n}\n\nif ($item[1] == \"sel_face\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_tail\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_rtfinger\")\n{\nselect -add $obj;\n}\n\nif ($item[1] == \"sel_rtthumb\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_rtindex\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_rtmiddle\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_rtring\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_rtpinkey\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_lffinger\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_lfthumb\")\n{\nselect -add $obj;\n}\n\nif ($item[1] == \"sel_lfindex\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_lfmiddle\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_lfring\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_lfpinkey\")\n{\nselect -add $obj;\n}\nif ($item[1] == \"sel_cloth\")\n{\nselect -add $obj;\n}\n\n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select rt fingers" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select rt fingers" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_select_right_fingers.bmp" 
+        -image1 "char_anim_icons/i_select_right_fingers.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select rt fingers\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_rtfinger\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_rtthumb\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_rtindex\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_rtmiddle\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_rtring\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_rtpinkey\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select lf fingers" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select lf fingers" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_select_left_fingers.bmp" 
+        -image1 "char_anim_icons/i_select_left_fingers.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select lf fingers\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_lffinger\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_lfthumb\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_lfindex\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_lfmiddle\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_lfring\")\r\n{\r\nselect -add $obj;\r\n}\r\nif ($item[1] == \"sel_lfpinkey\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select rt thumb" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select rt thumb" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_select_right_thumb.bmp" 
+        -image1 "char_anim_icons/i_select_right_thumb.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select rt thumb\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_rtthumb\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select rt index" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select rt index" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_select_right_index.bmp" 
+        -image1 "char_anim_icons/i_select_right_index.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select rt index\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_rtindex\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select rt middle" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select rt middle" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_select_right_middle.bmp" 
+        -image1 "char_anim_icons/i_select_right_middle.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select rt middle\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_rtmiddle\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select rt ring" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select rt ring" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_select_right_ring.bmp" 
+        -image1 "char_anim_icons/i_select_right_ring.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select rt ring\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_rtring\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select rt pinkey" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select rt pinkey" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_select_right_pinkey.bmp" 
+        -image1 "char_anim_icons/i_select_right_pinkey.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select rt pinkey\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_rtpinkey\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select lf thumb" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select lf thumb" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_thumb.png" 
+        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_thumb.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select lf thumb\r\n\r\nif (`getModifiers`!=1)\r\n{\r\nselect -cl;\r\n}\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$item = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($item[1] == \"sel_lfthumb\")\r\n{\r\nselect -add $obj;\r\n}\r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select lf index" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select lf index" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.75 0.75 0.75 
+        -overlayLabelBackColor 0 0 0 0.1 
+        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_pointer.png" 
+        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_pointer.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select lf index\n\nif (`getModifiers`!=1)\n{\nselect -cl;\n}\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$item = stringToStringArray($tag, \"#\");\t\n\nif ($item[1] == \"sel_lfindex\")\n{\nselect -add $obj;\n}\n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select lf middle" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select lf middle" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_middle.png" 
+        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_middle.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select lf middle\n\nif (`getModifiers`!=1)\n{\nselect -cl;\n}\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$item = stringToStringArray($tag, \"#\");\t\n\nif ($item[1] == \"sel_lfmiddle\")\n{\nselect -add $obj;\n}\n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select lf ring" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select lf ring" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_ring.png" 
+        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_ring.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select lf ring\n\nif (`getModifiers`!=1)\n{\nselect -cl;\n}\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$item = stringToStringArray($tag, \"#\");\t\n\nif ($item[1] == \"sel_lfring\")\n{\nselect -add $obj;\n}\n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select lf pinkey" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select lf pinkey" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_pinky.png" 
+        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/char_anim_icons/L_pinky.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select lf pinkey\n\nif (`getModifiers`!=1)\n{\nselect -cl;\n}\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$item = stringToStringArray($tag, \"#\");\t\n\nif ($item[1] == \"sel_lfpinkey\")\n{\nselect -add $obj;\n}\n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "select hair" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "select hair" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_select_hair.bmp" 
+        -image1 "char_anim_icons/i_select_hair.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select hair controls\nif (`getModifiers`!=1)\n{\nselect -cl;\n}\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$item = stringToStringArray($tag, \"#\");\t\n\nif ($item[1] == \"sel_hair\")\n{\nselect -add $obj;\n}\n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "User-defined MEL command" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Key SELECTED" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_key_SEL.bmp" 
+        -image1 "char_anim_icons/i_key_SEL.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "/// KEY SELECTED\n\nsetKeyframe;\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Key ALL" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Key ALL" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_key_all.bmp" 
+        -image1 "char_anim_icons/i_key_all.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// KEY ALL\n\nif (`getModifiers`!=1)\n{\nselect -cl;\n}\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$item = stringToStringArray($tag, \"#\");\t\n\nif ($item[1] == \"sel_body\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}\n\t}\nif ($item[1] == \"sel_hair\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}\n\t}\n\nif ($item[1] == \"sel_face\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_sculpt\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_rtfinger\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\n\nif ($item[1] == \"sel_rtthumb\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_rtindex\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_rtmiddle\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_rtring\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_rtpinkey\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_lffinger\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_lfthumb\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\n\nif ($item[1] == \"sel_lfindex\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_lfmiddle\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_lfring\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_lfpinkey\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\nif ($item[1] == \"sel_cloth\")\n{\nfor ($i = 4; $i<(size($item)); $i=$i+2)\n\t{\n\tsetKeyframe ($obj + \".\" + $item[$i]);\n\t}}\n\n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "User-defined MEL command" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Reset SELECTED" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_reset_sel.bmp" 
+        -image1 "char_anim_icons/i_reset_sel.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "/// reset selected\n\ncycleCheck -e off;\nstring $objs[] = `ls -sl`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$items = stringToStringArray($tag, \"#\");\t\n\n\n\tfor ($i = 4; $i<(size($items)); $i=$i+2)\n\t{\n\tfloat $val =  $items[$i+1];\n\tsetAttr ($obj + \".\" + $items[$i]) $val;\n\t}\n \n}\n}\ncycleCheck -e on;" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "User-defined MEL command" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Reset face" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_reset_face.bmp" 
+        -image1 "char_anim_icons/i_reset_face.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "/// reset face controls\n\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$items = stringToStringArray($tag, \"#\");\t\n\nif ($items[1] == \"sel_face\")\n{\n\tfor ($i = 4; $i<(size($items)); $i=$i+2)\n\t{\n\tfloat $val =  $items[$i+1];\n\tsetAttr ($obj + \".\" + $items[$i]) $val;\n\t}\n} \n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Reset all controls" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Reset all controls" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_reset_all.bmp" 
+        -image1 "char_anim_icons/i_reset_all.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// select ALL controls\ncycleCheck -e off;\nselect -cl;\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$items = stringToStringArray($tag, \"#\");\t\n\n\nfor ($i = 4; $i<(size($items)); $i=$i+2)\n\t{\n\tfloat $val =  $items[$i+1];\n\tsetAttr ($obj + \".\" + $items[$i]) $val;\n\t}\n}\n}\ncycleCheck -e on;\n\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Face rig on/off" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Face on/off" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_face_onoff.bmp" 
+        -image1 "char_anim_icons/i_face_onoff.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "\n////// toggle face rig connections\n\n$state = `getAttr ($char + \"_settings.face_rig\")`;\nsetAttr ($char + \"_settings.face_rig\") (`abs ($state - 1)`);\n\n////// toggle face controls visibility \n\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$vis = stringToStringArray($tag, \"#\");\t\n\nif ($vis[3] == \"vis_face\")\n{\n$state = `getAttr ($obj + \".visibility\")`;\nsetAttr ($obj + \".visibility\") (`abs ($state - 1)`);\n} \n}\n}\n\n\n\t\t\t\n\n\t\t\t\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Body controls visibility" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Body controls visibility" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_show_body.bmp" 
+        -image1 "char_anim_icons/i_show_body.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// toggle body controls visibility \r\n\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$vis = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($vis[3] == \"vis_body\")\r\n{\r\n$state = `getAttr ($obj + \".visibility\")`;\r\nsetAttr ($obj + \".visibility\") (`abs ($state - 1)`);\r\n} \r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Head controls visibility" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Head controls visibility" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_show_head.bmp" 
+        -image1 "char_anim_icons/i_show_head.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// toggle head controls visibility \r\n\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$vis = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($vis[3] == \"vis_head\")\r\n{\r\n$state = `getAttr ($obj + \".visibility\")`;\r\nsetAttr ($obj + \".visibility\") (`abs ($state - 1)`);\r\n} \r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Face controls visibility" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Face controls visibility" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_show_face.bmp" 
+        -image1 "char_anim_icons/i_show_face.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// toggle face controls visibility \n\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$vis = stringToStringArray($tag, \"#\");\t\n\nif ($vis[3] == \"vis_face\")\n{\n$state = `getAttr ($obj + \".visibility\")`;\nsetAttr ($obj + \".visibility\") (`abs ($state - 1)`);\n} \n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Fingers controls visibility" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Fingers controls visibility" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.25 
+        -image "char_anim_icons/i_show_fingers.bmp" 
+        -image1 "char_anim_icons/i_show_fingers.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// toggle fingers controls visibility \r\n\r\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\r\n\r\nfor ($obj in $objs)\r\n{\r\nif (`attributeQuery -node $obj -ex \"tag\"`)\r\n{\r\n\r\nstring $tag = `getAttr ($obj + \".tag\")`;\r\n$vis = stringToStringArray($tag, \"#\");\t\r\n\r\nif ($vis[3] == \"vis_finger\")\r\n{\r\n$state = `getAttr ($obj + \".visibility\")`;\r\nsetAttr ($obj + \".visibility\") (`abs ($state - 1)`);\r\n} \r\n}\r\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Deformers visibility" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Deformers visibility" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_show_deformers.bmp" 
+        -image1 "char_anim_icons/i_show_deformers.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// toggle deformer controls visibility \n\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$vis = stringToStringArray($tag, \"#\");\t\n\nif ($vis[3] == \"vis_def\")\n{\n$state = `getAttr ($obj + \".visibility\")`;\nsetAttr ($obj + \".visibility\") (`abs ($state - 1)`);\n} \n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Hair controls visibility" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Hair controls visibility" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_show_hair.bmp" 
+        -image1 "char_anim_icons/i_show_hair.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "////// toggle hair controls visibility \n\nstring $objs[] = `listRelatives -ad -type \"transform\" $char`;\n\nfor ($obj in $objs)\n{\nif (`attributeQuery -node $obj -ex \"tag\"`)\n{\n\nstring $tag = `getAttr ($obj + \".tag\")`;\n$vis = stringToStringArray($tag, \"#\");\t\n\nif ($vis[3] == \"vis_hair\")\n{\n$state = `getAttr ($obj + \".visibility\")`;\nsetAttr ($obj + \".visibility\") (`abs ($state - 1)`);\n} \n}\n}" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Left arm ikfk switch" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Left arm ikfk switch" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_lf_arm_ikfk.bmp" 
+        -image1 "char_anim_icons/i_lf_arm_ikfk.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "$state = `getAttr ($char + \"_ac_lf_arm_settings.ik_arm\")`;\n\nif ($state == 1)\n{\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_shoulderFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_shoulderFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_elbowFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_elbowFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_handFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_handFK\");\n\nfloat $uparm_stretch = `getAttr ($char + \"_sk_lf_shoulder1.scaleX\")`;\nfloat $forearm_stretch = `getAttr ($char + \"_sk_lf_elbow1.scaleX\")`;\n\nsetAttr ($char + \"_ac_lf_shoulderFK.stretch\") $uparm_stretch;\nsetAttr ($char + \"_ac_lf_elbowFK.stretch\") $forearm_stretch;\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_lf_elbowIK\")`;\nsetAttr  ($char + \"_ac_lf_arm_settings.ik_arm\") 0;\nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_lf_elbowIK\");\n\n}\n\nelse\n\n{\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_lf_handIK_dup\")`;\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_handIK_dup\")`; \nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_lf_handIK\");\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_handIK\");\n\nfloat $uparm_stretch = `getAttr ($char + \"_sk_lf_shoulder.scaleX\")`;\nfloat $forearm_stretch = `getAttr ($char + \"_sk_lf_elbow.scaleX\")`;\n\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_lf_armPole_dup\")`;\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_armPole_dup\")`; \nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_lf_armPole\");\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_armPole\");\n\nsetAttr ($char + \"_ac_lf_armPole.pin_elbow\") 0;\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_lf_elbowFK\")`;\n\nsetAttr  ($char + \"_ac_lf_arm_settings.ik_arm\") 1;\nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_lf_elbowIK\");\n\n}\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Right arm ikfk switch" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Right arm ikfk switch" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_rt_arm_ikfk.bmp" 
+        -image1 "char_anim_icons/i_rt_arm_ikfk.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "$state = `getAttr ($char + \"_ac_rt_arm_settings.ik_arm\")`;\n\nif ($state == 1)\n{\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_shoulderFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_shoulderFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_elbowFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_elbowFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_handFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_handFK\");\n\nfloat $uparm_stretch = `getAttr ($char + \"_sk_rt_shoulder1.scaleX\")`;\nfloat $forearm_stretch = `getAttr ($char + \"_sk_rt_elbow1.scaleX\")`;\n\nsetAttr ($char + \"_ac_rt_shoulderFK.stretch\") $uparm_stretch;\nsetAttr ($char + \"_ac_rt_elbowFK.stretch\") $forearm_stretch;\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_rt_elbowIK\")`;\nsetAttr  ($char + \"_ac_rt_arm_settings.ik_arm\") 0;\nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_rt_elbowIK\");\n}\n\nelse\n\n{\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_rt_handIK_dup\")`;\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_handIK_dup\")`; \nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_rt_handIK\");\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_handIK\");\n\nfloat $uparm_stretch = `getAttr ($char + \"_sk_rt_shoulder.scaleX\")`;\nfloat $forearm_stretch = `getAttr ($char + \"_sk_rt_elbow.scaleX\")`;\n\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_rt_armPole_dup\")`;\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_armPole_dup\")`; \nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_rt_armPole\");\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_armPole\");\n\nsetAttr ($char + \"_ac_rt_armPole.pin_elbow\") 0;\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_rt_elbowFK\")`;\n\nsetAttr  ($char + \"_ac_rt_arm_settings.ik_arm\") 1;\nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_rt_elbowIK\");\n\n}\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Left leg ikfk switch" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Left leg ikfk switch" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_lf_leg_ikfk.bmp" 
+        -image1 "char_anim_icons/i_lf_leg_ikfk.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "$state = `getAttr ($char + \"_ac_lf_leg_settings.ik_leg\")`;\n\nif ($state == 1)\n{\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_hipFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_hipFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_kneeFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_kneeFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_footFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_footFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_toe\")`; \n\nfloat $upleg_stretch = `getAttr ($char + \"_sk_lf_hip1.scaleX\")`;\nfloat $lowleg_stretch = `getAttr ($char + \"_sk_lf_knee1.scaleX\")`;\n\nsetAttr ($char + \"_ac_lf_hipFK.stretch\") $upleg_stretch;\nsetAttr ($char + \"_ac_lf_kneeFK.stretch\") $lowleg_stretch;\nsetAttr ($char + \"_ac_lf_kneeIK.tx\") 0;\nsetAttr ($char + \"_ac_lf_kneeIK.ty\") 0;\nsetAttr ($char + \"_ac_lf_kneeIK.tz\") 0;\n\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_lf_kneeIK\")`;\nsetAttr ($char + \"_ac_lf_leg_settings.ik_leg\") 0;\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_toe\");\n\n}\n\nelse\n\n{\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_lf_footIK_dup\")`;\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_footIK_dup\")`; \nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_lf_footIK\");\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_footIK\");\n\nfloat $upleg_stretch = `getAttr ($char + \"_sk_lf_hip.scaleX\")`;\nfloat $lowleg_stretch = `getAttr ($char + \"_sk_lf_knee.scaleX\")`;\n\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_lf_legPole_dup\")`;\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_lf_legPole_dup\")`; \nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_lf_legPole\");\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_lf_legPole\");\n\nfloat $toecomp = `getAttr ($char + \"_sk_lf_ballC.rz\")`;\nfloat $toeactual = `getAttr ($char + \"_ac_lf_toe.rx\")`;\nsetAttr ($char + \"_ac_lf_toe.rx\") ($toeactual - $toecomp);\n\nsetAttr ($char + \"_ac_lf_footIK.foot_roll\") 0;\nsetAttr ($char + \"_ac_lf_footIK.foot_bank\") 0;\nsetAttr ($char + \"_ac_lf_footIK.heel_pivot\") 0;\nsetAttr ($char + \"_ac_lf_footIK.heel_spin\") 0;\nsetAttr ($char + \"_ac_lf_footIK.toe_pivot\") 0;\nsetAttr ($char + \"_ac_lf_footIK.toe_spin\") 0;\nsetAttr ($char + \"_ac_lf_footIK.ball_pivot\") 0;\n\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_lf_kneeFK\")`;\nsetAttr ($char + \"_ac_lf_legPole.pin_knee\") 0;\n\nsetAttr ($char + \"_ac_lf_leg_settings.ik_leg\") 1;\nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_lf_kneeIK\");\n}\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Right leg ikfk switch" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Right leg ikfk switch" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_rt_leg_ikfk.bmp" 
+        -image1 "char_anim_icons/i_rt_leg_ikfk.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "$state = `getAttr ($char + \"_ac_rt_leg_settings.ik_leg\")`;\n\nif ($state == 1)\n{\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_hipFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_hipFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_kneeFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_kneeFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_footFK_dup\")`; \nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_footFK\");\n\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_toe\")`; \n\nfloat $upleg_stretch = `getAttr ($char + \"_sk_rt_hip1.scaleX\")`;\nfloat $lowleg_stretch = `getAttr ($char + \"_sk_rt_knee1.scaleX\")`;\n\nsetAttr ($char + \"_ac_rt_hipFK.stretch\") $upleg_stretch;\nsetAttr ($char + \"_ac_rt_kneeFK.stretch\") $lowleg_stretch;\nsetAttr ($char + \"_ac_rt_kneeIK.tx\") 0;\nsetAttr ($char + \"_ac_rt_kneeIK.ty\") 0;\nsetAttr ($char + \"_ac_rt_kneeIK.tz\") 0;\n\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_rt_kneeIK\")`;\nsetAttr ($char + \"_ac_rt_leg_settings.ik_leg\") 0;\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_toe\");\n\n}\n\nelse\n\n{\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_rt_footIK_dup\")`;\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_footIK_dup\")`; \nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_rt_footIK\");\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_footIK\");\n\nfloat $upleg_stretch = `getAttr ($char + \"_sk_rt_hip.scaleX\")`;\nfloat $lowleg_stretch = `getAttr ($char + \"_sk_rt_knee.scaleX\")`;\n\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_rt_legPole_dup\")`;\nfloat $rotation[] = `xform -q -ws -ro ($char + \"_ac_rt_legPole_dup\")`; \nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_rt_legPole\");\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] ($char + \"_ac_rt_legPole\");\n\nfloat $toecomp = `getAttr ($char + \"_sk_rt_ballC.rz\")`;\nfloat $toeactual = `getAttr ($char + \"_ac_rt_toe.rx\")`;\nsetAttr ($char + \"_ac_rt_toe.rx\") ($toeactual - $toecomp);\n\nsetAttr ($char + \"_ac_rt_footIK.foot_roll\") 0;\nsetAttr ($char + \"_ac_rt_footIK.foot_bank\") 0;\nsetAttr ($char + \"_ac_rt_footIK.heel_pivot\") 0;\nsetAttr ($char + \"_ac_rt_footIK.heel_spin\") 0;\nsetAttr ($char + \"_ac_rt_footIK.toe_pivot\") 0;\nsetAttr ($char + \"_ac_rt_footIK.toe_spin\") 0;\nsetAttr ($char + \"_ac_rt_footIK.ball_pivot\") 0;\n\nfloat $position[] = `xform -q -ws -t ($char + \"_ac_rt_kneeFK\")`;\nsetAttr ($char + \"_ac_rt_legPole.pin_knee\") 0;\n\nsetAttr ($char + \"_ac_rt_leg_settings.ik_leg\") 1;\nxform -ws -t $position[0] $position[1] $position[2] ($char + \"_ac_rt_kneeIK\");\n}\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Head space" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Head space" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_head_space.bmp" 
+        -image1 "char_anim_icons/i_head_space.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "string $controls[] = `ls -sl`; \n\nif (size($controls)<1)\n{\nerror \"Select ONE control please...\";\n}\n\nfloat $rotation[] = `xform -q -ws -ro $controls[0] `;\nfloat $position[] = `xform -q -ws -t $controls[0] `;\n\n$attris = `listAttr -r -st \"*space\"`;\n\nfor ($attri in $attris)\n{\nsetAttr ($controls[0] + \".\" + $attri) 0;\n}\n\nsetAttr ($controls[0] + \".head_space\") 1;\n\n\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] $controls[0] ;\nxform -ws -t $position[0] $position[1] $position[2] $controls[0] ;\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Body space" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Body space" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_body_space.bmp" 
+        -image1 "char_anim_icons/i_body_space.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "string $controls[] = `ls -sl`; \n\nif (size($controls)<1)\n{\nerror \"Select ONE control please...\";\n}\n\nfloat $rotation[] = `xform -q -ws -ro $controls[0] `;\nfloat $position[] = `xform -q -ws -t $controls[0] `;\n\n$attris = `listAttr -r -st \"*space\"`;\n\nfor ($attri in $attris)\n{\nsetAttr ($controls[0] + \".\" + $attri) 0;\n}\n\nsetAttr ($controls[0] + \".body_space\") 1;\n\n\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] $controls[0] ;\nxform -ws -t $position[0] $position[1] $position[2] $controls[0] ;\n\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Hand space" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Hand space" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_hand_space.bmp" 
+        -image1 "char_anim_icons/i_hand_space.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "string $controls[] = `ls -sl`; \n\nif (size($controls)<1)\n{\nerror \"Select ONE control please...\";\n}\n\nfloat $rotation[] = `xform -q -ws -ro $controls[0] `;\nfloat $position[] = `xform -q -ws -t $controls[0] `;\n\n$attris = `listAttr -r -st \"*space\"`;\n\nfor ($attri in $attris)\n{\nsetAttr ($controls[0] + \".\" + $attri) 0;\n}\n\nsetAttr ($controls[0] + \".hand_space\") 1;\n\n\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] $controls[0] ;\nxform -ws -t $position[0] $position[1] $position[2] $controls[0] ;\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Foot space" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Foot space" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_foot_space.bmp" 
+        -image1 "char_anim_icons/i_foot_space.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "string $controls[] = `ls -sl`; \n\nif (size($controls)<1)\n{\nerror \"Select ONE control please...\";\n}\n\nfloat $rotation[] = `xform -q -ws -ro $controls[0] `;\nfloat $position[] = `xform -q -ws -t $controls[0] `;\n\n$attris = `listAttr -r -st \"*space\"`;\n\nfor ($attri in $attris)\n{\nsetAttr ($controls[0] + \".\" + $attri) 0;\n}\n\nsetAttr ($controls[0] + \".foot_space\") 1;\n\n\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] $controls[0] ;\nxform -ws -t $position[0] $position[1] $position[2] $controls[0] ;\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "World space" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "World space" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "tinyBoldLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_world_space.bmp" 
+        -image1 "char_anim_icons/i_world_space.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "string $controls[] = `ls -sl`; \n\nif (size($controls)<1)\n{\nerror \"Select ONE control please...\";\n}\n\nfloat $rotation[] = `xform -q -ws -ro $controls[0] `;\nfloat $position[] = `xform -q -ws -t $controls[0] `;\n\n$attris = `listAttr -r -st \"*space\"`;\n\nfor ($attri in $attris)\n{\nsetAttr ($controls[0] + \".\" + $attri) 0;\n}\n\n\nxform -ws -ro $rotation[0] $rotation[1] $rotation[2] $controls[0] ;\nxform -ws -t $position[0] $position[1] $position[2] $controls[0] ;" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 34
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Picker GUI" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Picker GUI" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.2 
+        -image "char_anim_icons/i_picker.bmp" 
+        -image1 "char_anim_icons/i_picker.bmp" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "///////////////////////////////////////////////////////////////////\n////\n////  vPicker\n////\n///////////////////////////////////////////////////////////////////\n\n\n/// check if the Picker is already in the scene. If not, open a browse to load it\n//////////////////////\n\nif (`objExists \"*pickerUI\"` == 0)\n{\nstring $picker_path[] = `fileDialog2 -fileFilter \"*.mb\" -dialogStyle 2  -fm 1 -cap \"Open the pickerGUI.mb file\" -okc \"Open\" -cc \"Cancel\" -rf 1`;\nfile -import -type \"mayaBinary\"  -ignoreVersion -mergeNamespacesOnClash false -rpr \"kk\" -options \"v=0;\"  -pr -loadReferenceDepth \"all\" $picker_path[0];\n\n}\n\n\n////open the UI and start the script job\n\nstring $listArray[] = `scriptJob -lj`;\n\tstring $tokenBuffer[];\n\tint $foundJob = 0;\n\tint $jobNum =0;\n\t\n\tfor ($i=0;$i<size($listArray);$i++){\n\t\t// if the script jobs are found Kill them\n\t\tif (`gmatch $listArray[$i] \"*vPicker*\"`){\n\t\t\ttokenize $listArray[$i] \":\" $tokenBuffer;\n\t\t\t$JobNum = $tokenBuffer[0];\n\t\t\tscriptJob -k (int($JobNum));\n\t\t\tprint $listArray[$i];\n\t\t}\n\t}\n\t\n    ///////////////////// OPEN THE GUI WINDOW\n    \n    /// Check if the window exists, if so, remove it\n\n    if(`window -exists (\"pickerUI\")`)\n\t{\n\t\tdeleteUI (\"pickerUI\");\n\t}\n\n    /// Create the window. Sizeable, toolBox style.\n\n    string $window = `window -title (\"Face Controls Picker\") -s 1 -tlb 1 (\"pickerUI\")`;\n\n    /// Create the layout...\n\n    string $pane = `paneLayout`;\n\n    /// ...and the ModelEditor, to asign our camera.\n\n    string $editor = `modelPanel -menuBarVisible 0`;\n    modelEditor -edit -camera (\"picker_controls_cam\") -gr 0 -hud 0 -da smoothShaded $editor;\n\n    /// Open the window\n\n    showWindow $window;\n    window -e -width 720 -height 608 $window;\n    \n    /////////////////// start the script job\n    scriptJob -cu on -e \"SelectionChanged\" \"vPickerSelect\";\n\n\n//////////\n/// PROCEDURE  to actually select the objects\n\nglobal proc vPickerSelect(){\nglobal string $char;\n$sele = `ls -sl`;\nfor ($controller in $sele)\n{\nstring $attr[] = `listAttr -k -u -v $controller`;\nif (`attributeQuery -node $controller -ex \"picker\"` == 1)\n{\nstring $tagcontent = `getAttr ($controller + \".picker\")`;\nstring $actual_control = substituteAllString($tagcontent, \"picker\", $char);\n\nselect -tgl $controller;\nselect -tgl $actual_control;\n}  \n} \n}\n\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+
+} 
