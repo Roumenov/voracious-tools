@@ -359,12 +359,14 @@ global proc shelf_vo_polyTools () {
         -sourceType "mel" 
         -commandRepeatable 1
         -flat 1
+        -mi "PrettyModelingColors" ( "\timport prettyModelingColors\n\tprettyModelingColors.PMCgo()" )
+        -mip 0
     ;
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0

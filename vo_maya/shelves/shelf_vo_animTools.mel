@@ -13,8 +13,8 @@ global proc shelf_vo_animTools () {
         -visible 1
         -preventOverride 0
         -annotation "Playblast: Preview animation by screen-capturing frames" 
-        -enableBackground 0
-        -backgroundColor 0 0 0 
+        -enableBackground 1
+        -backgroundColor 1 0.115389 0 
         -highlightColor 0.321569 0.521569 0.65098 
         -align "center" 
         -label "Playblast" 
@@ -47,8 +47,8 @@ global proc shelf_vo_animTools () {
         -visible 1
         -preventOverride 0
         -annotation "Toggle the display of the scene timecode" 
-        -enableBackground 0
-        -backgroundColor 0 0 0 
+        -enableBackground 1
+        -backgroundColor 1 0.115389 0 
         -highlightColor 0.321569 0.521569 0.65098 
         -align "center" 
         -label "Scene Timecode" 
@@ -84,7 +84,7 @@ global proc shelf_vo_animTools () {
         -backgroundColor 0 0 0 
         -highlightColor 0.321569 0.521569 0.65098 
         -align "center" 
-        -label "string $panel = `getPanel -wf`;\nmodelEditor -e -nurbsCurves (!`m..." 
+        -label "Curve Display Toggle" 
         -labelOffset 0
         -rotation 0
         -flipX 0
@@ -710,8 +710,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -807,8 +807,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -832,6 +832,38 @@ global proc shelf_vo_animTools () {
         -marginWidth 1
         -marginHeight 1
         -command "import pymel.core as pm\nimport vo_sceneTools as st\nreload(st)\n\nst.export_character('auto')" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "BroDynamics" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "BroDynamics" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:\\Users\\AnguelRoumenov\\Documents\\maya\\scripts\\BroTools\\imgs\\i32_logo.png" 
+        -image1 "C:\\Users\\AnguelRoumenov\\Documents\\maya\\scripts\\BroTools\\imgs\\i32_logo.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "<function wrapped at 0x00000060E7CE26D8>" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
