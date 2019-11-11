@@ -1,0 +1,13 @@
+proc addRotationOrderAttr () {
+
+string $selObjs[] = `ls -sl`;
+
+
+for ($objs in $selObjs){
+    addAttr -ln "rotationOrder"  -at "enum" -en "xyz:yzx:zxy:xzy:yxz:zyx:" $objs;
+    setAttr -e-keyable true ($objs + ".rotationOrder");
+    connectAttr ($objs + ".rotationOrder") ($objs + ".rotateOrder");
+    }
+}
+
+addRotationOrderAttr () ;

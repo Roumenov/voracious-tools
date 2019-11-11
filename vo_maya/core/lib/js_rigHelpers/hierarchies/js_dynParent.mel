@@ -1,0 +1,65 @@
+// Quick Dynamic Parent
+// Created by Josh Sobel
+
+// Constrains one object to another object with a blendable orient follow.
+// Instructions:
+// Select the object to parent, followed by object to parent to.
+// The "Follow" attribute will sit within the first of the two selected objects.
+
+proc quickDynamicParent() {
+
+// List selection.
+	string $objs[] = `ls -sl`;
+
+// Add "Follow" attribute to Object A.
+	addAttr -longName follow -keyable true -min 0 -max 1 $objs[0];
+
+// Create the locator to be parented.  Snap it to object B.
+	string $locPar[] = `spaceLocator`;
+	parentConstraint $objs[1] $locPar;
+	string $findParA[] = `listRelatives -type parentConstraint $locPar`;
+	select $findParA;
+	doDelete;
+
+// Parent the first locator.
+	parent $locPar $objs[1];
+	makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 $locPar;
+
+// Create the locator to be point constrained.  Snap it to Object B.  Group it and center the pivot.
+	string $locPnt[] = `spaceLocator`;
+	parentConstraint $objs[1] $locPnt;
+	string $findParB[] = `listRelatives -type parentConstraint $locPnt`;
+	select $findParB;
+	doDelete;
+	makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 $locPnt;
+	select $locPnt;
+	string $grp = `group`;
+	CenterPivot;
+	scaleConstraint $objs[1] $locPnt;
+
+// Point constrain the second locator to Object B.
+	pointConstraint $objs[1] $locPnt;
+
+// Parent and scale constrain Object A between both locators.
+	parentConstraint $locPar $locPnt $objs[0];
+
+// Connect Object A's point blend to the "Follow" attribute.
+	string $findPnt[] = `listRelatives -type parentConstraint $objs[0]`;
+	connectAttr ($objs[0] + ".follow") ($findPnt[0] + ".w0");
+
+// Set keys on Object A's point blend as driven by "Follow".
+	setAttr ($objs[0] + ".follow") 0;
+	setAttr ($findPnt[0] + "." + $locPnt[0] + "W1") 1;
+	setDrivenKeyframe -currentDriver ($objs[0] + ".follow") ($findPnt[0] + "." + $locPnt[0] + "W1");
+	setAttr ($objs[0] + ".follow") 1;
+	setAttr ($findPnt[0] + "." + $locPnt[0] + "W1") 0;
+	setDrivenKeyframe -currentDriver ($objs[0] + ".follow") ($findPnt[0] + "." + $locPnt[0] + "W1");
+
+	// Rename everything.
+	rename $locPar ($objs[0] + "_par_LOC");
+	rename $locPnt ($objs[0] + "_pnt_LOC");
+	rename $grp ($objs[0] + "_dynPar_GRP");
+	
+}
+
+quickDynamicParent();

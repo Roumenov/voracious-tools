@@ -1,0 +1,21 @@
+// Creates joints under each selected object.
+
+proc quickJoint () {
+    
+    string $selection[] = `ls -sl`;
+    
+    for ($objects in $selection){
+        select -clear;
+        string $jnt = `joint -p 0 0 0 -sc off`;
+        parentConstraint $objects $jnt;
+        string $findConstraints[] = `listRelatives -type parentConstraint $jnt`;
+        select $findConstraints[0];
+        doDelete;
+        parent $jnt $objects;
+        //makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 $jnt;
+		rename $jnt ($objects + "_JNT");
+
+    }
+}
+
+quickJoint();

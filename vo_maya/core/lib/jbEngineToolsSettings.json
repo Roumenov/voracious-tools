@@ -1,0 +1,208 @@
+{
+    "backgroundColorThemes": [
+        [
+            "Default", 
+            {
+                "backgroundTop": [
+                    136, 
+                    157, 
+                    179
+                ], 
+                "displayGradient": true, 
+                "backgroundBottom": [
+                    13, 
+                    13, 
+                    13
+                ], 
+                "background": [
+                    92, 
+                    92, 
+                    92
+                ]
+            }
+        ], 
+        [
+            "Surf", 
+            {
+                "backgroundTop": [
+                    164, 
+                    148, 
+                    80
+                ], 
+                "displayGradient": true, 
+                "backgroundBottom": [
+                    41, 
+                    108, 
+                    138
+                ], 
+                "background": [
+                    96, 
+                    90, 
+                    78
+                ]
+            }
+        ], 
+        [
+            "Dusk", 
+            {
+                "backgroundTop": [
+                    92, 
+                    48, 
+                    123
+                ], 
+                "displayGradient": true, 
+                "backgroundBottom": [
+                    39, 
+                    103, 
+                    131
+                ], 
+                "background": [
+                    85, 
+                    92, 
+                    89
+                ]
+            }
+        ], 
+        [
+            "Mono Dark", 
+            {
+                "backgroundTop": [
+                    49, 
+                    49, 
+                    49
+                ], 
+                "displayGradient": true, 
+                "backgroundBottom": [
+                    5, 
+                    5, 
+                    5
+                ], 
+                "background": [
+                    31, 
+                    31, 
+                    31
+                ]
+            }
+        ], 
+        [
+            "Mono Light", 
+            {
+                "backgroundTop": [
+                    199, 
+                    199, 
+                    199
+                ], 
+                "displayGradient": true, 
+                "backgroundBottom": [
+                    87, 
+                    87, 
+                    87
+                ], 
+                "background": [
+                    115, 
+                    115, 
+                    115
+                ]
+            }
+        ]
+    ],
+    "gridColorThemes": [
+        [
+            "Default", 
+            {
+                "gridAxisColor": 2, 
+                "gridLineColor": 2, 
+                "gridHighlightColor": 2
+            }
+        ], 
+        [
+            "Highlite", 
+            {
+                "gridAxisColor": 1, 
+                "gridLineColor": 2, 
+                "gridHighlightColor": 3
+            }
+        ], 
+        [
+            "Forest", 
+            {
+                "gridAxisColor": 10, 
+                "gridLineColor": 2, 
+                "gridHighlightColor": 23
+            }
+        ], 
+        [
+            "Modern", 
+            {
+                "gridAxisColor": 1, 
+                "gridLineColor": 15, 
+                "gridHighlightColor": 4
+            }
+        ], 
+        [
+            "Rave", 
+            {
+                "gridAxisColor": 9, 
+                "gridLineColor": 18, 
+                "gridHighlightColor": 14
+            }
+        ]
+    ], 
+    "gridLayoutPresets": [
+        [
+            "Default", 
+            {
+                "nearClipPlane": 0.1, 
+                "gridLines": 5.0, 
+                "farClipPlane": 10000.0, 
+                "subdivisions": 5, 
+                "lengthAndWidth": 12.0, 
+                "viewSet": true
+            }
+        ], 
+        [
+            "Unreal", 
+            {
+                "nearClipPlane": 10.0, 
+                "gridLines": 100.0, 
+                "farClipPlane": 100000.0, 
+                "subdivisions": 2, 
+                "lengthAndWidth": 1000.0, 
+                "viewSet": true
+            }
+        ], 
+        [
+            "Unreal Detail", 
+            {
+                "nearClipPlane": 0.1, 
+                "gridLines": 100.0, 
+                "farClipPlane": 10000.0, 
+                "subdivisions": 10, 
+                "lengthAndWidth": 500.0, 
+                "viewSet": true
+            }
+        ], 
+        [
+            "Unity", 
+            {
+                "nearClipPlane": 0.01, 
+                "gridLines": 1.0, 
+                "farClipPlane": 1000.0, 
+                "subdivisions": 2, 
+                "lengthAndWidth": 10.0, 
+                "viewSet": true
+            }
+        ], 
+        [
+            "Unity Detail", 
+            {
+                "nearClipPlane": 0.001, 
+                "gridLines": 1.0, 
+                "farClipPlane": 1000.0, 
+                "subdivisions": 10, 
+                "lengthAndWidth": 5.0, 
+                "viewSet": true
+            }
+        ]
+    ]
+}

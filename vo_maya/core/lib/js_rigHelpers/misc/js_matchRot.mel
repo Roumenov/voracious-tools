@@ -1,0 +1,10 @@
+// Matches the second object selected to the first's rotation.
+
+proc matchRot() {
+
+string $parCon2[] = `orientConstraint`;
+delete $parCon2[0];
+
+}
+
+matchRot();

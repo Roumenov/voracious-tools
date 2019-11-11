@@ -1,0 +1,21 @@
+//Creates locators at the position of all selected objects.
+
+//Find selection.
+string $selObjs[] = `ls -sl`;
+
+
+//Execute FOR loop.
+for ($objs in $selObjs) {
+
+    //Create locators at the center of the grid.
+    string $loc[] = `spaceLocator`;
+
+    //Match transforms to selected objects.
+    parentConstraint $objs $loc;
+    string $findConstraints[] = `listRelatives -type parentConstraint $loc`;
+    select $findConstraints[0];
+    doDelete;
+
+    //Rename locators.
+    string $renameLoc = `rename $loc ($objs + "_LOC")`;
+}

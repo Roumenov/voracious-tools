@@ -1,0 +1,5 @@
+string $sel[] = `ls -sl`;
+
+for ($jnts in $sel){
+    setAttr ($jnts + ".drawStyle") 0;
+}

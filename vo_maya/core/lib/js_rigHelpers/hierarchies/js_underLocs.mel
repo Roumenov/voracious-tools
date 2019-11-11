@@ -1,0 +1,21 @@
+// Creates locators under each selected object
+
+proc vLoc () {
+    
+    string $selection[] = `ls -sl`;
+    
+    for ($objects in $selection){
+        select -clear;
+        string $loc[] = `spaceLocator`;
+        parentConstraint $objects $loc[0];
+        string $findConstraints[] = `listRelatives -type parentConstraint $loc[0]`;
+        select $findConstraints[0];
+        doDelete;
+        parent $loc[0] $objects;
+        makeIdentity -apply true -t 1 -r 1 -s 1 -n 0 $loc[0];
+		rename $loc[0] ($objects + "_LOC");
+
+    }
+}
+
+vLoc();

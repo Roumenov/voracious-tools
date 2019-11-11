@@ -1,0 +1,20 @@
+Put the Python files "jbPolyReport.py" in the location you run Python scripts from in Maya. 
+
+These locations usually are:
+
+	Windows: <drive>:\Documents and Settings\<username>\My Documents\maya\<Version>\scripts
+	Mac OS X: ~/Library/Preferences/Autodesk/maya/<version>/scripts
+	Linux: ~/maya/<version>/scripts
+
+Enter the following (example) in the Python tab of the Maya Script Editor and ExecuteAll (double blue arrows):
+
+	import jbPolyReport
+	jbPolyReport.jbPolyReportGo()
+
+See HelpAndUseage.pdf for useage.
+	
+Best of luck with your projects!
+Email me if you're stuck: 00jbuck00@gmail.com
+
+-Josh
+
