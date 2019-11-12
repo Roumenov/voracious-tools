@@ -20,8 +20,7 @@ class CharacterMakeup():#....   class to create a bunch of materials on a charac
             targets
             ):
         self.base_material = pm.createNode("phongE")
-        self.start_color = self.base_material.
-
+        self.start_color = self.base_material.color#TODO    check if this works
     def generate_colors(start_color):#.... make the color palette based on starting color
         return
     def rank_surfaces():#....   rank surfaces by a rank of volume + poly count
@@ -120,59 +119,51 @@ def create_material(image_path):
     return material
 
 #TODO   turn this into a class
-def shadow_primitive():
-    shadow_targets = pm.ls(sl=1)
-    shadow_start = shadow_targets[0]
-    shadow_start_location = pm.xform(shadow_start, q=True, ws=True, rotatePivot=True)
+def shadow_primitive(primitive='cylinder'):
+    """
+    Creates a primitive at selected transforms with .shadow tag
+    """
 
-    if shadow_start.hasAttr('radius'):
-        start_radius_attr = str(shadow_start) + '.radius'
-        shadow_radius = shadow_start.radius.get()
+    if primitive == 'cylinder':
+
+        shadow_targets = pm.ls(sl=1)
+        shadow_start = shadow_targets[0]
+        shadow_start_location = pm.xform(shadow_start, q=True, ws=True, rotatePivot=True)
+
+        if shadow_start.hasAttr('radius'):
+            start_radius_attr = str(shadow_start) + '.radius'
+            shadow_radius = shadow_start.radius.get()
+        else:
+            shadow_radius = 5
+        #shadow_sphere = pm.sphere(radius = shadow_start_radius)
+        shadow_cylinder = pm.cylinder(radius = shadow_radius, heightRatio = 2, axis = [1,0,0], sections = 12, constructionHistory = 1)
+
+        if len(shadow_targets) > 1:
+            shadow_end = shadow_targets[-1]
+            shadow_end_location = pm.xform(shadow_end, q=True, ws=True, rotatePivot=True)
+            shadow_height_ratio = vo_general.meta_children(shadow_start_location,shadow_end_location)
+            shadow_cylinder[0].rotatePivot.set([-0.5*shadow_height_ratio,0,0])
+            shadow_cylinder[0].scalePivot.set([-0.5*shadow_height_ratio,0,0])
+            shadow_cylinder[1].heightRatio.set(shadow_height_ratio)
+        else:
+            pass
+        pm.matchTransform(shadow_cylinder, shadow_start, scale = False)
+    elif primitive == 'sphere':
+        shadow_targets = pm.ls(sl=1)
+        shadow_start = shadow_targets[0]
+        if len(shadow_targets) > 1:
+            shadow_end = shadow_targets[-1]
+        else:
+            pass
+        shadow_start_location = pm.xform(shadow_start, q=True, ws=True, rotatePivot=True)
+
+        if shadow_start.hasAttr('radius'):
+            start_radius_attr = str(shadow_start) + '.radius'
+            shadow_start_radius = shadow_start.radius.get()
+        else:
+            shadow_start_radius = 5
+        shadow_sphere = pm.sphere(radius = shadow_start_radius)
+        pm.matchTransform(shadow_sphere, shadow_start, scale = False)
     else:
-        shadow_radius = 5
-    #shadow_sphere = pm.sphere(radius = shadow_start_radius)
-    shadow_cylinder = pm.cylinder(radius = shadow_radius, heightRatio = 2, axis = [1,0,0], sections = 12, constructionHistory = 1)
-
-    if len(shadow_targets) > 1:
-        shadow_end = shadow_targets[-1]
-        shadow_end_location = pm.xform(shadow_end, q=True, ws=True, rotatePivot=True)
-        shadow_height_ratio = vo_general.meta_children(shadow_start_location,shadow_end_location)
-        shadow_cylinder[0].rotatePivot.set([-0.5*shadow_height_ratio,0,0])
-        shadow_cylinder[0].scalePivot.set([-0.5*shadow_height_ratio,0,0])
-        shadow_cylinder[1].heightRatio.set(shadow_height_ratio)
-    else:
-        pass
-    pm.matchTransform(shadow_cylinder, shadow_start, scale = False)
-
-
-
-
-shadow_targets = pm.ls(sl=1)
-shadow_start = shadow_targets[0]
-shadow_start_location = pm.xform(shadow_start, q=True, ws=True, rotatePivot=True)
-
-if shadow_start.hasAttr('radius'):
-    start_radius_attr = str(shadow_start) + '.radius'
-    shadow_radius = shadow_start.radius.get()
-else:
-    shadow_radius = 5
-#shadow_sphere = pm.sphere(radius = shadow_start_radius)
-shadow_cylinder = pm.cylinder(radius = shadow_radius, heightRatio = 2, axis = [1,0,0], sections = 12, constructionHistory = 1)
-
-if len(shadow_targets) > 1:
-    shadow_end = shadow_targets[-1]
-    shadow_end_location = pm.xform(shadow_end, q=True, ws=True, rotatePivot=True)
-    shadow_height_ratio = vo_general.get_distance(shadow_start_location,shadow_end_location)
-    print shadow_height_ratio
-    shadow_cylinder[0].rotatePivot.set([-0.5*shadow_height_ratio,0,0])
-    shadow_cylinder[0].scalePivot.set([-0.5*shadow_height_ratio,0,0])
-    shadow_cylinder[1].heightRatio.set(shadow_height_ratio/shadow_radius)
-else:
-    pass
-pm.matchTransform(shadow_cylinder, shadow_start, scale = False)
-aim_object(aimer, target, axis = '+x')
-
-
-#pm.move(shadow_cylinder, [-1.15381, 1.627506, 0.141238], relative = True, rotatePivotRelative = 1, scalePivotRelative = 1)
-
-print(pm.distanceDimension(startPoint = shadow_start_location, endPoint = shadow_end_location))
+        pm.warning("invalid primitive value, accepted values are 'sphere' and 'cylinder'")
+        return False

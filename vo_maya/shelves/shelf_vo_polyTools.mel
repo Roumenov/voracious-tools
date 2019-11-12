@@ -222,7 +222,7 @@ global proc shelf_vo_polyTools () {
         -manage 1
         -visible 1
         -preventOverride 0
-        -annotation "Toggle the display of the component count for visible polygons" 
+        -annotation "Show PolyCount" 
         -enableBackground 0
         -backgroundColor 0 0 0 
         -highlightColor 0.321569 0.521569 0.65098 
@@ -313,6 +313,7 @@ global proc shelf_vo_polyTools () {
         -commandRepeatable 1
         -flat 1
         -mi "Vertex Normal" ( "ToggleVertexNormalDisplay" )
+        -mi "Vertex IDs" ( "ToggleVertIDs" )
         -mi "Face Normal" ( "ToggleFaceNormalDisplay" )
     ;
     separator
@@ -359,14 +360,14 @@ global proc shelf_vo_polyTools () {
         -sourceType "mel" 
         -commandRepeatable 1
         -flat 1
-        -mi "PrettyModelingColors" ( "\timport prettyModelingColors\n\tprettyModelingColors.PMCgo()" )
+        -mi "PrettyModelingColors" ( "import vo_maya.core as voc\nreload(voc)\n\nvoc.lib.jbPrettyModelingColors.PMCgo()" )
         -mip 0
     ;
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0

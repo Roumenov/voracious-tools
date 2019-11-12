@@ -49,12 +49,12 @@ def PMCui():
 
 
 def PMCinit():
-    loadSessionPath = os.path.join(os.path.abspath(os.path.dirname(__file__)), "PMC_palette.json")
+    loadSessionPath = os.path.join(os.path.abspath(os.path.dirname(__file__)), "jbPMC_palette.json")
 
     if os.path.exists(loadSessionPath):
         sessionFile = open(loadSessionPath)
     else:
-        cmds.warning("PMC_palette.json file not found")
+        cmds.warning("jbPMC_palette.json file not found")
         fileFilter = "JSON Files (*.json)"
         loadSessionPath = cmds.fileDialog2(dialogStyle=1, fileMode=1, cap="Load Palette JSON", ff=fileFilter)
         if loadSessionPath is None:
