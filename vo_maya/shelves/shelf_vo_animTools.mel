@@ -32,7 +32,7 @@ global proc shelf_vo_animTools () {
         -marginWidth 1
         -marginHeight 1
         -version "2016" 
-        -command "PlayblastWindow" 
+        -command "PlayblastOptions" 
         -sourceType "mel" 
         -doubleClickCommand "PlayblastOptions" 
         -commandRepeatable 1
@@ -710,8 +710,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0
@@ -807,8 +807,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0

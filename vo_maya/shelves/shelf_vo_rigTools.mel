@@ -7,8 +7,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 131
+        -height 131
         -manage 1
         -visible 1
         -preventOverride 0
@@ -26,8 +26,8 @@ global proc shelf_vo_rigTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "pythonFamily.png" 
-        -image1 "pythonFamily.png" 
+        -image "C:/Users/AnguelRoumenov/Documents/maya/2018/scripts/vo_maya/icons/VO_ICON.png" 
+        -image1 "C:/Users/AnguelRoumenov/Documents/maya/2018/scripts/vo_maya/icons/VO_ICON.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -78,8 +78,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -143,7 +143,7 @@ global proc shelf_vo_rigTools () {
         -mi "Import" ( "Import" )
         -mi "Remove selected namespace" ( "import pymel.core as pm\n\n#target_object = pm.ls(sl=1)[0]\n#remove_object_namespace(target_object)\ndef remove_object_namespace(object):\n    target_namespace = object.namespace()\n    print 'removing namespace :: ' + target_namespace\n    pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)\n\ntarget_object = pm.ls(sl=1)[0]\nremove_object_namespace(target_object)" )
         -mip 1
-        -mi "Remove Reference Edits" ( "import pymel.core as pm\nfor ref in pm.listReferences():\n    ref.unload()\n    ref.clean()\n    ref.load()" )
+        -mi "Remove Reference Edits" ( "for ref in pm.listReferences():\n    ref.unload()\n    ref.clean()\n    ref.load()" )
         -mip 2
         -mi "Import References" ( "#import all references without namespaces" )
         -mip 3
@@ -696,7 +696,7 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "from skinningTool import SkinningToolsUI\n\nSkinningToolsUI.startUI()\n" 
+        -command "from vo_maya.core.lib.skinningTool import SkinningToolsUI\n\nSkinningToolsUI.startUI()" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
@@ -1282,8 +1282,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1556,8 +1556,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0

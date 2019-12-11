@@ -1,6 +1,6 @@
 import os
+import pymel.core as pm
 import maya.utils as utils
-import maya.cmds as cmds
 import core as core
 #import pathSetup as ps
 
@@ -55,18 +55,9 @@ def launch_sequence():
     except:
         raise print('error loading voracious shelves')
     """
-#utils.executeDeferred("vo_maya.ps.addIconsPath(%s)" % (VO_ICON_PATH))
-#utils.executeDeferred("vo_maya.ps.load_shelf(%s)" % (VO_SHELF_PATH))
-#cmds.evalDeferred("vo_maya.ps.load_shelf(%s)" % (VO_ICON_PATH))
-
-#ps.test_func(VO_DIR)
-
-#cmds.evalDeferred("launch_sequence()")
-#utils.executeDeferred("import pathSetup;pathSetup.test_func()")
 
 
 utils.executeDeferred(launch_sequence())
-
-#launch_sequence()
+#pm.evalDeferred('import pathSetup as ps','ps.addIconsPath(VO_ICON_PATH)')
 
 

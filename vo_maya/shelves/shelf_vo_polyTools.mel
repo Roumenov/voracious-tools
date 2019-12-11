@@ -222,7 +222,7 @@ global proc shelf_vo_polyTools () {
         -manage 1
         -visible 1
         -preventOverride 0
-        -annotation "Show PolyCount" 
+        -annotation "Toggle the display of the component count for visible polygons" 
         -enableBackground 0
         -backgroundColor 0 0 0 
         -highlightColor 0.321569 0.521569 0.65098 
@@ -313,8 +313,40 @@ global proc shelf_vo_polyTools () {
         -commandRepeatable 1
         -flat 1
         -mi "Vertex Normal" ( "ToggleVertexNormalDisplay" )
-        -mi "Vertex IDs" ( "ToggleVertIDs" )
         -mi "Face Normal" ( "ToggleFaceNormalDisplay" )
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "detailed report on selected mesh" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "PolyReport" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "report" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "polyColorSetEditor.png" 
+        -image1 "polyColorSetEditor.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "from vo_maya.core.lib import jbPolyReport\n\njbPolyReport.jbPolyReportGo()" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
     ;
     separator
         -enable 1
@@ -360,7 +392,7 @@ global proc shelf_vo_polyTools () {
         -sourceType "mel" 
         -commandRepeatable 1
         -flat 1
-        -mi "PrettyModelingColors" ( "import vo_maya.core as voc\nreload(voc)\n\nvoc.lib.jbPrettyModelingColors.PMCgo()" )
+        -mi "PrettyModelingColors" ( "from vo_maya.core.lib import jbPrettyModelingColors\n\njbPrettyModelingColors.PMCgo()\n" )
         -mip 0
     ;
     shelfButton
