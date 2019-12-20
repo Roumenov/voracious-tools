@@ -417,8 +417,8 @@ global proc shelf_vo_polyTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/Shadw_ICO.png" 
-        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/Shadw_ICO.png" 
+        -image "Shadw_ICO.png" 
+        -image1 "Shadw_ICO.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1

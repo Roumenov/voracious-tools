@@ -7,8 +7,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 131
-        -height 131
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -26,8 +26,8 @@ global proc shelf_vo_rigTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/AnguelRoumenov/Documents/maya/2018/scripts/vo_maya/icons/VO_ICON.png" 
-        -image1 "C:/Users/AnguelRoumenov/Documents/maya/2018/scripts/vo_maya/icons/VO_ICON.png" 
+        -image "addClip_100.png" 
+        -image1 "addClip_100.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -58,8 +58,8 @@ global proc shelf_vo_rigTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/roumenov/Documents/maya/2018/prefs/icons/RRAdvanced_Icon.png" 
-        -image1 "C:/Users/roumenov/Documents/maya/2018/prefs/icons/RRAdvanced_Icon.png" 
+        -image "RRAdvanced_Icon.png" 
+        -image1 "RRAdvanced_Icon.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -78,8 +78,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0
@@ -98,8 +98,8 @@ global proc shelf_vo_rigTools () {
         -imageOverlayLabel "cgm" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/abogoev/Documents/maya/scripts/cgm/images/cgmDefault.png" 
-        -image1 "C:/Users/abogoev/Documents/maya/scripts/cgm/images/cgmDefault.png" 
+        -image "cgmDefault.png" 
+        -image1 "cgmDefault.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -177,16 +177,16 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nuf.object_on_vertex(objName = 'joint_00', objType = 'joint', radius = 1.0)" 
+        -command "\nimport vo_maya.core as voc\nreload(voc)\n\nvoc.vo_shelfWrapper.object_at_select_verts(name='joint_00', objType = 'joint')" 
         -sourceType "python" 
         -doubleClickCommand "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nuf.object_on_pivot(objType = 'joint')\n" 
         -commandRepeatable 1
         -flat 1
-        -mi "joint on cluster" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nuf.object_on_vertex(objName = 'joint_00', objType = 'joint', radius = 1.0)" )
+        -mi "joint on cluster" ( "\nimport vo_maya.core as voc\nreload(voc)\n\nvoc.vo_shelfWrapper.object_at_select_verts(name='joint_00', objType = 'joint')" )
         -mip 0
-        -mi "Joint on pivot" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nuf.object_on_pivot(objType = 'joint')\n" )
+        -mi "Joint on pivot" ( "\nimport vo_maya.core as voc\nreload(voc)\n\nvoc.vo_general.object_on_pivot(objType = 'joint')" )
         -mip 1
-        -mi "locator on cluster" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nuf.object_on_vertex(objName = 'locator_00', objType = 'locator', radius = 1.0)" )
+        -mi "locator on cluster" ( "\nimport vo_maya.core as voc\nreload(voc)\n\nvoc.vo_shelfWrapper.object_at_select_verts(name='loc_00', objType = 'locator')" )
         -mip 2
     ;
     shelfButton
@@ -786,6 +786,7 @@ global proc shelf_vo_rigTools () {
         -flat 1
         -mi "transfer weights" ( "#credit : shinyprem\n# https://www.highend3d.com/maya/script/skintransferbetweentwojnt-for-maya\n# .\n# \n# \n# Position the new joint in its new position\n#Follow the UI instruction to transfer the skinWeight between two joint\n\n\nimport maya.cmds as mc\nimport maya.mel as mel\nclass skinInflJnt:\n    def __init__(self):\n        pass\n        if mc.window('SkinInflJnt', exists=True):\n            mc.deleteUI('SkinInflJnt', window=True)\n        mc.window( 'SkinInflJnt', s=1 )\n        mc.rowColumnLayout( numberOfColumns=2 )\n        mc.text( label='Select mesh  ( Geo ) !              ', align = 'left' )\n        mc.button( label='    Get    ', command= 'Geo = mc.ls(sl=True); print(Geo)')\n        mc.text( label='Select New Influence joint ( Jnt ) !            ', align = 'left' )\n        mc.button( label='    Get    ', command='Jnt = mc.ls(sl=True)')\n        mc.text( label='Select Old Influence joint ( Jnt ) !            ', align = 'left' )\n        mc.button( label='    Get    ', command='sourceJnt = mc.ls(sl=True)')\n        mc.button( label='Transfer', command=lambda event:self.skinToJnt())\n        mc.setParent( '..' )\n        mc.showWindow( 'SkinInflJnt' )\n        \n    def skinToJnt(self):\n        skin = mel.eval('findRelatedSkinCluster '+Geo[0])\n        mc.select (mc.skinCluster(skin,query=True,inf=True))\n        allJntInfl = mc.ls(sl=True)\n        eachJnt = 0\n        for eachJnt in allJntInfl:\n            mc.skinCluster(skin,e=True,inf=eachJnt,lw=1)\n            eachJnt = ++1\n        mc.skinCluster(skin,edit=True,lw=True,wt=0,ai=Jnt)\n        mc.skinCluster(skin,e=True,inf=Jnt[0],lw=0)\n        mc.skinCluster(skin,e=True,inf=sourceJnt[0],lw=0)\n        mc.skinCluster(skin,edit=True,selectInfluenceVerts=sourceJnt[0])\n        mc.skinPercent(skin, transformValue=[(sourceJnt[0],0),(Jnt[0],1)])\n        eachJnt = 0\n        for eachJnt in allJntInfl:\n            mc.skinCluster(skin,e=True,inf=eachJnt,lw=0)\n            eachJnt = ++1\n        mc.select (cl=True)\nskinInflJnt()" )
         -mip 0
+        -mi "Component Editor" ( "ComponentEditor" )
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -849,8 +850,8 @@ global proc shelf_vo_rigTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/roumenov/Documents/maya/2018/prefs/icons/Match_ICO.png" 
-        -image1 "C:/Users/roumenov/Documents/maya/2018/prefs/icons/Match_ICO.png" 
+        -image "Match_ICO.png" 
+        -image1 "Match_ICO.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -1192,8 +1193,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 23
-        -height 23
+        -width 35
+        -height 34
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1249,8 +1250,8 @@ global proc shelf_vo_rigTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/channels_icon.png" 
-        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/channels_icon.png" 
+        -image "channels_icon.png" 
+        -image1 "channels_icon.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -1349,8 +1350,8 @@ global proc shelf_vo_rigTools () {
         -imageOverlayLabel "meta" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/eggs_ICO.png" 
-        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/eggs_ICO.png" 
+        -image "eggs_ICO.png" 
+        -image1 "eggs_ICO.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -1416,8 +1417,8 @@ global proc shelf_vo_rigTools () {
         -imageOverlayLabel "TRACK" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/roumenov/Documents/maya/2018/prefs/icons/Tracker.png" 
-        -image1 "C:/Users/roumenov/Documents/maya/2018/prefs/icons/Tracker.png" 
+        -image "Tracker.png" 
+        -image1 "Tracker.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -1464,8 +1465,8 @@ global proc shelf_vo_rigTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/align.png" 
-        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/align.png" 
+        -image "align.png" 
+        -image1 "align.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
