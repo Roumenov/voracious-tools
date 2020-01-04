@@ -223,11 +223,11 @@ global proc shelf_vo_rigTools () {
         -flat 1
         -mi "Locator on Grid" ( "#place a locator on origin\nimport pymel.core as pm\n\npm.spaceLocator(relative = True)" )
         -mip 0
-        -mi "Locator on selected" ( "# ab_Loc2B---------------------------------\n#place a locator on object location\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nlocator_target_list = pm.ls(sl=1)\nlocator_list = []\n\nfor locator_target in locator_target_list:\n    \n    locator_name = str(locator_target) + '_location'\n    print(locator_name)\n    locator_object = uf.nest_transform(name = locator_name, action = 'child', target = locator_target, transformObj = 'locator', transformRadius = 1.0)\n    pm.parent(locator_object, world = True)\n    locator_list.append(locator_object)\n\npm.select(locator_list, replace = True)" )
+        -mi "Locator on selected" ( "import vo_maya.core as voc\nreload(voc)\nvoc.vo_shelfWrapper.object_at_selection(name = 'loc_00', objType = 'locator')\n" )
         -mip 1
         -mi "Locator Parented to selected" ( "# ab_Loc2B---------------------------------\n#place a locator on object location\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nlocator_target_list = pm.ls(sl=1)\nlocator_list = []\n\nfor locator_target in locator_target_list:\n    \n    locator_name = str(locator_target) + '_location'\n    print(locator_name)\n    locator_object = uf.nest_transform(name = locator_name, action = 'child', target = locator_target, transformObj = 'locator', transformRadius = 1.0)\n    pm.parent(locator_object, locator_target)\n    locator_list.append(locator_object)\n\npm.select(locator_list, replace = True)" )
         -mip 2
-        -mi "Locator between selected objects" ( "import vo_usefulFunctions as uf\nreload(uf)\nimport pymel.core as pm\n\nuf.loc_average(pm.ls(sl=1))" )
+        -mi "Locator between selected objects" ( "import vo_maya.core as voc\nreload(voc)\nvoc.vo_general.loc_average(pm.ls(sl=1))\n\n" )
         -mip 3
     ;
     shelfButton
@@ -1193,8 +1193,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 34
+        -width 23
+        -height 23
         -manage 1
         -visible 1
         -preventOverride 0

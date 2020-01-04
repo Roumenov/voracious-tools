@@ -1,6 +1,7 @@
 
-#import vo_controls
-#import vo_ribbons
+#import rigging.vo_controls
+#import core.rigging.vo_deformers
+#import core.rigging.vo_ribbons
 
 """
 

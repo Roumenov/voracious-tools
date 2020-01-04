@@ -1,5 +1,5 @@
 import pymel.core as pm
-import vo-maya.core.vo_general as general
+import vo_maya.core.vo_general as general
 reload(general)
 
 #gets weird if things are scaled
