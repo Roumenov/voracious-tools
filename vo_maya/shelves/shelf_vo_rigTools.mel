@@ -1027,7 +1027,7 @@ global proc shelf_vo_rigTools () {
         -mip 9
         -mi "MultiOrient constraint" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nuf.multi_constrain(satellites, target, constraintType = 'orient')" )
         -mip 10
-        -mi "Aim YZ" ( "import pymel.core as pm\n\nconstraint = pm.aimConstraint (mo = 1, weight = 1)\nconstraint.setAttr('interpType', 2)\n\n" )
+        -mi "Aim YZ" ( "import pymel.core as pm\n\nconstraint = pm.aimConstraint (mo = 1, weight = 1)\n\n" )
         -mip 11
     ;
     shelfButton
@@ -1193,8 +1193,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 23
-        -height 23
+        -width 35
+        -height 34
         -manage 1
         -visible 1
         -preventOverride 0

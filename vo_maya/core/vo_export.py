@@ -59,7 +59,7 @@ def get_export_path():
 
 
 
-#PURPOSE            get reference of a maya node
+#PURPOSE            get reference of a maya object
 #PROCEDURE          if object is referenced, return reference node
 #PRESUMPTION        ???     target is a dag object      ???
 def get_reference(target):#TODO:    test in maya

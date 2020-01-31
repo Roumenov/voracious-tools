@@ -83,25 +83,26 @@ def make_proxy_pivot(name, target):
 #follicleCount = 8
 #for i in range(0,follicleCount):
 #    oFoll = create_follicle(myObject, i/(follicleCount-1.00), 0.5)
-def create_follicle(oNurbs, uPos=0.0, vPos=0.0):
-    """manually place and connect a follicle onto a nurbs surface."""
-    if oNurbs.type() == 'transform':
-        oNurbs = oNurbs.getShape()
-    elif oNurbs.type() == 'nurbsSurface':
-        pass
-    else:
-        'Warning: Input must be a nurbs surface.'
-        return False
+def create_follicle(target, uPos=0.0, vPos=0.0):
+    """manually place and connect a follicle onto a nurbs or polygon surface.
+    """
+    #TODO: update to use use polygon if it has UVs
+    surface = target.getShape()
 
     # create a name with frame padding
-    pName = '_'.join((oNurbs.name(),'follicle','#'.zfill(2)))
+    pName = '_'.join((surface.name(),'follicle','#'.zfill(2)))
     oFoll = pm.createNode('follicle', name=pName)
-    oNurbs.local.connect(oFoll.inputSurface)
-    # if using a polygon mesh, use this line instead.
-    # (The polygons will need to have UVs in order to work.)
-    #oMesh.outMesh.connect(oFoll.inMesh)
 
-    oNurbs.worldMatrix[0].connect(oFoll.inputWorldMatrix)
+    if surface.type() == 'mesh':
+        # if using a polygon mesh, use this line instead.
+        # (The polygons will need to have UVs in order to work.)
+        surface.outMesh.connect(oFoll.inMesh)
+    elif surface.type() == 'nurbsSurface':
+        surface.local.connect(oFoll.inputSurface)
+    else:
+        'Warning: Input must have a shape node of mesh or nurbsSurface type.'
+        return False
+    surface.worldMatrix[0].connect(oFoll.inputWorldMatrix)
     oFoll.outRotate.connect(oFoll.getParent().rotate)
     oFoll.outTranslate.connect(oFoll.getParent().translate)
     oFoll.parameterU.set(uPos)
@@ -211,7 +212,7 @@ def build_ribbon(start = '', end = '', match = 'all', segments = 6, ribbonName =
         uPosition_factor = 1/float(segments)
         currentUposition = uPosition_factor * (float(i)+0.5)
         print 'follicle'
-        last_follicle = create_follicle(oNurbs = ribbonGEO, uPos=currentUposition, vPos = 0.5)
+        last_follicle = create_follicle(target = ribbonGEO, uPos=currentUposition, vPos = 0.5)
         print('last follicle = ' + last_follicle.getParent())
         pm.addAttr(last_follicle, longName = 'metaParent', attributeType = 'message')
         pm.addAttr(last_follicle, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')
@@ -335,7 +336,7 @@ def super_ribbon(start = '', end = '', segments = 5, ribbonName = 'ribbon'):
         uPosition_factor = 1/float(segments)
         currentUposition = uPosition_factor * (float(i)+0.5)
         print 'follicle'
-        last_follicle = create_follicle(oNurbs = ribbonGEO, uPos=currentUposition, vPos = 0.5)
+        last_follicle = create_follicle(target = ribbonGEO, uPos=currentUposition, vPos = 0.5)
         print('last follicle = ' + last_follicle.getParent())
         pm.addAttr(last_follicle, longName = 'metaParent', attributeType = 'message')
         pm.addAttr(last_follicle, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')
@@ -361,4 +362,26 @@ def super_ribbon(start = '', end = '', segments = 5, ribbonName = 'ribbon'):
     return ribbonRef
 
 
+class Ribbon():
+    """
+    class to make ribbons, manipulate their components, create metaData, and connect to metaRig
+    """
+    def __init__(
+                self,
+                character_part,
+                start,
+                end,
+                follicles,
+                drivers,
+                name = ''
+                ):
+        """
+        @param character_part: the characterPart metaNode this rigPart is a metaChild of
+        @param start: transform to start the ribbon at
+        @param end: transform to end the ribbon at
+        @param follicles: number of follicles and nurbs segments in the ribbon
+        @param drivers: number of driver joints to skin to the ribbon
+        @param name: ribbon name
+        """
+    
 
