@@ -84,14 +84,14 @@ def make_proxy_pivot(name, target):
 #for i in range(0,follicleCount):
 #    oFoll = create_follicle(myObject, i/(follicleCount-1.00), 0.5)
 def create_follicle(target, uPos=0.0, vPos=0.0):
-    """manually place and connect a follicle onto a nurbs or polygon surface.
+    """Place and connect a follicle onto a nurbs or polygon surface.
     """
     #TODO: update to use use polygon if it has UVs
     surface = target.getShape()
 
     # create a name with frame padding
-    pName = '_'.join((surface.name(),'follicle','#'.zfill(2)))
-    oFoll = pm.createNode('follicle', name=pName)
+    follicle_name = '_'.join((target.name(),'follicle','#'.zfill(2)))
+    oFoll = pm.createNode('follicle', name=follicle_name)
 
     if surface.type() == 'mesh':
         # if using a polygon mesh, use this line instead.
@@ -112,7 +112,24 @@ def create_follicle(target, uPos=0.0, vPos=0.0):
 
     return oFoll
 
-
+# Propagate follicles
+def populate_follicles(target = None, segments = 5, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
+    print('making follicles and skin joints')
+    follicle_list = []
+    uPosition_factor = 1/float(segments)
+    for i in range(segments):
+        uvPosition = uPosition_factor * (float(i)+offset)
+        if uvDirection == 'u':
+            last_follicle = create_follicle(target = target, uPos=uvPosition, vPos = uvDefault)
+            #pm.addAttr(last_follicle, longName = 'metaParent', attributeType = 'message')
+            #pm.addAttr(last_follicle, shortName = 'rbn', longName = 'ribbon', attributeType = 'message')
+            #ribbon_rootGRP.metaParent >> last_follicle.metaParent
+        elif uvDirection == 'v':
+            last_follicle = create_follicle(target = target, uPos=uvDefault, vPos = uvPosition)
+        else:
+            'Warning: only "u" and "v" are valid surface directions'
+        follicle_list.append(last_follicle)
+    return follicle_list
 
 #example:
 #ab_build_ribbon(start='locator1', end='locator2', match = 'all', segments = 8, ribbonName = 'upperLip')
