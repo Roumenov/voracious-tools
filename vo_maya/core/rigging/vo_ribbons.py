@@ -113,7 +113,7 @@ def create_follicle(target, uPos=0.0, vPos=0.0):
     return oFoll
 
 # Propagate follicles
-def populate_follicles(target = None, segments = 5, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
+def row_follicles(target = None, segments = 5, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
     print('making follicles and skin joints')
     follicle_list = []
     uPosition_factor = 1/float(segments)
@@ -130,6 +130,12 @@ def populate_follicles(target = None, segments = 5, offset = 0.5, uvDirection = 
             'Warning: only "u" and "v" are valid surface directions'
         follicle_list.append(last_follicle)
     return follicle_list
+
+def grid_follicles(target = None, segments = 5, rows = 3, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
+    spacing = 1/float(rows)
+    for i in range(rows):
+        row_follicles(target = target, segments = segments, offset = offset, uvDirection = uvDirection, uvDefault = (float(i)*spacing), name = name)
+    pass
 
 #example:
 #ab_build_ribbon(start='locator1', end='locator2', match = 'all', segments = 8, ribbonName = 'upperLip')
@@ -385,13 +391,13 @@ class Ribbon():
     """
     def __init__(
                 self,
-                character_part,
-                start,
-                end,
+                name = '',
+                targets,
                 follicles,
                 drivers,
-                name = ''
                 ):
+        for item in targets:
+
         """
         @param character_part: the characterPart metaNode this rigPart is a metaChild of
         @param start: transform to start the ribbon at

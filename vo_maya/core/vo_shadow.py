@@ -167,3 +167,9 @@ def shadow_primitive(primitive='cylinder'):
     else:
         pm.warning("invalid primitive value, accepted values are 'sphere' and 'cylinder'")
         return False
+
+def extrude_band(targets, profile = segment):
+    path = curve_on_transforms(name, transforms)
+    profile = create_object(name = '', objType = profile, radius = 1.0)
+    pass
+

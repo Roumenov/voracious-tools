@@ -441,6 +441,17 @@ def create_object(name = '', objType = '', radius = 1.0):
         output = pm.curve(name = name + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
         pm.xform(output, relative = True, scale = (radius,radius,radius))
         pm.makeIdentity(output, apply = True)
+    elif objType == 'segment':#TODO create line segment, add rounded square
+        output = pm.curve( d = 1,p = [[0.0, 0.0, -0.5], [0.0, 0.0, 0.5]],k = (0.0, 1.0))
+        #curve -d 1 -p 0 0 -1 -p 0 0 1 -k 0 -k 1 ;
+        #output = pm.curve(name = name + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
+        pm.xform(output, relative = True, scale = (radius,radius,radius))
+        pm.makeIdentity(output, apply = True)
+    elif objType == 'squareRound':#TODO create line segment, add rounded square
+        output = pm.curve( d = 3,p = [[-0.5, 0.38888888888888884, 0.0], [-0.5, 0.41666666666666663, 0.0], [-0.47222222222222227, 0.47222222222222227, 0.0], [-0.41666666666666663, 0.5, 0.0], [-0.38888888888888884, 0.5, 0.0], [0.0, 0.5, 0.0], [0.38888888888888884, 0.5, 0.0], [0.41666666666666663, 0.5, 0.0], [0.47222222222222227, 0.47222222222222227, 0.0], [0.5, 0.41666666666666663, 0.0], [0.5, 0.38888888888888884, 0.0], [0.5, -0.38888888888888884, 0.0], [0.5, -0.41666666666666663, 0.0], [0.47222222222222227, -0.47222222222222227, 0.0], [0.41666666666666663, -0.5, 0.0], [0.38888888888888884, -0.5, 0.0], [0.0, -0.5, 0.0], [-0.38888888888888884, -0.5, 0.0], [-0.41666666666666663, -0.5, 0.0], [-0.47222222222222227, -0.47222222222222227, 0.0], [-0.5, -0.41666666666666663, 0.0], [-0.5, -0.38888888888888884, 0.0], [-0.5, 0.0, 0.0], [-0.5, 0.38888888888888884, 0.0]],k = (0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 21.0, 21.0))
+        #output = pm.curve(name = name + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
+        pm.xform(output, relative = True, scale = (radius,radius,radius))
+        pm.makeIdentity(output, apply = True)
     else:
         output = pm.group(name = name, world=True)
         #need to expound on this later....
