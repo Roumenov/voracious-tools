@@ -442,7 +442,8 @@ def create_object(name = '', objType = '', radius = 1.0):
         pm.xform(output, relative = True, scale = (radius,radius,radius))
         pm.makeIdentity(output, apply = True)
     elif objType == 'segment':#TODO create line segment, add rounded square
-        output = pm.curve( d = 1,p = [[0.0, 0.0, -0.5], [0.0, 0.0, 0.5]],k = (0.0, 1.0))
+        #output = pm.curve( d = 1,p = [[0.0, 0.0, -0.5], [0.0, 0.0, 0.5]],k = (0.0, 1.0))
+        output = pm.curve( d = 1,p = [[0.0, 0.5, 0], [0.0, -0.5, 0]],k = (0.0, 1.0))
         #curve -d 1 -p 0 0 -1 -p 0 0 1 -k 0 -k 1 ;
         #output = pm.curve(name = name + '_arrow', degree = 1, point = [(0,0,0), (0,0,13), (0,1,11), (0,-1,11), (0,0,13), (1,0,11), (-1,0,11), (0,0,13)], knot =[0,1,2,3,4,5,6,7])
         pm.xform(output, relative = True, scale = (radius,radius,radius))

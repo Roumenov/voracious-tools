@@ -168,8 +168,24 @@ def shadow_primitive(primitive='cylinder'):
         pm.warning("invalid primitive value, accepted values are 'sphere' and 'cylinder'")
         return False
 
-def extrude_band(targets, profile = segment):
-    path = curve_on_transforms(name, transforms)
-    profile = create_object(name = '', objType = profile, radius = 1.0)
-    pass
+def extrude_band(name, targets, profile = 'segment'):
+    path_curve = vo_general.curve_on_transforms(name = name, transforms = targets)[0]
+    profile_curve = vo_general.create_object(name = (name+'_CRV'), objType = profile, radius = 1.0)
+    output = pm.extrude(profile_curve, path_curve, et = 2, fixedPath = True,useComponentPivot = 1, name = name)[0]
+    #pm.extrude(pm.ls(sl=1)[0], pm.ls(sl=1)[1], et = 2, fixedPath = True,useComponentPivot = 1)
 
+    return output
+
+def loft_band(name, targets, profile = 'segment', parent = False):
+    #path_curve = vo_general.curve_on_transforms(name = name, transforms = targets)
+    loft_targets = range(len(targets))
+    profile_curve = vo_general.create_object(name = (name+'_CRV'), objType = profile, radius = 1.0)
+    for index in range(len(targets)):
+        loft_targets[index] = profile_curve.duplicate()[0]
+        pm.matchTransform(loft_targets[index],targets[index])
+        if parent:
+            loft_targets[index] | targets[index]
+    output = pm.loft(loft_targets, sectionSpans = 2, name = 'extrude_band')
+    #pm.extrude(pm.ls(sl=1)[0], pm.ls(sl=1)[1], et = 2, fixedPath = True,useComponentPivot = 1)
+
+    return output

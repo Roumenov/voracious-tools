@@ -2,6 +2,15 @@ import pymel.core as pm
 import vo-maya.core.vo_general as uf
 reload(uf)
 
+
+
+voc.vo_shadow.loft_band(name = 'text', targets = pm.ls(sl=1), profile = 'segment')
+pathAnimation -fractionMode true -follow true -followAxis x -upAxis y -worldUpType "vector" -worldUpVector 0 1 0 -inverseUp false -inverseFront false -bank false -startTimeU `playbackOptions -query -minTime` -endTimeU  `playbackOptions -query -maxTime`;
+motion_path = pm.pathAnimation(fractionMode = True, follow = True, followAxis = 'x', upAxis = 'y', worldUpType = "vector", worldUpVector = (0,1,0), inverseUp = False, inverseFront = False, bank = False)
+path = pm.ls(sl=1)[0]#.getShape()
+
+####    curve_point = pm.pointOnCurve(path, constructionHistory = True, parameter = 0.5)
+
 target_list = pm.ls(sl=1)
 metaparents = range(len(target_list))
 for index in range(0, len(target_list)):
