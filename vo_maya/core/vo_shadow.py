@@ -4,7 +4,7 @@
 """
 
 import pymel.core as pm
-import vo_general
+import vo_general as general
 
 
 class ShadowMaterial():
@@ -141,7 +141,7 @@ def shadow_primitive(primitive='cylinder'):
         if len(shadow_targets) > 1:
             shadow_end = shadow_targets[-1]
             shadow_end_location = pm.xform(shadow_end, q=True, ws=True, rotatePivot=True)
-            shadow_height_ratio = vo_general.meta_children(shadow_start_location,shadow_end_location)
+            shadow_height_ratio = general.meta_children(shadow_start_location,shadow_end_location)
             shadow_cylinder[0].rotatePivot.set([-0.5*shadow_height_ratio,0,0])
             shadow_cylinder[0].scalePivot.set([-0.5*shadow_height_ratio,0,0])
             shadow_cylinder[1].heightRatio.set(shadow_height_ratio)
@@ -169,17 +169,17 @@ def shadow_primitive(primitive='cylinder'):
         return False
 
 def extrude_band(name, targets, profile = 'segment'):
-    path_curve = vo_general.curve_on_transforms(name = name, transforms = targets)[0]
-    profile_curve = vo_general.create_object(name = (name+'_CRV'), objType = profile, radius = 1.0)
+    path_curve = general.curve_on_transforms(name = name, transforms = targets)[0]
+    profile_curve = general.create_object(name = (name+'_CRV'), objType = profile, radius = 1.0)
     output = pm.extrude(profile_curve, path_curve, et = 2, fixedPath = True,useComponentPivot = 1, name = name)[0]
     #pm.extrude(pm.ls(sl=1)[0], pm.ls(sl=1)[1], et = 2, fixedPath = True,useComponentPivot = 1)
 
     return output
 
 def loft_band(name, targets, profile = 'segment', parent = False):
-    #path_curve = vo_general.curve_on_transforms(name = name, transforms = targets)
+    #path_curve = general.curve_on_transforms(name = name, transforms = targets)
     loft_targets = range(len(targets))
-    profile_curve = vo_general.create_object(name = (name+'_CRV'), objType = profile, radius = 1.0)
+    profile_curve = general.create_object(name = (name+'_CRV'), objType = profile, radius = 1.0)
     for index in range(len(targets)):
         loft_targets[index] = profile_curve.duplicate()[0]
         pm.matchTransform(loft_targets[index],targets[index])

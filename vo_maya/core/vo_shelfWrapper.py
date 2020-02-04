@@ -14,8 +14,8 @@ import pymel.core as pm
 import vo_meta as meta
 import vo_general as general
 import vo_shadow as shadow
-import rigging.vo_controls as controls
-import rigging.vo_ribbons as ribbons
+import vo_controls as controls
+import vo_ribbons as ribbons
 
 
 #maybe use class to define parameters needed in button
@@ -41,10 +41,14 @@ def meta_tag_wrapper():
 
 def object_at_selection(name = '', objType = '', radius = 1.0):
     output = []
-    for target in pm.ls(sl=1):
+    if len(pm.ls(sl=1)):
+        for target in pm.ls(sl=1):
+            new_object = general.create_object(name = name, objType = objType, radius = 1.0)
+            output.append(new_object)
+            pm.matchTransform(new_object, target, pos = True, rot = True, scale = False)
+    else:
         new_object = general.create_object(name = name, objType = objType, radius = 1.0)
         output.append(new_object)
-        pm.matchTransform(new_object, target, pos = True, rot = True, scale = False)
     pm.select(output, r=1)
     return output
 
