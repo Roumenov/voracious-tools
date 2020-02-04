@@ -470,8 +470,8 @@ def nest_transform(name, action, target = None, transformObj = 'locator', transf
     """
     Creates a transform inside a hierarchy.
     @param action: 'parent' makes new transform parent of target.
-    'child' makes it child.
-    'adopt' makes child and adopts all child transforms.
+                    'child' makes it child.
+                    'adopt' makes child and adopts all child transforms.
     """
     nested_transform = None
     if not target:

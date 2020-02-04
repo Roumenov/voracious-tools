@@ -1,6 +1,7 @@
 import pymel.core as pm
 import vo_maya.core.vo_general as general
-reload(general)
+import vo_maya.core.vo_shadow as shadow 
+#reload(general)
 
 #gets weird if things are scaled
 def make_proxy_pivot(name, target):
@@ -113,7 +114,7 @@ def create_follicle(target, uPos=0.0, vPos=0.0):
     return oFoll
 
 # Propagate follicles
-def row_follicles(target = None, segments = 5, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
+def create_follicle_row(target = None, segments = 5, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
     print('making follicles and skin joints')
     follicle_list = []
     uPosition_factor = 1/float(segments)
@@ -131,15 +132,35 @@ def row_follicles(target = None, segments = 5, offset = 0.5, uvDirection = 'u', 
         follicle_list.append(last_follicle)
     return follicle_list
 
-def grid_follicles(target = None, segments = 5, rows = 3, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
+def create_follicle_grid(target = None, segments = 5, rows = 3, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
     spacing = 1/float(rows)
+    follicle_list = []
     for i in range(rows):
-        row_follicles(target = target, segments = segments, offset = offset, uvDirection = uvDirection, uvDefault = (float(i)*spacing), name = name)
-    pass
+        follicle_list = row_follicles(target = target, segments = segments, offset = offset, uvDirection = uvDirection, uvDefault = (float(i)*spacing), name = name)
+        follicle_grid += follicle_list
+    return follicle_grid
 
 #example:
 #ab_build_ribbon(start='locator1', end='locator2', match = 'all', segments = 8, ribbonName = 'upperLip')
 #changed attribute connection to connect ribbon_rootGRP.metaParent to all children instead of .ribbon
+
+def build_auto_ribbon(ribbon_name, drivers, segments=5, rows=3, offset=0.5, uvDirection='u', uvDefault=0.5):
+    
+    ribbon_geo = shadow.extrude_band(name = ribbon_name, targets = drivers, profile = profile)
+    driver_offsets = []
+    for item in drivers:
+        general.nest_transform(name = (item.name()+'_GRP'), action = 'parent', target = item, transformObj = 'group')
+    
+    follicles = create_follicle_grid(target=ribbon_geo, segments = segments, rows=rows, offset=offset, uvDirection=uvDirection, uvDefault=uvDefault, name='rig')
+    for item in follicles:
+        general.nest_transform(name = (item.name()+'_GRP'), action = 'child', target = item, transformObj = 'locator')
+    #groups
+    follicle_group = pm.group(name = (ribbon_name + 'follicle_GRP'), follicles)
+    driver_group = pm.group(name = (ribbon_name + 'follicle_GRP'), drivers)
+    ribbon_grp = pm.group(name = (ribbon_name + 'follicle_GRP'), ribbon_geo, follicle_group, driver_group)
+    return ribbon_grp, driver_group, follicles
+    
+
 
 def build_ribbon(start = '', end = '', match = 'all', segments = 6, ribbonName = 'ribbon'):
     ribbon_rootName = ribbonName #+'_RBN'

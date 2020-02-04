@@ -11,9 +11,11 @@
 
 
 import pymel.core as pm
-import vo_meta
+import vo_meta as meta
 import vo_general as general
-#reload(uf)
+import vo_shadow as shadow
+import rigging.vo_controls as controls
+import rigging.vo_ribbons as ribbons
 
 
 #maybe use class to define parameters needed in button
@@ -34,7 +36,7 @@ class shelf_wrapper():
 
 def meta_tag_wrapper():
     for target in pm.ls(sl=1):
-        vo_meta.meta_tag(target)
+        meta.meta_tag(target)
 
 
 def object_at_selection(name = '', objType = '', radius = 1.0):
@@ -86,6 +88,12 @@ def primitive_at_select_verts(name='cube', primitive='cube', axis='y', radius = 
     pm.select(new_object, r=1)
     return new_object
 
+def auto_super_ribbon():
+    #build_auto_ribbon(ribbon_name, drivers, segments=5, rows=3, offset=0.5, uvDirection='u', uvDefault=0.5)
+    ribbon_name = general.prompt_string(promptTitle = 'Ribbon Name', promptMessage = 'Enter ribbon name')
+    ribbon_GRP, driver_GRP, follicles = ribbons.build_auto_ribbon(name = ribbon_name, targets = pm.ls(sl=1))
+    return ribbon_GRP, driver_GRP, follicles
+    #build_ribbon(ribbon_name, drivers, segments=5, rows=3, offset=0.5, uvDirection='u', uvDefault=0.5)
 
 def showPrimitiveWindow():
     name = 'primitiveWindow'

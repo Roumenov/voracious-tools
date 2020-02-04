@@ -189,3 +189,6 @@ def loft_band(name, targets, profile = 'segment', parent = False):
     #pm.extrude(pm.ls(sl=1)[0], pm.ls(sl=1)[1], et = 2, fixedPath = True,useComponentPivot = 1)
 
     return output
+
+
+
