@@ -7,7 +7,7 @@
 
 import pymel.core as pm
 import maya.cmds as cmds
-import rigging.vo_deformers as deformers
+import vo_deformers as deformers
 import sys
 import inspect
 

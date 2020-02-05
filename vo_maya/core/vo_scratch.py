@@ -1,6 +1,6 @@
 import pymel.core as pm
-import vo-maya.core.vo_general as uf
-reload(uf)
+import vo_general as general
+reload(general)
 
 
 
@@ -14,13 +14,13 @@ path = pm.ls(sl=1)[0]#.getShape()
 target_list = pm.ls(sl=1)
 metaparents = range(len(target_list))
 for index in range(0, len(target_list)):
-    metaparents[index] = uf.meta_traverse(source = target_list[index], relation = 'parent', tag = '')
+    metaparents[index] = general.meta_traverse(source = target_list[index], relation = 'parent', tag = '')
 pm.select(metaparents)
 
 target_list = pm.ls(sl=1)
 metachildren = range(len(target_list))
 for index in range(0, len(target_list)):
-    metachildren[index] = uf.meta_traverse(source = target_list[index], relation = 'child', tag = '')
+    metachildren[index] = general.meta_traverse(source = target_list[index], relation = 'child', tag = '')
 pm.select(metachildren)
 
 import xml.etree.ElementTree as ET
@@ -40,12 +40,12 @@ for entry in joints:
 
 
 
-src_list, dest_list = uf.load_csv(sourcename = '', targetname = '', filename = 'JointMapping.csv', directory = 'Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/')
+src_list, dest_list = general.load_csv(sourcename = '', targetname = '', filename = 'JointMapping.csv', directory = 'Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/')
 print dest_list
-uf.list_match(source_list = src_list,destination_list = dest_list, operation = 'match', sourceName = ['skel_', 'Skel_'], destName = ['character_','mesh:GenChar_'])
-uf.list_constrain(source_list=dest_list,destination_list=src_list, sourceName = ['character_','Xidriel_'], destName = ['skel_', 'Skel_'])
+general.list_match(source_list = src_list,destination_list = dest_list, operation = 'match', sourceName = ['skel_', 'Skel_'], destName = ['character_','mesh:GenChar_'])
+general.list_constrain(source_list=dest_list,destination_list=src_list, sourceName = ['character_','Xidriel_'], destName = ['skel_', 'Skel_'])
 
-uf.list_rename(source_list=dest_list,destination_list=src_list, sourceName = ['character_','Skel_'], destName = ['skel_', 'Skel_'])
+general.list_rename(source_list=dest_list,destination_list=src_list, sourceName = ['character_','Skel_'], destName = ['skel_', 'Skel_'])
 
 
 pm.select(pm.ls('*:pipe_ctrl', objectsOnly = True), replace = True)
@@ -205,8 +205,8 @@ for item in eye_targets:
 import pymel.core as pm
 import rigTools
 reload(rigTools.vo_controls)
-import vo-maya.core.vo_general as uf
-reload(uf)
+import vo-maya.core.vo_general as general
+reload(general)
 
 
 #addAttr -ln "Parent"  -at "enum" -en "Obj1:Obj2:"  |Hammer_controls|Hammer_GRP|Hammer_OST|Hammer_CTL;
@@ -252,11 +252,11 @@ def make_space_switch(parents, target, control, offset=0):
     #print enum_strings
     #print all_parents
     pm.addAttr(control, longName = 'parentSpace', attributeType = 'enum', enumName = enum_strings)
-    uf.attr_lock(control, attr = 'parentSpace', lock = False)
+    general.attr_lock(control, attr = 'parentSpace', lock = False)
     
     pm.select(control, replace = 1)
 
-    #uf.multi_constrain(parents, target)
+    #general.multi_constrain(parents, target)
     
     for index in range(len(enum_strings)):
         constraint_weight_target = ''
@@ -293,7 +293,7 @@ target_list = pm.ls(sl=1)
 for target in target_list:
     
     pm.addAttr(target, longName = 'parentSpace', attributeType = 'enum', enumName = "World:COG:LHand:RHand")
-    uf.attr_lock(target, attr = 'parentSpace', lock = False)
+    general.attr_lock(target, attr = 'parentSpace', lock = False)
     #target.setAttr('parent', keyable = True)
     #target.setAttr(target_attr, channelBox = True, lock = False)
     #target.setAttr(target_attr, keyable = True)
@@ -312,7 +312,7 @@ for target in target_list:
 
 
 
-#tagging stuff
+#tagging stgeneralf
 
 
 
@@ -333,13 +333,13 @@ for target in tag_list:
 pm.select(pm.ls('*.noExport', objectsOnly = True), replace = True)
 
 import pymel.core as pm
-import vo-maya.core.vo_general as uf
-reload(uf)
+import vo-maya.core.vo_general as general
+reload(general)
 
 target_list = pm.ls(sl=1)
 
 for target in target_list:
-    uf.attr_lock(target, attr = 'export', lock = True)
+    general.attr_lock(target, attr = 'export', lock = True)
 
 
 #skinMesh

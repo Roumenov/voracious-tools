@@ -78,8 +78,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -217,7 +217,7 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "# ab_Loc2B---------------------------------\n#place a locator on object location\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nlocator_target_list = pm.ls(sl=1)\nlocator_list = []\n\nif len(locator_target_list):\n    \n    for locator_target in locator_target_list:\n        locator_name = str(locator_target) + '_location'\n        print(locator_name)\n        locator_object = uf.nest_transform(name = locator_name, action = 'child', target = locator_target, transformObj = 'locator', transformRadius = 1.0)\n        pm.parent(locator_object, world = True)\n        locator_list.append(locator_object)\nelse:\n    \n    locator_list.append(pm.spaceLocator(relative = True))\npm.select(locator_list, replace = True)" 
+        -command "import vo_maya.core as voc\nreload(voc)\nvoc.vo_shelfWrapper.object_at_selection(name = 'loc_00', objType = 'locator')\n" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
@@ -493,14 +493,14 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "#pController\nimport pymel.core as pm\nimport rigTools\nreload(rigTools.vo_controls)\n\nobject_list= pm.ls(sl = True)\ncontrol_list = []\n\nfor item in object_list:\n\t#prompt string\n    item_name = item.stripNamespace()\n    current_control = rigTools.vo_controls.pControl(target=item, name = item_name)\n    print('control object = ' +str(current_control))\n    control_object = current_control.control_object\n    #insert offset\n    control_list.append(control_object)\n\npm.select(control_list)" 
+        -command "#pController\nimport vo_maya.core as voc\nreload(voc)\n\nvoc.vo_shelfWrapper.create_control()" 
         -sourceType "python" 
         -doubleClickCommand "CreateNURBSCircleOptions" 
         -commandRepeatable 1
         -flat 1
-        -mi "Chain Existing" ( "import pymel.core as pm\nimport rigTools\nreload(rigTools.vo_controls)\n\ncontrol_list= pm.ls(sl = True)\nrigTools.vo_controls.chain_controls(control_list)" )
+        -mi "Chain Existing" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\ncontrol_list= pm.ls(sl = True)\nvoc.vo_controls.chain_controls(control_list, offset = '_GRP')" )
         -mip 0
-        -mi "CTL chain" ( "#pController\nimport pymel.core as pm\nimport rigTools\nreload(rigTools.vo_controls)\nimport vo_usefulFunctions as uf\nreload(uf)\n\nreplace_string = uf.prompt_string(promptTitle = 'Replacement String', promptMessage = 'Enter string to swap in for instances of \"Skel\"')\n\nobject_list= pm.ls(sl = True)\ncontrol_list = []\n\nfor item in object_list:\n\t#prompt string\n    item_name = item.stripNamespace()\n    if 'Skel' in item_name:\n        item_name = item_name.replace('Skel',replace_string)\n    current_control = rigTools.vo_controls.pControl(target=item, name = item_name)\n    print('control object = ' +str(current_control))\n    control_object = current_control.control_object\n    #insert offset\n    control_list.append(control_object)\n\nrigTools.vo_controls.chain_controls(control_list)\n\npm.select(control_list)" )
+        -mi "CTL chain" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc.vo_shelfWrapper)\n\nvoc.vo_shelfWrapper.create_chain(offset = False)\n" )
         -mip 1
         -mi "Custom Name CTL" ( "#pController\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\nimport rigTools\nreload(rigTools.vo_controls)\n\nobject_list= pm.ls(sl = True)\ncontrol_list = []\n\nfor item in object_list:\n\t#prompt string\n    item_name = item.stripNamespace()\n    control_string = uf.prompt_string(promptTitle = 'Input Name String', promptMessage = 'Enter string to name for >  < controller')\n    current_control = rigTools.vo_controls.pControl(target=item, name = control_string)\n    print('control object = ' +str(current_control))\n    control_object = current_control.control_object\n    #insert offset\n    control_list.append(control_object)\n\npm.select(control_list)" )
         -mip 2
@@ -1193,8 +1193,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 34
+        -width 23
+        -height 23
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1283,8 +1283,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1557,8 +1557,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0

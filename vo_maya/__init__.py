@@ -6,7 +6,7 @@ def _reload():
     return
 
 def start():
-    utils.executeDeferred(print('executeDeferredTest'))
+    utils.executeDeferred("print('executeDeferredTest')")
     return
 
 

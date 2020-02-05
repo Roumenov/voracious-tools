@@ -472,18 +472,12 @@ def nest_transform(name, action, target = None, transformObj = 'locator', transf
     @param action: 'parent' makes new transform parent of target.
                     'child' makes it child.
                     'adopt' makes child and adopts all child transforms.
+                    #TODO:  add 'sibling' to parent xform to target's parent
     """
     nested_transform = None
     if not target:
-        target = pm.ls(sl = 1)[0]
-        if target.exists():
-            print( 'using selection :: ' + str(target) + ' as target')
-        else:
-            print( 'no available target')
-            pm.error(showLineNumber = True)
-            return None
-    else:
-        print('target = ' + str(target))
+        pm.warning('no target provided')
+        return None
     target_name = str(target)
     if len(name): #set transform name to arg value
         transformName = name
@@ -516,10 +510,10 @@ def replace(source_object, target, useTargetName = True, clearSource = False):
     target_parent = pm.listRelatives(target, parent = True, type = 'transform')[0]
     target_children = pm.listRelatives(target, children = True, type = 'transform')
     if target_parent:
-        print( 'parenting to :: ' + str(target_parent))
+        #print( 'parenting to :: ' + str(target_parent))
         target_parent | current_replacement
     else:
-        print( 'parent is world')
+        #print( 'parent is world')
         pass
     for child in target_children:
         current_replacement | child
@@ -528,11 +522,12 @@ def replace(source_object, target, useTargetName = True, clearSource = False):
         pm.rename(current_replacement,str(target))
     else:
         pm.rename(current_replacement, source_object.shortName())
-        print('using source name')
+        #print('using source name')
     if clearSource:
         pm.delete(source_object)
     else:
-        print('preserved source object')
+        pass
+        #print('preserved source object')
 
 def multi_replace(source_object, *target_objects):
     #target_list = object_list[1:]

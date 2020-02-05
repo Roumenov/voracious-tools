@@ -9,4 +9,7 @@ import vo_shelfWrapper
 import vo_meta
 #import Red9.core.Red9_Meta as r9Meta
 import vo_shadow
+import vo_controls
+import vo_deformers
+import vo_ribbons
 #import rigging

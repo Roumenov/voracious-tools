@@ -5,6 +5,7 @@
 """
 
 import pymel.core as pm
+import Red9.core.Red9_Meta as r9Meta
 
 #def meta_find(attr = ''):
     #pm.select(pm.ls(attr, objectsOnly = True), replace = True)

@@ -157,9 +157,9 @@ def build_auto_ribbon(ribbon_name, drivers, segments=5, rows=1, offset=0.5, uvDi
     #skin
     pm.skinCluster(drivers, ribbon_geo, bindMethod = 0, normalizeWeights = 1, weightDistribution = 0, maximumInfluences = 2, obeyMaxInfluences = True, skinMethod = 1, dropoffRate = 2, removeUnusedInfluence = False)
     #groups
-    follicle_group = pm.group(name = (ribbon_name + 'follicle_GRP'), follicles)
-    driver_group = pm.group(name = (ribbon_name + 'follicle_GRP'), drivers)
-    ribbon_grp = pm.group(name = (ribbon_name + 'follicle_GRP'), ribbon_geo, follicle_group, driver_group)
+    follicle_group = pm.group(follicles, name = (ribbon_name + 'follicle_GRP'))
+    driver_group = pm.group(drivers, name = (ribbon_name + 'follicle_GRP'))
+    ribbon_grp = pm.group(ribbon_geo, follicle_group, driver_group, name = (ribbon_name + 'follicle_GRP'))
     return ribbon_grp, driver_group, follicles
     
 
@@ -414,7 +414,7 @@ class Ribbon():
     """
     def __init__(
                 self,
-                name = '',
+                name,
                 targets,
                 follicles,
                 drivers,

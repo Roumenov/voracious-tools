@@ -8,8 +8,6 @@
     TODO: add procs for building shelves, not sure how to copy shelves while maya is running, though
 """
 
-
-
 import pymel.core as pm
 import vo_meta as meta
 import vo_general as general
@@ -39,7 +37,7 @@ def meta_tag_wrapper():
         meta.meta_tag(target)
 
 
-def object_at_selection(name = '', objType = '', radius = 1.0):
+def object_at_selection(name = '', objType = '', radius = 1.0, ):
     output = []
     if len(pm.ls(sl=1)):
         for target in pm.ls(sl=1):
@@ -47,8 +45,20 @@ def object_at_selection(name = '', objType = '', radius = 1.0):
             output.append(new_object)
             pm.matchTransform(new_object, target, pos = True, rot = True, scale = False)
     else:
-        new_object = general.create_object(name = name, objType = objType, radius = 1.0)
-        output.append(new_object)
+        output = general.create_object(name = name, objType = objType, radius = 1.0)
+    pm.select(output, r=1)
+    return output
+
+def object_under_selection(name = '', objType = '', radius = 1.0):
+    output = []
+    if len(pm.ls(sl=1)):
+        for target in pm.ls(sl=1):
+            new_object = general.create_object(name = name, objType = objType, radius = 1.0)
+            output.append(new_object)
+            pm.matchTransform(new_object, target, pos = True, rot = True, scale = False)
+            target | new_object
+    else:
+        output = general.create_object(name = name, objType = objType, radius = 1.0)
     pm.select(output, r=1)
     return output
 
@@ -130,4 +140,34 @@ def showPrimitiveWindow():
     pm.setParent(column)
     pm.rowLayout(numberOfColumns=1)
     pm.button(label='create')
+
+
+
+
+"""
+===============        RIG OPERATIONS      ===============
+
+"""
+
+def create_control(offset = False):
+    control_list = []
+
+    for item in pm.ls(sl = True):
+        current_control = controls.Control(target=item, name = item.stripNamespace())
+        control_object = current_control.control_object
+
+        #insert offset
+        control_list.append(control_object)
+    pm.select(control_list)
+    return control_list
+
+
+def create_chain(offset = False):
+
+    object_list= pm.ls(sl = True)
+    control_list = create_control()
+
+    controls.chain_controls(control_list)
+
+    pm.select(control_list)
 
