@@ -120,6 +120,11 @@ def make_follicle_row():
     ribbons.create_follicle_row(target = pm.ls(sl=1)[0], segments = int(segment_input))
 
 
+def make_follicle_column():
+    segment_input = general.prompt_string(promptTitle = 'Segments', promptMessage = 'Enter number of segments')
+    ribbons.create_follicle_row(target = pm.ls(sl=1)[0], segments = int(segment_input), uvDirection = 'v')
+
+
 def make_follicle_grid():
     segment_input = general.prompt_string(promptTitle = 'Segments', promptMessage = 'Enter number of segments')
     row_input = general.prompt_string(promptTitle = 'Rows', promptMessage = 'Enter number of rows')
