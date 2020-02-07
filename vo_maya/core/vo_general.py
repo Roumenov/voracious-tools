@@ -888,7 +888,7 @@ def list_influences(mesh):
 
 def load_csv(sourcename = '', targetname = '', filename = 'JointMapping.csv', directory = 'Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/'):
     """
-    Load a csv file and return a list of 
+    Load a csv file and return columns as lists
     """
     filepath = directory + filename
     csv_table = open(filepath, "r")
@@ -920,14 +920,13 @@ def list_match(source_list=None,destination_list=None, operation = 'match', sour
                 #destination_object = pm.ls(dest_string)[0]
                 #print(destination_object)
                 try:
-                    print('matching')
                     pm.matchTransform(source_object, pm.ls(dest_string)[0], pos = True, rot = True, scale = False)
                 except:
-                    print('failed match')
+                    pm.warning('failed match')
             else:
                 pass
         else:
-            print('no length')
+            pm.warning('no length')
             pass
     print('fin')
 

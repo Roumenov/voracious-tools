@@ -78,8 +78,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0
@@ -217,18 +217,21 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "import vo_maya.core as voc\nreload(voc)\nvoc.vo_shelfWrapper.object_at_selection(name = 'loc_00', objType = 'locator')\n" 
+        -command "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nvoc.vo_shelfWrapper.object_at_selection(name = 'locator_00', objType = 'locator')\n\n" 
         -sourceType "python" 
+        -doubleClickCommand "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nlocators = []\nfor item in pm.ls(sl=1):\n    loc = voc.vo_general.nest_transform(name = item.name()+'_LOC', action = 'child', target = item, transformObj = 'locator', transformRadius = 1.0)\n\tlocators.append(loc)\npm.select(locators, r=True)" 
         -commandRepeatable 1
         -flat 1
         -mi "Locator on Grid" ( "#place a locator on origin\nimport pymel.core as pm\n\npm.spaceLocator(relative = True)" )
         -mip 0
-        -mi "Locator on selected" ( "import vo_maya.core as voc\nreload(voc)\nvoc.vo_shelfWrapper.object_at_selection(name = 'loc_00', objType = 'locator')\n" )
+        -mi "Locator on selected" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nlocators = []\nfor item in pm.ls(sl=1):\n    loc = voc.vo_shelfWrapper.object_at_selection(name = item.name()+'LOC_00', objType = 'locator')\n    locators.append(loc)\npm.select(locators, r=True)\n" )
         -mip 1
-        -mi "Locator Parented to selected" ( "# ab_Loc2B---------------------------------\n#place a locator on object location\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nlocator_target_list = pm.ls(sl=1)\nlocator_list = []\n\nfor locator_target in locator_target_list:\n    \n    locator_name = str(locator_target) + '_location'\n    print(locator_name)\n    locator_object = uf.nest_transform(name = locator_name, action = 'child', target = locator_target, transformObj = 'locator', transformRadius = 1.0)\n    pm.parent(locator_object, locator_target)\n    locator_list.append(locator_object)\n\npm.select(locator_list, replace = True)" )
+        -mi "Locator Child" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nlocators = []\nfor item in pm.ls(sl=1):\n    loc = voc.vo_general.nest_transform(name = item.name()+'_LOC', action = 'child', target = item, transformObj = 'locator', transformRadius = 1.0)\n    locators.append(loc)\npm.select(locators, r=True)" )
         -mip 2
-        -mi "Locator between selected objects" ( "import vo_maya.core as voc\nreload(voc)\nvoc.vo_general.loc_average(pm.ls(sl=1))\n\n" )
+        -mi "Locator Parent" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nlocators = []\nfor item in pm.ls(sl=1):\n    loc = voc.vo_general.nest_transform(name = item.name()+'_LOC', action = 'parent', target = item, transformObj = 'locator', transformRadius = 1.0)\n    locators.append(loc)\npm.select(locators, r=True)" )
         -mip 3
+        -mi "Locator between selected objects" ( "import vo_maya.core as voc\nreload(voc)\nvoc.vo_general.loc_average(pm.ls(sl=1))\n\n" )
+        -mip 4
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -258,22 +261,24 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "# joint on transform\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\njoint_target_list = pm.ls(sl=1)\njoints = []\nif len(joint_target_list):\n    for joint_target in joint_target_list:\n        \n        joint_name = str(joint_target) + '_JNT'\n        current_joint = uf.create_object(objName = joint_name, objType = 'joint', radius = 1.0)\n        pm.matchTransform(current_joint, joint_target)\n        joints.append(current_joint)\nelse:\n    current_joint = uf.create_object(objName = 'joint_00', objType = 'joint', radius = 1.0)\n    joints.append(current_joint)\npm.select(joints, replace = True)\n" 
+        -command "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nvoc.vo_shelfWrapper.object_at_selection(name = 'JNT_00', objType = 'joint')\n" 
         -sourceType "python" 
         -doubleClickCommand "JointTool" 
         -commandRepeatable 1
         -flat 1
         -mi "(incomplete) mirror joint position" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\ntarget_list = pm.ls(sl=1)\nlocator_list = []\n\nfor target in target_list:\n\tif '_L_' in str(mirror_object):\n\t\tmirror_name = str(mirror_object).replace(['_L_', '_R_'])\n\t\tcmds.select(mirror_object)\n\t\tcmds.mirrorJoint(mirrorYZ = True, mirrorBehavior = True, sr = ['_L_', '_R_'])\n\telse:\n\t\tmirror_name = str(mirror_object).replace(['_R_', '_L_'])\n\tmirror_object = pm.ls(mirror_name)[0]\n    mirror_target = uf.create_object(objName = str(mirror_object)+'_mirror', objType = 'joint')\n\tpm.matchTransform(mirror_target, target)\n    if pm.objExists(mirror_object):\n        mirror_group = uf.nest_transform(name = str(mirror_object)+'_mirror_offset', action = 'parent', objType = 'group'_\n    else:\n\t\tpm.duplicate(target)\n        mirror_group = uf.nest_transform(name = str(mirror_object)+'_mirror_offset', action = 'parent', objType = 'group'_\n\t\tpm.scale([-1,1,1])" )
         -mip 0
-        -mi "--locator?" ( "# Joint on target\n#place a joint on selected transforms\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nlocator_target_list = pm.ls(sl=1)\nlocator_list = []\n\nfor locator_target in locator_target_list:\n    \n    locator_name = str(locator_target) + '_location'\n    print(locator_name)\n    locator_object = uf.nest_transform(name = locator_name, action = 'child', target = locator_target, transformObj = 'locator', transformRadius = 1.0)\n    pm.parent(locator_object, locator_target)\n    locator_list.append(locator_object)\n\npm.select(locator_list, replace = True)" )
-        -mip 1
         -mi "Joint Tool" ( "JointTool" )
-        -mi "Make attach joint" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nfor target in pm.ls(sl=1):\n    name = str(target)+'_attach'\n    attach_joint = pm.duplicate(target)[0]\n    attach_joint.rename(name)\n    target|attach_joint\n    children = attach_joint.getChildren(children = True, type = 'transform')\n    pm.delete(children)\n    if '_L_' in str(target):\n        #attach_joint.rotate = (90,0,-90)\n        attach_joint.rotateX.set(90)\n        attach_joint.rotateZ.set(-90)\n        attach_joint.ty.set(-4.543)\n    else:\n        attach_joint.rotateX.set(90)\n        attach_joint.rotateZ.set(-90)\n        attach_joint.translateY.set(4.543)\n    pm.makeIdentity(attach_joint, rotate = True, scale = False, translate = False, apply = True)\n    attach_joint.radius.set(1)" )
+        -mi "Joint Child" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\njoints = []\nfor item in pm.ls(sl=1):\n    jnt = voc.vo_general.nest_transform(name = item.name()+'_JNT', action = 'child', target = item, transformObj = 'joint', transformRadius = 1.0)\n    joints.append(jnt)\npm.select(joints, r=True)" )
+        -mip 2
+        -mi "Joint Parent" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\njoints = []\nfor item in pm.ls(sl=1):\n    jnt = voc.vo_general.nest_transform(name = item.name()+'_JNT', action = 'parent', target = item, transformObj = 'joint', transformRadius = 1.0)\n    joints.append(jnt)\npm.select(joints, r=True)" )
         -mip 3
-        -mi "WIP - replace joint connections" ( "import pymel.core as pm\n\n\n#   ====    replace connections    ====    #\n#\n# or just shortcut and replace expected conenctionjs to skinClustersend \n\nsource_joint = pm.ls(sl=1)[0]\ntarget_joint = pm.ls(sl=1)[1]\n\ndef replace_connections(source,target):\n    #CHECK IF TYPES MATCH\n    if source.type() == 'joint' and target.type() == 'joint':\n        #find a way to get all clusters current joint connects to\n        clusters = list(set(pm.ls(source.outputs(type = 'skinCluster'), flatten = True)) - set(pm.ls(target.outputs(type = 'skinCluster'), flatten = True)))\n        \n        \n        for target_cluster in clusters:\n            #add influence to every cluster\n            target_cluster.addInfluence(target, lw = True, wt = 0)\n            pass\n\n        #REPLACE CONNECTIONS\n        pm.nodeCast(source, target)\n        #pm.skinCluster\n        for target_cluster in clusters:\n            #add influence to every cluster\n            target_cluster.removeInfluence(source, lw = True, wt = 0)\n            pass\n        return True\n    else:\n        return False\n\n\nreplace_connections(source = source_joint, target = target_joint)" )
+        -mi "Make attach joint" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nfor target in pm.ls(sl=1):\n    name = str(target)+'_attach'\n    attach_joint = pm.duplicate(target)[0]\n    attach_joint.rename(name)\n    target|attach_joint\n    children = attach_joint.getChildren(children = True, type = 'transform')\n    pm.delete(children)\n    if '_L_' in str(target):\n        #attach_joint.rotate = (90,0,-90)\n        attach_joint.rotateX.set(90)\n        attach_joint.rotateZ.set(-90)\n        attach_joint.ty.set(-4.543)\n    else:\n        attach_joint.rotateX.set(90)\n        attach_joint.rotateZ.set(-90)\n        attach_joint.translateY.set(4.543)\n    pm.makeIdentity(attach_joint, rotate = True, scale = False, translate = False, apply = True)\n    attach_joint.radius.set(1)" )
         -mip 4
-        -mi "Select Joints in Hierarchy" ( "import pymel.core as pm\npm.select(hierarchy = True)\npm.select(pm.ls(type = 'joint', objectsOnly=True, selection = True))" )
+        -mi "WIP - replace joint connections" ( "import pymel.core as pm\n\n\n#   ====    replace connections    ====    #\n#\n# or just shortcut and replace expected conenctionjs to skinClustersend \n\nsource_joint = pm.ls(sl=1)[0]\ntarget_joint = pm.ls(sl=1)[1]\n\ndef replace_connections(source,target):\n    #CHECK IF TYPES MATCH\n    if source.type() == 'joint' and target.type() == 'joint':\n        #find a way to get all clusters current joint connects to\n        clusters = list(set(pm.ls(source.outputs(type = 'skinCluster'), flatten = True)) - set(pm.ls(target.outputs(type = 'skinCluster'), flatten = True)))\n        \n        \n        for target_cluster in clusters:\n            #add influence to every cluster\n            target_cluster.addInfluence(target, lw = True, wt = 0)\n            pass\n\n        #REPLACE CONNECTIONS\n        pm.nodeCast(source, target)\n        #pm.skinCluster\n        for target_cluster in clusters:\n            #add influence to every cluster\n            target_cluster.removeInfluence(source, lw = True, wt = 0)\n            pass\n        return True\n    else:\n        return False\n\n\nreplace_connections(source = source_joint, target = target_joint)" )
         -mip 5
+        -mi "Select Joints in Hierarchy" ( "import pymel.core as pm\npm.select(hierarchy = True)\npm.select(pm.ls(type = 'joint', objectsOnly=True, selection = True))" )
+        -mip 6
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -537,20 +542,20 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "# transform offset parent\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\ncontrol_target_list = pm.ls(sl=1)\n\nfor control_target in control_target_list:\n    if '_CTL' in str(control_target):\n        offset_name = str(control_target).replace('_CTL', '_OST')\n    else:\n        offset_name = str(control_target) + '_OST'\n    offset_object = uf.nest_transform(name = offset_name, action = 'parent', target = control_target, transformObj = 'group')\npm.select(control_target_list, replace = True)" 
+        -command "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\noffsets = []\nif len(pm.ls(sl=1)):\n    for item in pm.ls(sl=1):\n        ost = voc.vo_shelfWrapper.object_at_selection(name = item.name()+'_OST', objType = 'group')\n        offsets.append(ost)\nelse:\n    ost = voc.vo_shelfWrapper.object_at_selection(name = 'OST_00', objType = 'group')\n\npm.select(offsets, r=True)" 
         -sourceType "python" 
-        -doubleClickCommand "# transform offset + group\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\ncontrol_target_list = pm.ls(sl=1)\n\nfor control_target in control_target_list:\n    if '_CTL' in str(control_target):\n        offset_name = str(control_target).replace('_CTL', '_OST')\n    else:\n        offset_name = str(control_target) + '_OST'\n    group_name = offset_name.replace('_OST', '_GRP')\n    offset_object = uf.nest_transform(name = offset_name, action = 'parent', target = control_target, transformObj = 'group')\n    group_object = uf.nest_transform(name = group_name, action = 'parent', target = offset_object, transformObj = 'group')\npm.select(control_target_list, replace = True)" 
+        -doubleClickCommand "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\noffsets = []\nfor item in pm.ls(sl=1):\n    ost = voc.vo_general.nest_transform(name = item.name()+'_GRP', action = 'parent', target = item, transformObj = 'group', transformRadius = 1.0)\n    offsets.append(ost)\npm.select(offsets, r=True)" 
         -commandRepeatable 1
         -flat 1
         -mi "string Offset parent" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n####\t========\t\tNEED TO MAKE A MENU FOR THIS SHIT\t\t========\t####\n\n\ncontrol_target_list = pm.ls(sl=1)\noffset_list = []\noffset_string = uf.prompt_string(promptTitle = 'Offset String', promptMessage = 'Enter string to use for offset')\n\nfor control_target in control_target_list:\n    if 'CTL' in str(control_target):\n        offset_name = str(control_target).replace('CTL', offset_string)\n    else:\n        offset_name = str(control_target) + offset_string\n    offset_object = uf.nest_transform(name = offset_name, action = 'parent', target = control_target, transformObj = 'group')\n    offset_list.append(offset_object)\n\npm.select(offset_list, replace = True)" )
         -mip 0
-        -mi "OST parent" ( "# transform offset parent\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\ncontrol_target_list = pm.ls(sl=1)\n\nfor control_target in control_target_list:\n    if '_CTL' in str(control_target):\n        offset_name = str(control_target).replace('_CTL', '_OST')\n    else:\n        offset_name = str(control_target) + '_OST'\n    offset_object = uf.nest_transform(name = offset_name, action = 'parent', target = control_target, transformObj = 'group')\npm.select(control_target_list, replace = True)" )
+        -mi "OST parent" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\noffsets = []\nfor item in pm.ls(sl=1):\n    ost = voc.vo_general.nest_transform(name = item.name()+'_OST', action = 'parent', target = item, transformObj = 'group', transformRadius = 1.0)\n    offsets.append(ost)\npm.select(offsets, r=True)" )
         -mip 1
-        -mi "OST child" ( "# transform offset child\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\ncontrol_target_list = pm.ls(sl=1)\n\nfor control_target in control_target_list:\n    if '_CTL' in str(control_target):\n        offset_name = str(control_target).replace('_CTL', '_OST')\n    else:\n        offset_name = str(control_target) + '_OST'\n    offset_object = uf.nest_transform(name = offset_name, action = 'child', target = control_target, transformObj = 'group')\npm.select(control_target_list, replace = True)" )
+        -mi "OST child" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\noffsets = []\nfor item in pm.ls(sl=1):\n    ost = voc.vo_general.nest_transform(name = item.name()+'_OST', action = 'child', target = item, transformObj = 'group', transformRadius = 1.0)\n    offsets.append(ost)\npm.select(offsets, r=True)" )
         -mip 2
-        -mi "OST child, adopt children" ( "#offset is insterted between transform and its children\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\ncontrol_target_list = pm.ls(sl=1)\n\nfor control_target in control_target_list:\n    if '_CTL' in str(control_target):\n        offset_name = str(control_target).replace('_CTL', '_OST')\n    else:\n        offset_name = str(control_target) + '_OST'\n    offset_object = uf.nest_transform(name = offset_name, action = 'adopt', target = control_target, transformObj = 'group')\npm.select(control_target_list, replace = True)" )
+        -mi "OST child, adopt children" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\noffsets = []\nfor item in pm.ls(sl=1):\n    ost = voc.vo_general.nest_transform(name = item.name()+'_OST', action = 'adopt', target = item, transformObj = 'group', transformRadius = 1.0)\n    offsets.append(ost)\npm.select(offsets, r=True)" )
         -mip 3
-        -mi "Parent GRP + OST" ( "# transform offset + group\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\ncontrol_target_list = pm.ls(sl=1)\n\nfor control_target in control_target_list:\n    if '_CTL' in str(control_target):\n        offset_name = str(control_target).replace('_CTL', '_OST')\n    else:\n        offset_name = str(control_target) + '_OST'\n    group_name = offset_name.replace('_OST', '_GRP')\n    offset_object = uf.nest_transform(name = offset_name, action = 'parent', target = control_target, transformObj = 'group')\n    group_object = uf.nest_transform(name = group_name, action = 'parent', target = offset_object, transformObj = 'group')\npm.select(control_target_list, replace = True)" )
+        -mi "Parent GRP + OST" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\noffsets = []\nfor item in pm.ls(sl=1):\n    ost = voc.vo_general.nest_transform(name = item.name()+'_OST', action = 'parent', target = item, transformObj = 'group', transformRadius = 1.0)\n    grp = voc.vo_general.nest_transform(name = item.name()+'_GRP', action = 'parent', target = ost, transformObj = 'group', transformRadius = 1.0)\n    \n    offsets.append(ost)\npm.select(offsets, r=True)" )
         -mip 4
     ;
     shelfButton
@@ -1193,8 +1198,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 23
-        -height 23
+        -width 35
+        -height 34
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1283,8 +1288,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1557,8 +1562,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0

@@ -135,8 +135,9 @@ def create_follicle_row(target = None, segments = 5, offset = 0.5, uvDirection =
 def create_follicle_grid(target = None, segments = 5, rows = 3, offset = 0.5, uvDirection = 'u', uvDefault = 0.5, name = 'rig'):
     spacing = 1/float(rows)
     follicle_list = []
+    follicle_grid = []
     for i in range(rows):
-        follicle_list = row_follicles(target = target, segments = segments, offset = offset, uvDirection = uvDirection, uvDefault = (float(i)*spacing), name = name)
+        follicle_list = create_follicle_row(target = target, segments = segments, offset = offset, uvDirection = uvDirection, uvDefault = (float(i)*spacing), name = name)
         follicle_grid += follicle_list
     return follicle_grid
 
@@ -144,12 +145,12 @@ def create_follicle_grid(target = None, segments = 5, rows = 3, offset = 0.5, uv
 #ab_build_ribbon(start='locator1', end='locator2', match = 'all', segments = 8, ribbonName = 'upperLip')
 #changed attribute connection to connect ribbon_rootGRP.metaParent to all children instead of .ribbon
 
-def build_auto_ribbon(ribbon_name, drivers, segments=5, rows=1, offset=0.5, uvDirection='u', uvDefault=0.5):
+def build_auto_ribbon(ribbon_name, drivers, segments=5, rows=1, offset=0.5, uvDirection='u', uvDefault=0.5, profile = 'profile'):
     
     ribbon_geo = shadow.extrude_band(name = ribbon_name, targets = drivers, profile = profile)
-    driver_offsets = []
+    #driver_offsets = []
     for item in drivers:
-        general.nest_transform(name = (item.name()+'_GRP'), action = 'parent', target = item, transformObj = 'group')
+        offset = general.nest_transform(name = (item.name()+'_GRP'), action = 'parent', target = item, transformObj = 'group')
     
     follicles = create_follicle_grid(target=ribbon_geo, segments = segments, rows=rows, offset=offset, uvDirection=uvDirection, uvDefault=uvDefault, name='rig')
     for item in follicles:

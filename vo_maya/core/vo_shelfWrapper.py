@@ -45,10 +45,16 @@ def object_at_selection(name = '', objType = '', radius = 1.0, ):
             output.append(new_object)
             pm.matchTransform(new_object, target, pos = True, rot = True, scale = False)
     else:
-        output = general.create_object(name = name, objType = objType, radius = 1.0)
+        output = general.create_object(name = objType+'_00', objType = objType, radius = 1.0)
     pm.select(output, r=1)
     return output
 
+#TODO: deprecate
+def nest_transform(name, action = 'child', transformObj = 'locator', transformRadius = 1.0):
+    for item in pm.ls(sl=1):
+        general.nest_transform(name = name, action = action, target = item, transformObj = 'locator', transformRadius = 1.0)
+
+#TODO: deprecate
 def object_under_selection(name = '', objType = '', radius = 1.0):
     output = []
     if len(pm.ls(sl=1)):
@@ -62,12 +68,14 @@ def object_under_selection(name = '', objType = '', radius = 1.0):
     pm.select(output, r=1)
     return output
 
+
 def object_at_select_verts(name='', objType='', radius = 1.0):
     selection = pm.ls(sl=1, flatten = True)
     #vertices = pm.ls(pm.polyListComponentConversion(selection, toVertex=True), flatten=True, orderedSelection=True)
     new_object = general.object_on_vertices(selection, name = name, objType = objType, radius = 1.0)
     pm.select(new_object, r=1)
     return new_object
+
 
 def object_at_vert_subset(vertices, name = '', objType = '', radius = 1.0, subset_len = 1):
     #TODO:      make this function more than just zombie code idea
@@ -102,10 +110,26 @@ def primitive_at_select_verts(name='cube', primitive='cube', axis='y', radius = 
     pm.select(new_object, r=1)
     return new_object
 
-def auto_super_ribbon():
+
+def make_follicle():
+    ribbons.create_follicle(target = pm.ls(sl=1)[0], uPos = 0.5, vPos = 0.5)
+
+
+def make_follicle_row():
+    segment_input = general.prompt_string(promptTitle = 'Segments', promptMessage = 'Enter number of segments')
+    ribbons.create_follicle_row(target = pm.ls(sl=1)[0], segments = int(segment_input))
+
+
+def make_follicle_grid():
+    segment_input = general.prompt_string(promptTitle = 'Segments', promptMessage = 'Enter number of segments')
+    row_input = general.prompt_string(promptTitle = 'Rows', promptMessage = 'Enter number of rows')
+    ribbons.create_follicle_grid(target = pm.ls(sl=1)[0], segments = int(segment_input), rows = int(row_input), offset = 0.5, uvDirection = 'u', uvDefault = 0.5)
+
+
+def make_super_ribbon():
     #build_auto_ribbon(ribbon_name, drivers, segments=5, rows=3, offset=0.5, uvDirection='u', uvDefault=0.5)
     ribbon_name = general.prompt_string(promptTitle = 'Ribbon Name', promptMessage = 'Enter ribbon name')
-    ribbon_GRP, driver_GRP, follicles = ribbons.build_auto_ribbon(name = ribbon_name, targets = pm.ls(sl=1))
+    ribbon_GRP, driver_GRP, follicles = ribbons.build_auto_ribbon(ribbon_name = ribbon_name, drivers = pm.ls(sl=1))
     return ribbon_GRP, driver_GRP, follicles
     #build_ribbon(ribbon_name, drivers, segments=5, rows=3, offset=0.5, uvDirection='u', uvDefault=0.5)
 
