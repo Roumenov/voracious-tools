@@ -10,10 +10,12 @@ import maya.cmds as cmds
 import vo_deformers as deformers
 import sys
 import inspect
+import os
+import platform
 
 
 def publish_rig(rig):
-    """"Save rig binary file in rigs folder
+    """"Update rig binary file in rigs folder
     """
     # step 0:   save rig binary
     # step 1:   delete animation
@@ -21,17 +23,9 @@ def publish_rig(rig):
     # step 3:   check children of root nodes for tags
     # step 4:   check for metaRig
     # step 5:   update json
+    # step 6:   export SKL
     return
 
-
-
-def get_rig_blend_meshes(rig):#thois is superfluous since we're using attrs on joints instead of baking blendshape animation
-    #step 1:        get list of meshes in rig
-    meshes = rig.getMeshes()
-    #get blend
-
-    deformers.get_blendShape(target)
-    return
 
 
 #declaring initial variables
@@ -57,6 +51,54 @@ def get_export_path():
     return output_path
 #print(get_export_path())
 
+
+#https://stackoverflow.com/questions/237079/how-to-get-file-creation-modification-date-times-in-python
+def creation_date(path_to_file):
+    """
+    Try to get the date that a file was created, falling back to when it was
+    last modified if that isn't possible.
+    See http://stackoverflow.com/a/39501288/1709587 for explanation.
+    """
+    if platform.system() == 'Windows':
+        return os.path.getctime(path_to_file)
+    else:
+        stat = os.stat(path_to_file)
+        try:
+            return stat.st_birthtime
+        except AttributeError:
+            # We're probably on Linux. No easy way to get creation dates here,
+            # so we'll settle for when its content was last modified.
+            return stat.st_mtime
+
+
+#PURPOSE            check if there is a fresh fbx export of the current file
+#PROCEDURE          
+#PRESUMPTION        
+def need_export(pathA, pathB):
+    #files = pm.getFileList(path, filespec = '*.fbx')
+    #scene_path = cmds.file(query=True, l=True)[0]
+    
+    scene_time = os.path.getmtime(pathA)
+    fbx_path = get_export_path()
+
+    fbx_time = creation_date(fbx_path)
+    
+    if os.path.isfile(pathA) and os.path.isfile(pathB):
+        if scene_time > fbx_time:
+            return True
+        else:
+            return False
+    else:
+        return True# no file is the same as not having exported
+    
+
+
+def check_export_date():
+    
+    if os.path.isfile(fbx_path):#if 
+        pass
+    else:
+        pass
 
 
 #PURPOSE            get reference of a maya object
@@ -102,6 +144,37 @@ def remove_object_namespace(object):
     pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
 
 
+#if scene uses namespace, return True and the namespace
+#otherwise return false and the prefix
+#refs = pm.listReferences()
+def eval_namespace(reference):#TODO: test that this works with other prefix strings
+    """
+    @param reference: pymel object 
+    """
+    namespace = None
+    prefix = None
+    if reference.isUsingNamespaces():
+        namespace = reference.namespace
+        return True, namespace
+    else:
+        prefix = reference.namespace+'_'
+        return False, prefix
+    
+    
+
+"""
+pm.referenceQuery(
+refs = pm.listReferences()
+pm.FileReference()
+
+
+namespace = None
+prefix = None
+if refs[0].isUsingNamespaces():
+    namespace = refs[0].namespace
+else:
+    prefix = refs[0].namespace+'_'
+"""
 
 def set_timeline():
     playStartTime = pm.playbackOptions(query = True, minTime = True)
