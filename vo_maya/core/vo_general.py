@@ -26,12 +26,12 @@ def strip_prefix(inputString='', prefix=''):
 
     if inputString.endswith(prefix):
         remove = len(prefix)
-        print "removing prefix"
+        #print "removing prefix"
         output_string = inputString[remove:]
         # NOT SURE HOW TO SLICE NOTATE THIS CORRECTLY
         return output_string
     else:
-        print "prefix not found"
+        #print "prefix not found"
         return inputString
 
 

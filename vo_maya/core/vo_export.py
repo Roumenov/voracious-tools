@@ -7,11 +7,8 @@
 
 import pymel.core as pm
 import maya.cmds as cmds
-import vo_deformers as deformers
-import sys
-import inspect
-import os
-import platform
+import vo_deformers, vo_general as deformers, general
+import sys, inspect, os, platform
 
 
 def publish_rig(rig):
@@ -25,7 +22,6 @@ def publish_rig(rig):
     # step 5:   update json
     # step 6:   export SKL
     return
-
 
 
 #declaring initial variables
@@ -137,6 +133,8 @@ def import_references():
         print ("Imported " + str(totalRefs) + " references")
         return True
 
+
+
 #TODO:      integrate this into import function so we don't have to do this manually
 def remove_object_namespace(object):
     target_namespace = object.namespace()
@@ -162,19 +160,6 @@ def eval_namespace(reference):#TODO: test that this works with other prefix stri
     
     
 
-"""
-pm.referenceQuery(
-refs = pm.listReferences()
-pm.FileReference()
-
-
-namespace = None
-prefix = None
-if refs[0].isUsingNamespaces():
-    namespace = refs[0].namespace
-else:
-    prefix = refs[0].namespace+'_'
-"""
 
 def set_timeline():
     playStartTime = pm.playbackOptions(query = True, minTime = True)
@@ -184,26 +169,24 @@ def set_timeline():
     return playStartTime, playEndTime
 
 
+#TODO:  make this look only within a given namespace
+#TODO:  use general.strip_prefix() or integrate the string class?
+#PROCEDURE          get 
+#PRESUMPTIONS       only one prefix
+def remove_scene_prefix(prefix, namespace = None):
+    scene = pm.ls()
 
-# Should change this later to take the prefix as an argument.
-#PRESUMPTIONS       prefix takes the form of a single character followed by '_' x_ Any other order will break shit.
-#PRESUMPTIONS       prefix will be one character followed by an underscore and nothing has happened to the name since import
-def remove_prefix(prefix):
-    print "removing prefix :"
-    print prefix
-
-    sceneList = pm.ls()
-
-    for item in sceneList:
+    for item in scene:
         itemString = item.shortName()
         print (itemString)
         if itemString.startswith(prefix):
-            print "removing prefix"
+            #breaks off first string 
             itemName = itemString.split("_", 1)[1]
-            print (itemName)
+            #print (itemName)
             pm.rename(item, itemName)
         else:
-            print "no prefix"
+            pass
+            #print "no prefix"
 
 
 def bake_animation(targets, sampling = 1):#changed to list input
