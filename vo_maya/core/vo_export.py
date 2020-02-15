@@ -25,10 +25,30 @@ def publish_rig(rig):
 
 
 #
-def get_export_path(path = None):
+def get_export_path(path = None, character_name = ''):#TODO:    character_name conflicts with local variable
     """
         Get 
     """
+    #TODO:  create dict of character name/path ? or just pull name from stored value on root?
+    name_path = {
+        'Anubia' : 
+        'BossFinn' : 
+        'Corsac' : 
+        'GenChar' : 
+        'Luna' : 
+        'Maven' : 
+        'Mint' : 'Animation\Mint/export'
+        'MukTuk' : 
+        'Owl' : 
+        'Pepper' : 
+        'Quinn' : 
+        'Robin' : 
+        'Saffron' : 
+        'Salt' : 
+        'Sylvia' : 
+        'Xid' : 
+    }
+
     if path:
         initial_path = path
     else:
@@ -67,7 +87,7 @@ def creation_date(path_to_file):
 
 #PURPOSE            check if there is a fresh fbx export of the current file
 #PROCEDURE          
-#PRESUMPTION        
+#PRESUMPTION        pathA is current scene, pathB is fbx scene
 def need_export(pathA, pathB):
     #files = pm.getFileList(path, filespec = '*.fbx')
     #scene_path = cmds.file(query=True, l=True)[0]
@@ -143,7 +163,7 @@ def remove_object_namespace(object):
 #if scene uses namespace, return True and the namespace
 #otherwise return false and the prefix
 #refs = pm.listReferences()
-def eval_namespace(reference):#TODO: test that this works with other prefix strings
+def eval_namespace(reference):
     """
     @param reference: pymel object 
     """
@@ -157,15 +177,6 @@ def eval_namespace(reference):#TODO: test that this works with other prefix stri
         return False, prefix
     
     
-
-
-def set_timeline():
-    playStartTime = pm.playbackOptions(query = True, minTime = True)
-    playEndTime = pm.playbackOptions(query = True, maxTime = True)
-    playStartTime = int(playStartTime)
-    playEndTime = int(playEndTime)
-    return playStartTime, playEndTime
-
 
 #TODO:  make this look only within a given namespace
 #TODO:  use general.strip_prefix() or integrate the string class?
@@ -185,6 +196,15 @@ def remove_scene_prefix(prefix, namespace = None):
         else:
             pass
             #print "no prefix"
+
+
+
+def set_timeline():
+    playStartTime = pm.playbackOptions(query = True, minTime = True)
+    playEndTime = pm.playbackOptions(query = True, maxTime = True)
+    playStartTime = int(playStartTime)
+    playEndTime = int(playEndTime)
+    return playStartTime, playEndTime
 
 
 def bake_animation(targets, sampling = 1):#changed to list input
@@ -232,48 +252,22 @@ def export_skeletal_mesh(rig):
     #reparent skinned_mesh
 
 
-def export_character(param):
+def export_animation(root, path):
     """
-    @param auto: Boolean to automatically export from current scene. False will provide prompts for filepath and output name.
+    @param root: root node of character to export
     """
-    if param == 'auto':
-        import_references()
-        export_path = get_export_path()
+    if root:
+        
         muffins = pm.ls('*.jointSkin', objectsOnly = True)
         bake_animation(muffins)
         pm.delete(pm.ls('*.noExport', objectsOnly = True))
         pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
         cmds.file(export_path, exportSelected=True, type="FBX export")
-    elif param == 'nonsense':
-    #if len(pm.ls(sl=1)):
-        #root = tag_root(tag = True, target = pm.ls(selection = True)[0])
-        import_references()
-        print('refs imported')
-        export_path = get_export_path()
-        #set_timeline()
-        #pm.select("bakeSet", replace = True)
-        muffins = pm.ls('*.jointSkin', objectsOnly = True)
-        bake_animation(muffins)
-        pm.delete(pm.ls('*.noExport', objectsOnly = True))
-        print('deleted crap')
-        pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
-        cmds.file(export_path, exportSelected=True, type="FBX export")
-        #try mixing this up
-    elif param == 'animation':
-        import_references()
-        export_path = get_export_path()
-        pm.delete(pm.ls('*.skinMesh', objectsOnly = True))
-        pm.delete(pm.ls('*.blendMesh', objectsOnly = True))
-        #muffins = pm.ls('*.jointSkin', objectsOnly = True)
-        bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
-        pm.delete(pm.ls('*.noExport', objectsOnly = True))
-        pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
-        cmds.file(export_path, exportSelected=True, type="FBX export")
-        return
     else:
         pm.warning('no rig selected')
 
-#export_character('auto')
+#pm.delete(pm.ls('*.skinMesh', objectsOnly = True))
+#pm.delete(pm.ls('*.blendMesh', objectsOnly = True))
 
 
 #export prop, hat, broom, wand
@@ -314,6 +308,13 @@ def export_prop(param):
 
 def potionomics_export(param):
     #
+    #get references
+    rigs = pm.ls('*.export', objectsOnly = True)
+    for item in rigs:
+        get_reference(item)
+    #refs = pm.listReferences()
+    import_references()
+    export_path = get_export_path()
     pass
 
 
