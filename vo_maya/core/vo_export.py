@@ -24,22 +24,20 @@ def publish_rig(rig):
     return
 
 
-#declaring initial variables
-#global playStartTime
-#global playEndTime
-#TODO     this really seems like it should be a more generic function in vo_general with a standard set of potionomics paths
-#TODO:      make 
-def get_export_path():
-    #global outputFile
-    initial_path = cmds.file(query=True, l=True)[0].replace('.ma','.fbx')
-    print "current file:"
-    print initial_path
+#
+def get_export_path(path = None):
+    """
+        Get 
+    """
+    if path:
+        initial_path = path
+    else:
+        initial_path = cmds.file(query=True, l=True)[0].replace('.ma','.fbx')
+    
     if '/latest' in initial_path:
-        print "Sylvia"
-        current_path = output_path.split('/latest')[0]
-        file_name = output_path.split('/latest')[1]
-        output_path = testFileA + '/export' + file_name
-        print output_path
+        current_path = initial_path.split('/latest')[0]
+        file_name = initial_path.split('/latest')[1]
+        output_path = current_path + '/export' + file_name
     else:
         file_name = initial_path.split('/')[-1]
         character_name = initial_path.split('/')[-2]
