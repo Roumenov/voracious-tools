@@ -29,26 +29,34 @@ def get_export_path(path = None, character_name = ''):#TODO:    character_name c
     """
         Get 
     """
-    #TODO:  create dict of character name/path ? or just pull name from stored value on root?
-    name_path = {
-        'Anubia' : 
-        'BossFinn' : 
-        'Corsac' : 
-        'GenChar' : 
-        'Luna' : 
-        'Maven' : 
-        'Mint' : 'Animation\Mint/export'
-        'MukTuk' : 
-        'Owl' : 
-        'Pepper' : 
-        'Quinn' : 
-        'Robin' : 
-        'Saffron' : 
-        'Salt' : 
-        'Sylvia' : 
-        'Xid' : 
+    #TODO:  store these values into the .export attr
+    character_paths = {
+        'Anubia' : None,
+        'Baptiste' : 'scenes/Animation/Baptist/export',
+        'BossFinn' : None,
+        'Corsac' : 'scenes/Animation/Corsac/export',
+        'GenChar' : 'scenes/Animation/GenChar/export',
+        'Luna' : 'scenes/Animation/Luna/export',
+        'Maven' : 'scenes/Animation/Maven1/export',
+        'Mint' : 'scenes/Animation/Mint/export',
+        'Muktuk' : 'scenes/Animation/MukTuk/export',
+        'Owl' : 'scenes/Animation/Owl/Export',#no RRARigConnection attr
+        'Pepper' : None,
+        'Quinn' : 'scenes/Animation/Quinn/Export',
+        'Robin' : 'scenes/Animation/Robin/export',
+        'Roxanne' : 'scenes/Animation/Roxanne/Export',
+        'Saffron' : 'scenes/Animation/Saffron/export',
+        'Salt' : None,
+        'SoulWitch' : 'scenes/Animation/SoulWitch/export',
+        'Sylvia' : 'scenes/Animation/Sylvia/export',#no RRARigConnection attr
+        'Xidriel' : 'scenes/Animation/Xidriel/export'
     }
 
+    """
+    pm.workspace.getPath()
+    pm.workspace.getcwd()
+
+    """
     if path:
         initial_path = path
     else:
@@ -117,10 +125,10 @@ def check_export_date():
 
 #PURPOSE            get reference of a maya object
 #PROCEDURE          if object is referenced, return reference node
-#PRESUMPTION        ???     target is a dag object      ???
-def get_reference(target):#TODO:    test in maya
-    if cmds.referenceQuery(target, isNodeReferenced = True):
-        reference = cmds.referenceQuery(target, referenceNode = True)
+#PRESUMPTION        target is a dag object
+def get_reference(target):
+    if pm.referenceQuery(target, isNodeReferenced = True):
+        reference = pm.referenceQuery(target, referenceNode = True)
     else:
         pm.warning('target is not referenced')
     return reference
@@ -152,14 +160,6 @@ def import_references():
         return True
 
 
-
-#TODO:      integrate this into import function so we don't have to do this manually
-def remove_object_namespace(object):
-    target_namespace = object.namespace()
-    print 'removing namespace :: ' + target_namespace
-    pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
-
-
 #if scene uses namespace, return True and the namespace
 #otherwise return false and the prefix
 #refs = pm.listReferences()
@@ -175,11 +175,15 @@ def eval_namespace(reference):
     else:
         prefix = reference.namespace+'_'
         return False, prefix
-    
-    
 
-#TODO:  make this look only within a given namespace
-#TODO:  use general.strip_prefix() or integrate the string class?
+
+#TODO:      integrate this into import function so we don't have to do this manually
+def remove_object_namespace(object):
+    target_namespace = object.namespace()
+    print 'removing namespace :: ' + target_namespace
+    pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
+
+
 #PROCEDURE          get 
 #PRESUMPTIONS       only one prefix
 def remove_scene_prefix(prefix, namespace = None):
@@ -262,7 +266,7 @@ def export_animation(root, path):
         bake_animation(muffins)
         pm.delete(pm.ls('*.noExport', objectsOnly = True))
         pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
-        cmds.file(export_path, exportSelected=True, type="FBX export")
+        cmds.file(path, exportSelected=True, type="FBX export")
     else:
         pm.warning('no rig selected')
 
@@ -311,10 +315,16 @@ def potionomics_export(param):
     #get references
     rigs = pm.ls('*.export', objectsOnly = True)
     for item in rigs:
-        get_reference(item)
+        ref = get_reference(item)
+        namespace_usage = eval_namespace(ref)
+        if namespace_usage[0]:
+            remove_object_namespace(item)
+        else:
+            remove_scene_prefix(namespace_usage[1])
     #refs = pm.listReferences()
     import_references()
-    export_path = get_export_path()
+    path = get_export_path()
+    export_animation()
     pass
 
 
