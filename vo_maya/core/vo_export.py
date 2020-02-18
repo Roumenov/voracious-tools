@@ -25,7 +25,7 @@ def publish_rig(rig):
 
 
 #
-def get_export_path(path = None, character_name = ''):#TODO:    character_name conflicts with local variable
+def get_export_path(character_name):#TODO:    character_name conflicts with local variable
     """
         Get 
     """
@@ -48,7 +48,7 @@ def get_export_path(path = None, character_name = ''):#TODO:    character_name c
         'Saffron' : 'scenes/Animation/Saffron/export',
         'Salt' : None,
         'SoulWitch' : 'scenes/Animation/SoulWitch/export',
-        'Sylvia' : 'scenes/Animation/Sylvia/export',#no RRARigConnection attr
+        'sylv_ROOT' : 'scenes/Animation/Sylvia/export',#no RRARigConnection attr
         'Xidriel' : 'scenes/Animation/Xidriel/export'
     }
 
@@ -56,12 +56,20 @@ def get_export_path(path = None, character_name = ''):#TODO:    character_name c
     pm.workspace.getPath()
     pm.workspace.getcwd()
 
-    """
+    
     if path:
         initial_path = path
     else:
         initial_path = cmds.file(query=True, l=True)[0].replace('.ma','.fbx')
+    """
     
+    #initial_path = pm.workspace.getcwd()
+    path = ['','']
+    path[0] = pm.sceneName().split('/scenes')[0]
+    path[1] = pm.sceneName().split('/')[-1].replace('.ma','.fbx')
+    output_path = character_paths[character_name].join(path)
+
+"""
     if '/latest' in initial_path:
         current_path = initial_path.split('/latest')[0]
         file_name = initial_path.split('/latest')[1]
@@ -70,10 +78,11 @@ def get_export_path(path = None, character_name = ''):#TODO:    character_name c
         file_name = initial_path.split('/')[-1]
         character_name = initial_path.split('/')[-2]
         output_path = initial_path.replace(character_name,character_name +'/export')
+"""
     return output_path
 #print(get_export_path())
 
-
+#TODO:  deprecate. Useful example but now unused
 #https://stackoverflow.com/questions/237079/how-to-get-file-creation-modification-date-times-in-python
 def creation_date(path_to_file):
     """
@@ -114,7 +123,7 @@ def need_export(pathA, pathB):
         return True# no file is the same as not having exported
     
 
-
+#TODO:  deprecate
 def check_export_date():
     
     if os.path.isfile(fbx_path):#if 
@@ -141,7 +150,7 @@ def import_references():
     print ("looking for references ....")
     refs = pm.listReferences()
     totalRefs = len(refs)
-    if len(refs) == 0:
+    if len(refs) == 0:#TODO:    this shit is a mess
         print "no references to import"
         return False
     else:
@@ -257,18 +266,24 @@ def export_skeletal_mesh(rig):
 
 
 def export_animation(root, path):
+    #TODO:  make this function handle namespace and prefix shit
     """
     @param root: root node of character to export
     """
-    if root:
-        
-        muffins = pm.ls('*.jointSkin', objectsOnly = True)
-        bake_animation(muffins)
-        pm.delete(pm.ls('*.noExport', objectsOnly = True))
-        pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
-        cmds.file(path, exportSelected=True, type="FBX export")
+    ref = get_reference(root)
+    namespace_usage = eval_namespace(ref)
+    
+    if namespace_usage[0]:
+        remove_object_namespace(item)
     else:
-        pm.warning('no rig selected')
+        remove_scene_prefix(namespace_usage[1])
+    
+    muffins = pm.ls('*.jointSkin', objectsOnly = True)
+    bake_animation(muffins)
+    pm.delete(pm.ls('*.noExport', objectsOnly = True))
+    pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
+    cmds.file(path, exportSelected=True, type="FBX export")
+
 
 #pm.delete(pm.ls('*.skinMesh', objectsOnly = True))
 #pm.delete(pm.ls('*.blendMesh', objectsOnly = True))
@@ -312,19 +327,20 @@ def export_prop(param):
 
 def potionomics_export(param):
     #
-    #get references
-    rigs = pm.ls('*.export', objectsOnly = True)
-    for item in rigs:
+    #TODO:  mke dict for rigs and iterate over the keys?
+    rigs = {}
+    for item in pm.ls('*.export', objectsOnly = True):
+        
         ref = get_reference(item)
-        namespace_usage = eval_namespace(ref)
-        if namespace_usage[0]:
-            remove_object_namespace(item)
-        else:
-            remove_scene_prefix(namespace_usage[1])
     #refs = pm.listReferences()
     import_references()
-    path = get_export_path()
-    export_animation()
+
+    for key in rigs:
+        ref = get_reference(key)
+        get_export_path(key)
+    
+    path = get_export_path()#
+    export_animation()#
     pass
 
 
