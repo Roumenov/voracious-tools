@@ -51,17 +51,6 @@ def get_export_path(character_name):#TODO:    character_name conflicts with loca
         'sylv_ROOT' : 'scenes/Animation/Sylvia/export',#no RRARigConnection attr
         'Xidriel' : 'scenes/Animation/Xidriel/export'
     }
-
-    """
-    pm.workspace.getPath()
-    pm.workspace.getcwd()
-
-    
-    if path:
-        initial_path = path
-    else:
-        initial_path = cmds.file(query=True, l=True)[0].replace('.ma','.fbx')
-    """
     
     #initial_path = pm.workspace.getcwd()
     path = ['','']
@@ -69,67 +58,31 @@ def get_export_path(character_name):#TODO:    character_name conflicts with loca
     path[1] = pm.sceneName().split('/')[-1].replace('.ma','.fbx')
     output_path = character_paths[character_name].join(path)
 
-"""
-    if '/latest' in initial_path:
-        current_path = initial_path.split('/latest')[0]
-        file_name = initial_path.split('/latest')[1]
-        output_path = current_path + '/export' + file_name
-    else:
-        file_name = initial_path.split('/')[-1]
-        character_name = initial_path.split('/')[-2]
-        output_path = initial_path.replace(character_name,character_name +'/export')
-"""
     return output_path
 #print(get_export_path())
-
-#TODO:  deprecate. Useful example but now unused
-#https://stackoverflow.com/questions/237079/how-to-get-file-creation-modification-date-times-in-python
-def creation_date(path_to_file):
-    """
-    Try to get the date that a file was created, falling back to when it was
-    last modified if that isn't possible.
-    See http://stackoverflow.com/a/39501288/1709587 for explanation.
-    """
-    if platform.system() == 'Windows':
-        return os.path.getctime(path_to_file)
-    else:
-        stat = os.stat(path_to_file)
-        try:
-            return stat.st_birthtime
-        except AttributeError:
-            # We're probably on Linux. No easy way to get creation dates here,
-            # so we'll settle for when its content was last modified.
-            return stat.st_mtime
 
 
 #PURPOSE            check if there is a fresh fbx export of the current file
 #PROCEDURE          
 #PRESUMPTION        pathA is current scene, pathB is fbx scene
 def need_export(pathA, pathB):
+    """
+        return True if pathA indicates a newer file
+        pathA is current scene, pathB is fbx scene
+    """
     #files = pm.getFileList(path, filespec = '*.fbx')
     #scene_path = cmds.file(query=True, l=True)[0]
     
-    scene_time = os.path.getmtime(pathA)
-    fbx_path = get_export_path()
+    if os.path.exists(pathA) and not os.path.exists(pathB):
+        return False
 
-    fbx_time = creation_date(fbx_path)
-    
-    if os.path.isfile(pathA) and os.path.isfile(pathB):
-        if scene_time > fbx_time:
+    elif os.path.isfile(pathA) and os.path.isfile(pathB):
+        if os.path.getmtime(pathA) > os.path.getmtime(pathB):
             return True
         else:
             return False
     else:
-        return True# no file is the same as not having exported
-    
-
-#TODO:  deprecate
-def check_export_date():
-    
-    if os.path.isfile(fbx_path):#if 
-        pass
-    else:
-        pass
+        pm.error('invalid pathA provided')#pathA must exist
 
 
 #PURPOSE            get reference of a maya object
@@ -142,10 +95,15 @@ def get_reference(target):
         pm.warning('target is not referenced')
     return reference
 
-#PURPOSE            import all referenced scenes
+#PURPOSE            
 #PROCEDURE          loop over list of all references in scene and import if it's loaded
-#PRESUMPTION        references are only one reference deep, and right now we really only have one
+#PRESUMPTION        references are only one reference deep, and right now we really only have one(?)
 def import_references():
+    """
+        import all referenced scenes
+        returns True if scenes were imported, False if no references
+    """
+
     done = False
     print ("looking for references ....")
     refs = pm.listReferences()
@@ -187,6 +145,7 @@ def eval_namespace(reference):
 
 
 #TODO:      integrate this into import function so we don't have to do this manually
+#TODO:  reevaluate whether this is still necessary
 def remove_object_namespace(object):
     target_namespace = object.namespace()
     print 'removing namespace :: ' + target_namespace
@@ -270,18 +229,11 @@ def export_animation(root, path):
     """
     @param root: root node of character to export
     """
-    ref = get_reference(root)
-    namespace_usage = eval_namespace(ref)
     
-    if namespace_usage[0]:
-        remove_object_namespace(item)
-    else:
-        remove_scene_prefix(namespace_usage[1])
-    
-    muffins = pm.ls('*.jointSkin', objectsOnly = True)
-    bake_animation(muffins)
+    bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
     pm.delete(pm.ls('*.noExport', objectsOnly = True))
-    pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
+    #pm.select(pm.ls('*.export', objectsOnly = True), replace = True)#TODO:  this should select root
+    pm.select(root, replace = True)
     cmds.file(path, exportSelected=True, type="FBX export")
 
 
@@ -328,20 +280,36 @@ def export_prop(param):
 def potionomics_export(param):
     #
     #TODO:  mke dict for rigs and iterate over the keys?
-    rigs = {}
-    for item in pm.ls('*.export', objectsOnly = True):
-        
-        ref = get_reference(item)
+    characters = []
+    rigs = pm.ls('*.export', objectsOnly = True)
+    for root in rigs:
+        if need_export(pm.sceneName(), get_export_path(root.name())):
+            ref = get_reference(root)
+            
+            character_data = {
+                'name' : root.name(),
+                'root' : root,
+                'path' : get_export_path(root.name()),
+                'namespace_data' : eval_namespace(ref)
+            }
+            
+            characters.append(character_data)
     #refs = pm.listReferences()
     import_references()
 
-    for key in rigs:
-        ref = get_reference(key)
-        get_export_path(key)
-    
-    path = get_export_path()#
-    export_animation()#
-    pass
+    for this_dict in characters:
+        if this_dict['namespace_data'][0]:
+            try:
+                target_namespace = this_dict['namespace_data'][1]
+                pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
+                #remove_object_namespace(key)
+            except:
+                pass
+        else:
+            remove_scene_prefix(this_dict['namespace_data'][1])
+
+            export_animation(this_dict['root'], this_dict['path'])#
+    return
 
 
 
