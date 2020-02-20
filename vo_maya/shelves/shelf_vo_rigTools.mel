@@ -7,8 +7,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 23
+        -height 23
         -manage 1
         -visible 1
         -preventOverride 0
@@ -78,8 +78,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -136,17 +136,20 @@ global proc shelf_vo_rigTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "ReferenceEditor" 
-        -sourceType "mel" 
+        -command "maya.mel.eval('ReferenceEditor')" 
+        -sourceType "python" 
+        -doubleClickCommand "import pymel.core as pm\ntarrget_file = pm.sceneName()\npm.openFile(tarrget_file, force = True)" 
         -commandRepeatable 1
         -flat 1
+        -mi "Reload file" ( "import pymel.core as pm\ntarrget_file = pm.sceneName()\npm.openFile(tarrget_file, force = True)" )
+        -mip 0
         -mi "Import" ( "Import" )
         -mi "Remove selected namespace" ( "import pymel.core as pm\n\n#target_object = pm.ls(sl=1)[0]\n#remove_object_namespace(target_object)\ndef remove_object_namespace(object):\n    target_namespace = object.namespace()\n    print 'removing namespace :: ' + target_namespace\n    pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)\n\ntarget_object = pm.ls(sl=1)[0]\nremove_object_namespace(target_object)" )
-        -mip 1
-        -mi "Remove Reference Edits" ( "for ref in pm.listReferences():\n    ref.unload()\n    ref.clean()\n    ref.load()" )
         -mip 2
-        -mi "Import References" ( "#import all references without namespaces" )
+        -mi "Remove Reference Edits" ( "for ref in pm.listReferences():\n    ref.unload()\n    ref.clean()\n    ref.load()" )
         -mip 3
+        -mi "Import References" ( "#import all references without namespaces" )
+        -mip 4
         -mi "Export Selection" ( "ExportSelection" )
     ;
     shelfButton
@@ -1198,8 +1201,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 34
+        -width 23
+        -height 23
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1288,8 +1291,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1562,8 +1565,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0

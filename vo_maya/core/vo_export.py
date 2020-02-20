@@ -7,7 +7,8 @@
 
 import pymel.core as pm
 import maya.cmds as cmds
-import vo_deformers, vo_general as deformers, general
+import vo_deformers as deformers
+import vo_general as general
 import sys, inspect, os, platform
 
 
@@ -30,35 +31,41 @@ def get_export_path(character_name):#TODO:    character_name conflicts with loca
         Get 
     """
     #TODO:  store these values into the .export attr
+    output_path = None
     character_paths = {
         'Anubia' : None,
-        'Baptiste' : 'scenes/Animation/Baptist/export',
+        'Baptiste' : '/scenes/Animation/Baptist/export/',
         'BossFinn' : None,
-        'Corsac' : 'scenes/Animation/Corsac/export',
-        'GenChar' : 'scenes/Animation/GenChar/export',
-        'Luna' : 'scenes/Animation/Luna/export',
-        'Maven' : 'scenes/Animation/Maven1/export',
-        'Mint' : 'scenes/Animation/Mint/export',
-        'Muktuk' : 'scenes/Animation/MukTuk/export',
-        'Owl' : 'scenes/Animation/Owl/Export',#no RRARigConnection attr
+        'Corsac' : '/scenes/Animation/Corsac/export/',
+        'GenChar' : '/scenes/Animation/GenChar/export/',
+        'Luna' : '/scenes/Animation/Luna/export/',
+        'Maven' : '/scenes/Animation/Maven1/export/',
+        'Mint' : '/scenes/Animation/Mint/export/',
+        'Muktuk' : '/scenes/Animation/MukTuk/export/',
+        'Owl' : '/scenes/Animation/Owl/Export/',#no RRARigConnection attr
         'Pepper' : None,
-        'Quinn' : 'scenes/Animation/Quinn/Export',
-        'Robin' : 'scenes/Animation/Robin/export',
-        'Roxanne' : 'scenes/Animation/Roxanne/Export',
-        'Saffron' : 'scenes/Animation/Saffron/export',
+        'Quinn' : '/scenes/Animation/Quinn/Export/',
+        'Robin' : '/scenes/Animation/Robin/export/',
+        'Roxanne' : '/scenes/Animation/Roxanne/Export/',
+        'Saffron' : '/scenes/Animation/Saffron/export/',
         'Salt' : None,
-        'SoulWitch' : 'scenes/Animation/SoulWitch/export',
-        'sylv_ROOT' : 'scenes/Animation/Sylvia/export',#no RRARigConnection attr
-        'Xidriel' : 'scenes/Animation/Xidriel/export'
+        'SoulWitch' : '/scenes/Animation/SoulWitch/export/',
+        'sylv_ROOT' : '/scenes/Animation/Sylvia/export/',#no RRARigConnection attr
+        'Xidriel' : '/scenes/Animation/Xidriel/export/'
     }
-    
-    #initial_path = pm.workspace.getcwd()
-    path = ['','']
-    path[0] = pm.sceneName().split('/scenes')[0]
-    path[1] = pm.sceneName().split('/')[-1].replace('.ma','.fbx')
-    output_path = character_paths[character_name].join(path)
-
-    return output_path
+    if character_paths[character_name] == None:
+        pm.warning('no path set for %s ' % character_name)
+    else:
+        #initial_path = pm.workspace.getcwd()
+        path = ['','']
+        path[0] = pm.sceneName().split('/scenes')[0]
+        path[1] = pm.sceneName().split('/')[-1].replace('.ma','.fbx')
+        if character_name in character_paths:
+            output_path = character_paths[character_name].join(path)
+        else:
+            pm.warning('%s not found in path dict' % character_name)
+        
+        return output_path
 #print(get_export_path())
 
 
@@ -74,10 +81,10 @@ def need_export(pathA, pathB):
     #scene_path = cmds.file(query=True, l=True)[0]
     
     if os.path.exists(pathA) and not os.path.exists(pathB):
-        return False
-
+        return True
     elif os.path.isfile(pathA) and os.path.isfile(pathB):
         if os.path.getmtime(pathA) > os.path.getmtime(pathB):
+            print(pathA)
             return True
         else:
             return False
@@ -90,10 +97,13 @@ def need_export(pathA, pathB):
 #PRESUMPTION        target is a dag object
 def get_reference(target):
     if pm.referenceQuery(target, isNodeReferenced = True):
-        reference = pm.referenceQuery(target, referenceNode = True)
+        name = pm.referenceQuery(target, referenceNode = True)
+        reference = pm.FileReference(refnode = name)
+        return reference
     else:
         pm.warning('target is not referenced')
-    return reference
+        return None
+   
 
 #PURPOSE            
 #PROCEDURE          loop over list of all references in scene and import if it's loaded
@@ -103,28 +113,15 @@ def import_references():
         import all referenced scenes
         returns True if scenes were imported, False if no references
     """
-
-    done = False
-    print ("looking for references ....")
-    refs = pm.listReferences()
-    totalRefs = len(refs)
-    if len(refs) == 0:#TODO:    this shit is a mess
-        print "no references to import"
-        return False
-    else:
-        while (done == False and (len(refs) != 0)): #----   why not just do everything in the for loop?
-            refs = pm.listReferences()
-            print ("importing ", len(refs), " references....")
-            for ref in refs:
-                if ref.isLoaded():
-                    done = False
-                    print ("remaining refs = ")
-                    ref.importContents(removeNamespace = True) #---- remove namespace doesn't seem to work
-                else:
-                    print ("All references imported")
-                    done = True
-        print ("Imported " + str(totalRefs) + " references")
-        return True
+    for ref in pm.listReferences(recursive = True):
+        try:
+            if ref.isLoaded():
+                ref.importContents(removeNamespace = True)
+            else:
+                ref.unload(force = True)
+        except:
+            print ("Skipped import of unloaded refs")
+    return# True
 
 
 #if scene uses namespace, return True and the namespace
@@ -137,7 +134,7 @@ def eval_namespace(reference):
     namespace = None
     prefix = None
     if reference.isUsingNamespaces():
-        namespace = reference.namespace
+        namespace = reference.namespace+':'
         return True, namespace
     else:
         prefix = reference.namespace+'_'
@@ -159,7 +156,7 @@ def remove_scene_prefix(prefix, namespace = None):
 
     for item in scene:
         itemString = item.shortName()
-        print (itemString)
+        #print(itemString)
         if itemString.startswith(prefix):
             #breaks off first string 
             itemName = itemString.split("_", 1)[1]
@@ -232,9 +229,10 @@ def export_animation(root, path):
     
     bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
     pm.delete(pm.ls('*.noExport', objectsOnly = True))
-    #pm.select(pm.ls('*.export', objectsOnly = True), replace = True)#TODO:  this should select root
+    #pm.select(pm.ls('*.export', objectsOnly = True, recursive = True), replace = True)#TODO:  this should select root
     pm.select(root, replace = True)
-    cmds.file(path, exportSelected=True, type="FBX export")
+    pm.exportSelected(path, force=True, type="FBX export")
+    #cmds.file(path, exportSelected=True, type="FBX export", force = True)
 
 
 #pm.delete(pm.ls('*.skinMesh', objectsOnly = True))
@@ -256,7 +254,7 @@ def export_prop(param):
         bake_animation(muffins)
         pm.delete(pm.ls('*.noExport', objectsOnly = True))
         print('deleted crap')
-        pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
+        pm.select(pm.ls('*.export', objectsOnly = True, recursive = True), replace = True)
         cmds.file(export_path, exportSelected=True, type="FBX export")
         return
     elif param == 'skel':
@@ -268,7 +266,7 @@ def export_prop(param):
         bake_animation(muffins)
         pm.delete(pm.ls('*.noExport', objectsOnly = True))
         print('deleted crap')
-        pm.select(pm.ls('*.export', objectsOnly = True), replace = True)
+        pm.select(pm.ls('*.export', objectsOnly = True, recursive = True), replace = True)
         cmds.file(export_path, exportSelected=True, type="FBX export")
         return
     else:
@@ -277,26 +275,35 @@ def export_prop(param):
 
 
 
-def potionomics_export(param):
+def potionomics_export():
     #
     #TODO:  mke dict for rigs and iterate over the keys?
     characters = []
-    rigs = pm.ls('*.export', objectsOnly = True)
+    rigs = pm.ls('*.export', objectsOnly = True, recursive = True)
     for root in rigs:
-        if need_export(pm.sceneName(), get_export_path(root.name())):
-            ref = get_reference(root)
+        #print(root.name())
+        #print(root)
+        ref = get_reference(root)
+        ns_data = eval_namespace(ref)
+        name = root.name().split(ns_data[1])[1]
+        path = get_export_path(name)
+
+        if need_export(pm.sceneName(), path):
             
             character_data = {
-                'name' : root.name(),
+                'name' : name,
                 'root' : root,
-                'path' : get_export_path(root.name()),
-                'namespace_data' : eval_namespace(ref)
+                'path' : path,
+                'namespace_data' : ns_data
             }
             
             characters.append(character_data)
+            #print(character_data)
+        else:
+            print('scene file is older than export')
     #refs = pm.listReferences()
     import_references()
-
+    print(characters)
     for this_dict in characters:
         if this_dict['namespace_data'][0]:
             try:
@@ -307,11 +314,80 @@ def potionomics_export(param):
                 pass
         else:
             remove_scene_prefix(this_dict['namespace_data'][1])
-
             export_animation(this_dict['root'], this_dict['path'])#
     return
 
 
+
+def character_prep1(overwrite = False):
+    #
+    characters = []
+    rigs = pm.ls('*.export', objectsOnly = True, recursive = True)
+    for root in rigs:
+        print(root.name())
+        print(root)
+        ref = get_reference(root)
+        ns_data = eval_namespace(ref)
+        name = root.name().split(ns_data[1])[1]
+        path = get_export_path(name)
+
+        if overwrite or need_export(pm.sceneName(), path):
+            character_data = {
+                'name' : name,
+                'root' : root,
+                'path' : path,
+                'namespace_data' : ns_data
+            }
+            characters.append(character_data)
+            #print(character_data)
+        else:
+            print('scene file is older than export')
+    return characters
+
+def export_animation1(root, path):
+    #TODO:  make this function handle namespace and prefix shit
+    """
+    @param root: root node of character to export
+    """
+    
+    bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
+    pm.delete(pm.ls('*.noExport', objectsOnly = True))
+    #pm.select(pm.ls('*.export', objectsOnly = True, recursive = True), replace = True)#TODO:  this should select root
+    pm.select(root, replace = True)
+    #pm.exportSelected(path, force=True, type="FBX export")
+    cmds.file(path, exportSelected=True, type="FBX export", force = True)
+
+def potionomics_export1(characters):
+    if len(characters) > 0:
+        import_references()
+        print(characters)
+        for this_dict in characters:
+            if this_dict['namespace_data'][0]:
+                try:
+                    target_namespace = this_dict['namespace_data'][1]
+                    pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
+                    #voe.export_animation(this_dict['root'], this_dict['path'])#
+                except:
+                    pass
+            else:
+                remove_scene_prefix(this_dict['namespace_data'][1])
+            try:
+                bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
+                #export_animation1(this_dict['root'], this_dict['path'])#
+            except:
+                pm.warning('export failed')
+            pm.delete(pm.ls('*.noExport', objectsOnly = True))
+            pm.select(this_dict['root'], replace = True)
+            pm.exportSelected(this_dict['path'], force=True, type="FBX export")
+        return True
+    else:
+        return False
+
+
+
+#characters = character_prep()
+
+#potionomics_export(characters)
 
 
 
