@@ -118,7 +118,7 @@ def import_references():
             if ref.isLoaded():
                 ref.importContents(removeNamespace = True)
             else:
-                ref.unload(force = True)
+                ref.remove(force = True)
         except:
             print ("Skipped import of unloaded refs")
     return# True
@@ -358,31 +358,44 @@ def export_animation1(root, path):
     cmds.file(path, exportSelected=True, type="FBX export", force = True)
 
 def potionomics_export1(characters):
-    if len(characters) > 0:
-        import_references()
-        print(characters)
-        for this_dict in characters:
-            if this_dict['namespace_data'][0]:
-                try:
-                    target_namespace = this_dict['namespace_data'][1]
-                    pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
-                    #voe.export_animation(this_dict['root'], this_dict['path'])#
-                except:
-                    pass
-            else:
-                remove_scene_prefix(this_dict['namespace_data'][1])
+    #if len(characters) > 0:
+    #    import_references()
+    print(characters)
+    for this_dict in characters:
+        if this_dict['namespace_data'][0]:
             try:
-                bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
-                #export_animation1(this_dict['root'], this_dict['path'])#
+                target_namespace = this_dict['namespace_data'][1]
+                pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
+                #voe.export_animation(this_dict['root'], this_dict['path'])#
             except:
-                pm.warning('export failed')
-            pm.delete(pm.ls('*.noExport', objectsOnly = True))
-            pm.select(this_dict['root'], replace = True)
-            pm.exportSelected(this_dict['path'], force=True, type="FBX export")
-        return True
-    else:
-        return False
+                pass
+        else:
+            remove_scene_prefix(this_dict['namespace_data'][1])
+        try:
+            bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
+            #export_animation1(this_dict['root'], this_dict['path'])#
+        except:
+            pm.warning('export failed')
+        pm.delete(pm.ls('*.noExport', objectsOnly = True))
+        pm.select(this_dict['root'], replace = True)
+        pm.exportSelected(this_dict['path'], force=True, type="FBX export")
+    return True
+    #else:
+    #    return False
 
+"""
+
+import vo_maya.core.vo_export as voe
+reload(voe)
+
+characters = voe.character_prep1()
+if len(characters) > 0:
+    voe.import_references()
+    voe.potionomics_export1(characters)
+else:
+    print('nothing ot export')
+
+"""
 
 
 #characters = character_prep()
