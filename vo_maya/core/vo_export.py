@@ -385,10 +385,11 @@ def potionomics_export1(characters):
 
 """
 
+
 import vo_maya.core.vo_export as voe
 reload(voe)
 
-characters = voe.character_prep1()
+characters = voe.character_prep1(overwrite = True)
 if len(characters) > 0:
     voe.import_references()
     voe.potionomics_export1(characters)
