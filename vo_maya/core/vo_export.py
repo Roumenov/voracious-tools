@@ -105,9 +105,9 @@ def get_reference(target):
         return None
    
 
-#PURPOSE            
-#PROCEDURE          loop over list of all references in scene and import if it's loaded
-#PRESUMPTION        references are only one reference deep, and right now we really only have one(?)
+#PURPOSE            import all references recursively
+#PROCEDURE          loop over list of all references in scene and import if it's loaded, remove if it isn't loaded
+#PRESUMPTION        user is trying to import full depth of all references
 def import_references():
     """
         import all referenced scenes
@@ -121,6 +121,41 @@ def import_references():
                 ref.remove(force = True)
         except:
             print ("Skipped import of unloaded refs")
+    return# True
+
+
+#PURPOSE            to obliterate extraneous Owl references that litter Sylvia's files
+#PROCEDURE          loop over list of all references in scene and unload anything that matches target file
+#PRESUMPTION        
+def remove_target_reference(filepath, reference):
+    """
+    """
+    if reference == filepath:
+        try:
+            reference.remove(force = True)
+            return True
+        except:
+            print("removal failed")
+    else:
+        return False
+
+def obliterate_references(filepath = None):
+    """
+    """
+    for reference in pm.listReferences(recursive = True):
+        if filepath:
+            try:
+                remove_target_reference(filepath, reference)
+            except:
+                pm.warning('attempted and failed to execute remove_target_reference() on %s' %(reference))
+        else:
+            try:
+                if reference.isLoaded():
+                    pass
+                else:
+                    reference.remove(force = True)
+            except:
+                pm.warning('strange result with %s' %(reference))
     return# True
 
 
