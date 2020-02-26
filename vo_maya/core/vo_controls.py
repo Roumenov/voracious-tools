@@ -4,6 +4,7 @@ import maya.cmds as cmds
 import pymel.core as pm
 import vo_general as general
 import vo_meta as meta
+import Red9.core.Red9_Meta as r9Meta
 
 
 class Control():#TODO   search/replace references to pControl with Control
@@ -98,6 +99,111 @@ class Control():#TODO   search/replace references to pControl with Control
             pm.error("Argument not recognized, position accepts 'child' or 'parent'")
 
 
+def multi_constrain(satellites = [], target = None, constraintType = 'parent', normalize = True):
+    '''
+    Constrains target object to n satellites and normalizes the influence to add up to 1.0
+    @param satellites: 
+    @param constraintType: parent, orient, or point
+    @param target: object getting constrained to the satellites
+    @return constraint:  the multi influence constraint affecting target
+    '''
+    influences = general.distance_influence_calc(satellites, target)
+    for index in range(len(satellites)):
+        if constraintType == 'parent':
+            print (satellites[index])
+            print(target)
+            constraint = pm.parentConstraint(satellites[index],target, mo = 1, weight = 1)
+            constraint.setAttr('interpType', 2)
+        elif constraintType == 'orient':
+            constraint = pm.orientConstraint(satellites[index],target, mo = 1, weight = 1)
+            constraint.setAttr('interpType', 2)
+        elif constraintType == 'point':
+            constraint = pm.pointConstraint(satellites[index],target, mo = 1, weight = 1)
+        elif constraintType == 'scale':
+            constraint = pm.scaleConstraint(satellites[index],target, mo = 1, weight = 1)
+        else:
+            pm.error('unknown argument')
+    
+    #set constraint weight
+    for index in range(len(satellites)):
+        name = str(satellites[index].stripNamespace())
+        #print(str(satellites[index])+'W'+str(index))
+        #str(satellites[index])
+        constraint.setAttr(name+'W'+str(index), influences[index])
+    return constraint
+#multi_constrain(satellites, target)
+
+
+def store_constraint(target,constraint):
+    node = r9Meta.MetaClass(target.name())
+    print(constraint)
+    sources = list(set(constraint.listConnections(source = True, type = 'transform')))
+    sources.remove(target)
+    constraint_sources = {}
+    for item in sources:
+        if type(item) == pm.nodetypes.Constraint:
+            pass
+        else:
+            constraint_sources[item.name()] = constraint.getWeight(item)
+    
+    if type(constraint) == pm.nodetypes.ParentConstraint:
+        node.addAttr('parentConstraintStore', constraint_sources)
+        #print item
+    elif type(constraint) == pm.nodetypes.ScaleConstraint:
+        node.addAttr('scaleConstraintStore', constraint_sources)
+        #print item
+    elif type(constraint) == pm.nodetypes.OrientConstraint:
+        node.addAttr('orientConstraintStore', constraint_sources)
+        #print item
+    else:
+        pm.warning('constraint type not supported')
+    pm.delete(constraint)
+
+
+def store_all_constraints(target):
+    target_constraints = set(pm.listConnections(target, source = True, type = 'constraint'))#.pop()
+    for constraint in target_constraints:
+        print constraint
+        print type(constraint)
+        store_constraint(target,constraint)
+
+
+def restore_constraint(target, attr = 'parentConstraintStore'):
+    node = r9Meta.MetaClass(target.name())
+    if attr == 'parentConstraintStore':
+        constraint_sources = node.parentConstraintStore
+        sources = pm.ls(constraint_sources.keys())
+        constraint = pm.parentConstraint(sources, target, maintainOffset = True)
+        constraint.setAttr('interpType', 2)
+        for index in range(len(sources)):
+            name = sources[index].name()#.stripNamespace()
+            constraint.setAttr(name+'W'+str(index), constraint_sources[name])
+        node.delAttr('parentConstraintStore')
+        return
+    elif attr == 'orientConstraintStore':#TODO:     test this function
+        constraint_sources = node.orientConstraintStore
+        sources = pm.ls(constraint_sources.keys())
+        constraint = pm.orientConstraint(sources, target, maintainOffset = True)
+        constraint.setAttr('interpType', 2)
+        for index in range(len(sources)):
+            name = sources[index].name()#.stripNamespace()
+            constraint.setAttr(name+'W'+str(index), constraint_sources[name])
+        node.delAttr('orientConstraintStore')
+        return
+    elif attr == 'scaleConstraintStore':
+        constraint_sources = node.scaleConstraintStore
+        sources = pm.ls(constraint_sources.keys())
+        constraint = pm.scaleConstraint(sources, target, maintainOffset = True)
+        for index in range(len(sources)):
+            name = sources[index].name()#.stripNamespace()
+            constraint.setAttr(name+'W'+str(index), constraint_sources[name])
+        node.delAttr('scaleConstraintStore')
+        return
+    else:
+        pm.warning('valid constraintStore not found')
+
+
+
 def link_controls(parent,child, offset = '_GRP', link = 'constrain'):
     """
     Constrains child control's root group to parent control and connects metaParent attr.
@@ -114,6 +220,7 @@ def link_controls(parent,child, offset = '_GRP', link = 'constrain'):
     constraint = pm.parentConstraint (parent,child_offset, mo = 1, weight = 1)
     constraint.setAttr('interpType', 2)
     pm.scaleConstraint(parent,child_offset, mo = True)
+
 
 def chain_controls(controls, offset = '_GRP'):
     """

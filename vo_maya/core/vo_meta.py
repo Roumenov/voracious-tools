@@ -26,7 +26,7 @@ def meta_tag(target, tag='', type = 'string'):#TODO:    deprecate this and repla
     tag target with a custom attr of given type
     @param: target = pyNodeObject
     """
-    node = core.r9Meta.MetaClass(target.name())
+    node = r9Meta.MetaClass(target.name())
     node.addAttr(tag)
 
 #====          ZOMBIE CODE            ====#

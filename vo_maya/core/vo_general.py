@@ -302,39 +302,6 @@ def distance_influence_calc(satellites = [], target = None):
 
 #influences = distance_influence_calc(satellites, target)
 
-def multi_constrain(satellites = [], target = None, constraintType = 'parent', normalize = True):
-    '''
-    Constrains target object to n satellites and normalizes the influence to add up to 1.0
-    @param satellites: 
-    @param constraintType: parent, orient, or point
-    @param target: object getting constrained to the satellites
-    @return constraint:  the multi influence constraint affecting target
-    '''
-    influences = distance_influence_calc(satellites, target)
-    for index in range(len(satellites)):
-        if constraintType == 'parent':
-            print (satellites[index])
-            print(target)
-            constraint = pm.parentConstraint(satellites[index],target, mo = 1, weight = 1)
-            constraint.setAttr('interpType', 2)
-        elif constraintType == 'orient':
-            constraint = pm.orientConstraint(satellites[index],target, mo = 1, weight = 1)
-            constraint.setAttr('interpType', 2)
-        elif constraintType == 'point':
-            constraint = pm.pointConstraint(satellites[index],target, mo = 1, weight = 1)
-        elif constraintType == 'scale':
-            constraint = pm.scaleConstraint(satellites[index],target, mo = 1, weight = 1)
-        else:
-            pm.error('unknown argument')
-    
-    #set constraint weight
-    for index in range(len(satellites)):
-        name = str(satellites[index].stripNamespace())
-        #print(str(satellites[index])+'W'+str(index))
-        #str(satellites[index])
-        constraint.setAttr(name+'W'+str(index), influences[index])
-    return constraint
-#multi_constrain(satellites, target)
 
 
 def match_pivot(source = None, target = None):

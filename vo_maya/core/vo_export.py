@@ -386,7 +386,7 @@ def export_animation1(root, path):
     """
     
     bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
-    pm.delete(pm.ls('*.noExport', objectsOnly = True))
+    pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
     #pm.select(pm.ls('*.export', objectsOnly = True, recursive = True), replace = True)#TODO:  this should select root
     pm.select(root, replace = True)
     #pm.exportSelected(path, force=True, type="FBX export")
@@ -407,11 +407,11 @@ def potionomics_export1(characters):
         else:
             remove_scene_prefix(this_dict['namespace_data'][1])
         try:
-            bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
+            bake_animation(pm.ls('*.jointSkin', objectsOnly = True, recursive = True))
             #export_animation1(this_dict['root'], this_dict['path'])#
         except:
             pm.warning('export failed')
-        pm.delete(pm.ls('*.noExport', objectsOnly = True))
+        pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
         pm.select(this_dict['root'], replace = True)
         pm.exportSelected(this_dict['path'], force=True, type="FBX export")
     return True
