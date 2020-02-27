@@ -617,8 +617,8 @@ global proc shelf_vo_animTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "banana_icon.png" 
-        -image1 "banana_icon.png" 
+        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/banana_icon.png" 
+        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/banana_icon.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -710,8 +710,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0
@@ -729,8 +729,8 @@ global proc shelf_vo_animTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "ramen_ICO.png" 
-        -image1 "ramen_ICO.png" 
+        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/ramen_ICO.png" 
+        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/ramen_ICO.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
@@ -742,8 +742,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 36
-        -height 36
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -826,15 +826,19 @@ global proc shelf_vo_animTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "export_ICO.png" 
-        -image1 "export_ICO.png" 
+        -image "C:/Users/abogoev/Documents/maya/2018/prefs/icons/export_ICO.png" 
+        -image1 "C:/Users/abogoev/Documents/maya/2018/prefs/icons/export_ICO.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "import pymel.core as pm\nimport vo_sceneTools as st\nreload(st)\n\nst.export_character('auto')" 
+        -command "\nimport vo_maya.core.vo_export as voe\nreload(voe)\n\ncharacters = voe.character_prep1()\nif len(characters) > 0:\n    voe.import_references()\n    voe.potionomics_export1(characters)\nelse:\n    print('nothing ot export')\n" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
+        -mi "old exporter" ( "import pymel.core as pm\nimport vo_sceneTools as st\nreload(st)\n\nst.export_character('auto')\n" )
+        -mip 0
+        -mi "new export overwrite" ( "\nimport vo_maya.core.vo_export as voe\nreload(voe)\n\ncharacters = voe.character_prep1(overwrite = True)\nif len(characters) > 0:\n    voe.import_references()\n    voe.potionomics_export1(characters)\nelse:\n    print('nothing ot export')\n" )
+        -mip 1
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -858,8 +862,8 @@ global proc shelf_vo_animTools () {
         -font "plainLabelFont" 
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
-        -image "BroDynamics_icon.png" 
-        -image1 "BroDynamics_icon.png" 
+        -image "C:\\Users\\AnguelRoumenov\\Documents\\maya\\scripts\\BroTools\\imgs\\i32_logo.png" 
+        -image1 "C:\\Users\\AnguelRoumenov\\Documents\\maya\\scripts\\BroTools\\imgs\\i32_logo.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
