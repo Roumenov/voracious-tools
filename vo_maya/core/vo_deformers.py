@@ -6,6 +6,7 @@
 import maya.cmds as cmds
 import maya.mel as mel
 import pymel.core as pm
+import Red9.core.Red9_Meta as r9Meta
 
 
 def get_blendShape(target):
@@ -42,15 +43,22 @@ def add_blendShape(new_shape, blend_mesh):
 #add_blendShape(new_shape, blend_mesh)
 
 
-def param_copy_blendWeight():
+def copy_blendshape_params(blendshape, target):
     """proc for making connection attrs for blendShape's weight params"""
+    target_node = r9Meta.MetaClass(target.name())
+    
+    shape_params = pm.listAttr(blendshape.weight, multi = True)
+    for param in shape_params:
+        target_node.addAttr(param,0.0)
+        target_param = '.'.join((target.name(), param))
+        blendshape.connectAttr(param, target_param)
     return
+#copy_blendshape_params(blendshape,target)
 
 
 #PURPOSE            check if given joint is skinned
 #PROCEDURE            cycle through connections and find skinCluster nodes
 #PRESUMPTIONS        arg is a single object of type joint
-#TODO       looks like something that belongs in rigging.vo_deformers
 def check_skincluster(jointObject):
     for node in jointObject.connections():
         if node.nodeType() == 'skinCluster':
@@ -192,7 +200,7 @@ class CombineSeparateSkinnedMesh():
         cmds.setParent( '..' )
         cmds.showWindow(CombSepSkinMeshWin)   
         
-#CombineSeparateSkinnedMesh()                         
+#CombineSeparateSkinnedMesh()
 
 """
 import maya.cmds as cmds

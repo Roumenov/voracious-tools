@@ -359,8 +359,8 @@ def character_prep1(overwrite = False):
     characters = []
     rigs = pm.ls('*.export', objectsOnly = True, recursive = True)
     for root in rigs:
-        print(root.name())
-        print(root)
+        #print(root.name())
+        #print(root)
         ref = get_reference(root)
         ns_data = eval_namespace(ref)
         name = root.name().split(ns_data[1])[1]
@@ -393,8 +393,6 @@ def export_animation1(root, path):
     cmds.file(path, exportSelected=True, type="FBX export", force = True)
 
 def potionomics_export1(characters):
-    #if len(characters) > 0:
-    #    import_references()
     print(characters)
     for this_dict in characters:
         if this_dict['namespace_data'][0]:
