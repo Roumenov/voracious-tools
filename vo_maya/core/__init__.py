@@ -12,4 +12,5 @@ import vo_shadow
 import vo_controls
 import vo_deformers
 import vo_ribbons
+import vo_animation
 #import rigging
