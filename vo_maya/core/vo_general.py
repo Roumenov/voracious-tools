@@ -4,6 +4,12 @@ import math
 #general utilities, no dependencies on the rest of vo-maya
 
 
+def strip_string(operation = '', string = ''):
+    if operation == 'prefix':
+        return
+    pass
+
+
 def strip_suffix(inputString='', suffix=''):
     """
     Return string without suffix.
@@ -24,7 +30,7 @@ def strip_prefix(inputString='', prefix=''):
     Return string without prefix.
     """
 
-    if inputString.endswith(prefix):
+    if inputString.startswith(prefix):
         remove = len(prefix)
         #print "removing prefix"
         output_string = inputString[remove:]
