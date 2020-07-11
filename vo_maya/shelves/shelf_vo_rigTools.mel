@@ -1233,9 +1233,9 @@ global proc shelf_vo_rigTools () {
         -commandRepeatable 1
         -flat 1
         -mi "SaRN" ( "performSearchReplaceNames 1" )
-        -mi "Remove Suffix" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nremove = uf.prompt_string(promptTitle = '', promptMessage = '')\n\nfor item in pm.ls(sl=1):\n    current_name = str(item)\n    new_name = uf.strip_suffix(inputString=current_name, suffix=remove)\n    item.rename(new_name)" )
+        -mi "Remove Suffix" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\nreload(vog)\n\nremove = vog.prompt_string(promptTitle = '', promptMessage = '')\n\nfor item in pm.ls(sl=1):\n    current_name = str(item)\n    new_name = vog.strip_suffix(inputString=current_name, suffix=remove)\n    item.rename(new_name)" )
         -mip 1
-        -mi "Remove Prefix" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nremove = uf.prompt_string(promptTitle = '', promptMessage = '')\n\nfor item in pm.ls(sl=1):\n    current_name = str(item)\n    new_name = uf.strip_prefix(inputString=current_name, suffix=remove)\n    item.rename(new_name)" )
+        -mi "Remove Prefix" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\nreload(vog)\n\nremove = vog.prompt_string(promptTitle = '', promptMessage = '')\n\nfor item in pm.ls(sl=1):\n    current_name = str(item)\n    new_name = vog.strip_prefix(inputString=current_name, prefix=remove)\n    item.rename(new_name)" )
         -mip 2
     ;
     shelfButton
