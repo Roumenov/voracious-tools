@@ -392,6 +392,25 @@ def export_animation1(root, path):
     #pm.exportSelected(path, force=True, type="FBX export")
     cmds.file(path, exportSelected=True, type="FBX export", force = True)
 
+def export_skeleton(characters):
+    print(characters)
+    for this_dict in characters:
+        if this_dict['namespace_data'][0]:
+            try:
+                target_namespace = this_dict['namespace_data'][1]
+                pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
+                #voe.export_animation(this_dict['root'], this_dict['path'])#
+            except:
+                pass
+        else:
+            remove_scene_prefix(this_dict['namespace_data'][1])
+        pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
+        pm.select(this_dict['root'], replace = True)
+        pm.exportSelected(this_dict['path'], force=True, type="FBX export")
+    return True
+    #else:
+    #    return False
+
 def potionomics_export1(characters):
     print(characters)
     for this_dict in characters:

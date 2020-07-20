@@ -7,8 +7,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 23
-        -height 23
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1391,18 +1391,22 @@ global proc shelf_vo_rigTools () {
         -mip 9
         -mi "+ noExport tag" ( "import pymel.core as pm\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('noExport'):\n        print('noExport tag exists')\n    else:\n        pm.addAttr(target, longName = 'noExport', attributeType = 'message')\n\nprint('added noExport tags')" )
         -mip 10
-        -mi "Set Rig Root" ( "rig_root = pm.selected()[0].root()\nprint(rig_root)" )
+        -mi "+skinMesh" ( "import pymel.core as pm\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('skinMesh'):\n        print('skinMesh tag exists')\n    else:\n        print('adding skinMesh tag')\n        pm.addAttr(target, longName = 'skinMesh', attributeType = 'message')\n" )
         -mip 11
-        -mi "RRARig Connection" ( "import pymel.core as pm\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('RRARigConnection'):\n        print(target)\n        print('RRARigConnection attr exists')\n    else:\n        pm.addAttr(target, longName = 'RRARigConnection', type = 'string')\n        pm.addAttr(target, longName = 'RRARigName', type = 'string')\n        rig_root.RRARigConnection >> target.RRARigConnection\n        rig_root.RRARigConnection >> target.RRARigName\n        target_attr = str(target) + '.RRARigName'\n        pm.disconnectAttr(target_attr)\n        pm.setAttr(target_attr, lock = True)\n        #roots = pm.ls('*.potionomicsCharacterRoot', objectsOnly = True)" )
+        -mi "+blendMesh" ( "import pymel.core as pm\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('blendMesh'):\n        print('blendMesh tag exists')\n    else:\n        print('adding blendMesh tag')\n        pm.addAttr(target, longName = 'blendMesh', attributeType = 'message')\n" )
         -mip 12
-        -mi "+ Potionomics Character Root tag" ( "import pymel.core as pm\n#designate potionomicsCharacterRoot\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('potionomicsCharacterRoot'):\n        print('object already has potionomicsCharacterRoot tag')\n    else:\n\t\tpm.addAttr(longName = 'potionomicsCharacterRoot', attributeType = 'message')\n" )
+        -mi "Set Rig Root" ( "rig_root = pm.selected()[0].root()\nprint(rig_root)" )
         -mip 13
-        -mi "+ Potionomics Object Root tag" ( "import pymel.core as pm\n#designate potionomicsOjbectRoot\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('potionomicsOjbectRoot'):\n        print('object already has potionomicsOjbectRoot tag')\n    else:\n\t\tpm.addAttr(longName = 'potionomicsOjbectRoot', attributeType = 'message')\n" )
+        -mi "RRARig Connection" ( "import pymel.core as pm\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('RRARigConnection'):\n        print(target)\n        print('RRARigConnection attr exists')\n    else:\n        pm.addAttr(target, longName = 'RRARigConnection', type = 'string')\n        pm.addAttr(target, longName = 'RRARigName', type = 'string')\n        rig_root.RRARigConnection >> target.RRARigConnection\n        rig_root.RRARigConnection >> target.RRARigName\n        target_attr = str(target) + '.RRARigName'\n        pm.disconnectAttr(target_attr)\n        pm.setAttr(target_attr, lock = True)\n        #roots = pm.ls('*.potionomicsCharacterRoot', objectsOnly = True)" )
         -mip 14
-        -mi "Replace Face Joint Meta Connections" ( "#replace character string\n\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n#replace mint meta threads with base skeleton\njoint_list = pm.ls(sl=1)\n#count = 0\n\nfor mint_joint in joint_list:\n    if mint_joint.hasAttr('metaParent'):\n        \n        #count += 1\n        #print count\n        skel_name = str(mint_joint).replace('Mint_Skel', 'skel:Skel')\n        print(mint_joint.type())\n        print(skel_name)\n        skel_joint = pm.ls(skel_name)#[0]\n        print skel_joint\n        try:\n            joint_meta_parent = uf.meta_traverse(source = mint_joint, relation = 'parent', tag = 'tracker')\n            print(joint_meta_parent)\n        except:\n            pass\n        try:\n            joint_meta_parent.metaParent >> skel_joint[0].metaParent\n            joint_meta_parent.metaParent // mint_joint.metaParent\n            #uf.meta_make_child(joint_meta_parent, *skel_joint)\n            #metaParent# new joint\n            #pm.matchTransform(mint_joint, skel_joint, pos = True, rot = True, scale = False)\n        except:\n            print('failed to connect metaParent')\n    else:\n        print('no metaParent attr')" )
+        -mi "+ Potionomics Character Root tag" ( "import pymel.core as pm\n#designate potionomicsCharacterRoot\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('potionomicsCharacterRoot'):\n        print('object already has potionomicsCharacterRoot tag')\n    else:\n\t\tpm.addAttr(longName = 'potionomicsCharacterRoot', attributeType = 'message')\n" )
         -mip 15
-        -mi "Meta Parent" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nmeta_parent = pm.ls(sl=1)[0]\nmeta_children = pm.ls(sl=1)[1::1]\nuf.meta_make_child(meta_parent, *meta_children)" )
+        -mi "+ Potionomics Object Root tag" ( "import pymel.core as pm\n#designate potionomicsOjbectRoot\n\ntag_list = pm.ls(sl=1)\nfor target in tag_list:\n    if target.hasAttr('potionomicsOjbectRoot'):\n        print('object already has potionomicsOjbectRoot tag')\n    else:\n\t\tpm.addAttr(longName = 'potionomicsOjbectRoot', attributeType = 'message')\n" )
         -mip 16
+        -mi "Replace Face Joint Meta Connections" ( "#replace character string\n\nimport pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n#replace mint meta threads with base skeleton\njoint_list = pm.ls(sl=1)\n#count = 0\n\nfor mint_joint in joint_list:\n    if mint_joint.hasAttr('metaParent'):\n        \n        #count += 1\n        #print count\n        skel_name = str(mint_joint).replace('Mint_Skel', 'skel:Skel')\n        print(mint_joint.type())\n        print(skel_name)\n        skel_joint = pm.ls(skel_name)#[0]\n        print skel_joint\n        try:\n            joint_meta_parent = uf.meta_traverse(source = mint_joint, relation = 'parent', tag = 'tracker')\n            print(joint_meta_parent)\n        except:\n            pass\n        try:\n            joint_meta_parent.metaParent >> skel_joint[0].metaParent\n            joint_meta_parent.metaParent // mint_joint.metaParent\n            #uf.meta_make_child(joint_meta_parent, *skel_joint)\n            #metaParent# new joint\n            #pm.matchTransform(mint_joint, skel_joint, pos = True, rot = True, scale = False)\n        except:\n            print('failed to connect metaParent')\n    else:\n        print('no metaParent attr')" )
+        -mip 17
+        -mi "Meta Parent" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nmeta_parent = pm.ls(sl=1)[0]\nmeta_children = pm.ls(sl=1)[1::1]\nuf.meta_make_child(meta_parent, *meta_children)" )
+        -mip 18
     ;
     shelfButton
         -enableCommandRepeat 1
