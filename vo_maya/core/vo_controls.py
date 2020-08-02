@@ -99,6 +99,39 @@ class Control():#TODO   search/replace references to pControl with Control
             pm.error("Argument not recognized, position accepts 'child' or 'parent'")
 
 
+def get_constraints1():
+    constraint = set(pm.listConnections(target, source = True, type = 'constraint')).pop()
+    #print(constraint)
+    sources = list(set(constraint.listConnections(source = True, type = 'transform')))
+    sources.remove(target)
+    return
+def get_constraints(target):
+    constraints = set(pm.listConnections(target, source = True, type = 'constraint')).pop()
+    #print(constraint)
+    return constraints
+
+def get_constraint_sources(constraint):
+    sources = list(set(constraint.listConnections(source = True, type = 'transform')))
+    destinations = list(set(constraint.listConnections(destination = True, type = 'transform')))
+    sources.remove(constraint)
+    return sources#first item is the constraint target
+
+
+def rebuild_constraint(target,constraint):
+    constraint_type = pm.nodeType()
+    store_constraint(target,constraint)
+    if constraint_type == 'parentConstraint':
+        restore_constraint(target, attr = 'parentConstraintStore')
+    elif constraint_type == 'scaleConstraint':
+        restore_constraint(target, attr = 'scaleConstraintStore')
+    elif constraint_type == 'orientConstraint':
+        restore_constraint(target, attr = 'orientConstraintStore')
+    elif constraint_type == 'aimConstraint':
+        pass
+    else:
+        return
+
+
 def multi_constrain(satellites = [], target = None, constraintType = 'parent', normalize = True):
     '''
     Constrains target object to n satellites and normalizes the influence to add up to 1.0
@@ -135,10 +168,14 @@ def multi_constrain(satellites = [], target = None, constraintType = 'parent', n
 
 
 def store_constraint(target,constraint):
+    '''
+    @param target:  object to write constraint data to
+    @param constraint:  constraint who's data to store
+    '''
     node = r9Meta.MetaClass(target.name())
     print(constraint)
     sources = list(set(constraint.listConnections(source = True, type = 'transform')))
-    sources.remove(target)
+    sources.remove(target)#TODO: this is teling, update get_constraint_sources while keeping in mind what object is target here, vas there
     constraint_sources = {}
     for item in sources:
         if type(item) == pm.nodetypes.Constraint:

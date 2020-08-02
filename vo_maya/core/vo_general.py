@@ -309,6 +309,45 @@ def distance_influence_calc(satellites = [], target = None):
 #influences = distance_influence_calc(satellites, target)
 
 
+def freeze_worldspace(*targets):
+    '''
+    recomputes S/R/T values to use world zero as the zero'd out location
+    '''
+    #transform_list = pm.ls(sl=1)
+
+    for transform in targets:
+        original_location = pm.xform(transform, q=True, worldSpace = True, relative=True, rotatePivot=True)
+        original_rotation = pm.xform(transform, query = True, rotation = True, worldSpace = True)
+        transform_parent = transform.getParent()
+        pm.parent(transform, world = True)
+        pm.move (rotatePivotRelative = True, x=0, y=0, z=0)
+        pm.makeIdentity(transform, apply = True, translate = True, rotate = False, scale = True)
+        pm.xform(transform, ws=True, translation= original_location)
+
+
+def euler_flip(target, axis = '+z'):
+    """
+    Rotate object 180 in object space
+    @param target:      Object being rotated
+    @param axis:        '+x', '+y', '+z', '-x', '-y', '-z'
+    example usage: euler_flip(pm.ls(sl=1)[0], axis = '+y')
+    """
+    magnitude = int(axis[0] + str(180))
+    
+    if axis[1].lower() == 'x':
+        euler = (magnitude,0,0)
+    elif axis[1].lower() == 'y':
+        euler = (0,magnitude,0)
+    elif axis[1].lower() == 'z':
+        euler = (0,0,magnitude)
+    else:
+        pm.warning('axis not recognized')
+    try:
+        pm.rotate(target, euler, relative = True, objectSpace = True, forceOrderXYZ = True)
+        return axis
+    except:
+        pm.warning('rotation operation failed')
+
 
 def match_pivot(source = None, target = None):
     #TODO:      use as basis for rewrite of object_on_pivot?
@@ -324,8 +363,8 @@ def match_pivot(source = None, target = None):
 def create_primitive(name='', primitive='cube', axis='y'):
     """
     create primitive, just as exciting as it sounds!
-    @param primitive: takes 'cube', 'cylinder', 'capsule', 'sphere', 'plane', or 'torus'
-    @param axis: takes 'x', 'y', 'z', '-x', '-y', '-z'
+    @param primitive:       takes 'cube', 'cylinder', 'capsule', 'sphere', 'plane', or 'torus'
+    @param axis:        takes 'x', 'y', 'z', '-x', '-y', '-z'
     """
     axis_coordinates = {'x' : [1, 0, 0], 'y' : [0, 1, 0], 'z' : [0, 0, 1], '-x' : [-1, 0, 0], '-y' : [0, -1, 0], '-z' : [0, 0, -1]}
     if primitive == 'cube':
@@ -453,10 +492,10 @@ def nest_transform(name, action, target = None, transformObj = 'locator', transf
         return None
     target_name = str(target)
     if len(name): #set transform name to arg value
-        transformName = name
+        transform_name = name
     else:
-        transformName = target_name + '_nest'
-    nested_transform = create_object(name = transformName, objType = transformObj, radius = transformRadius)
+        transform_name = target_name + '_nest'
+    nested_transform = create_object(name = transform_name, objType = transformObj, radius = transformRadius)
     pm.matchTransform(nested_transform, target)
     if action == 'parent':
         transform_parent = target.getParent()
@@ -477,7 +516,7 @@ def nest_transform(name, action, target = None, transformObj = 'locator', transf
 def replace(source_object, target, useTargetName = True, clearSource = False):
     #object_list = pm.ls (sl = 1)
     #source_object = object_list[0]
-    transformName = str(source_object)
+    transform_name = str(source_object)
     current_replacement = pm.duplicate(source_object)[0]
     pm.matchTransform(current_replacement, target, scale = False)
     target_parent = pm.listRelatives(target, parent = True, type = 'transform')[0]
@@ -779,24 +818,24 @@ def aim_object(aimer, target, axis = '+x'): ##---- update to make locator, use t
     example usage: aim_object(aimer = pm.ls(sl=1)[0], target = pm.ls(sl=1)[1], axis = '+x')
     """
     if axis == '+x':
-        aimer_vector = (1,0,0)
+        vector = (1,0,0)
     elif axis == '+y':
-        aimer_vector = (0,1,0)
+        vector = (0,1,0)
     elif axis == '+z':
-        aimer_vector = (0,0,1)
+        vector = (0,0,1)
     elif axis == '-x':
-        aimer_vector = (-1,0,0)
+        vector = (-1,0,0)
     elif axis == '-y':
-        aimer_vector = (0,-1,0)
+        vector = (0,-1,0)
     elif axis == '-z':
-        aimer_vector = (0,0,-1)
+        vector = (0,0,-1)
     else:
         pass
     skip_val = 'x' # used to read letter value "axis[1]"
     proxy_name = str(aimer)+'_aimer'
     aim_proxy = create_object(name = proxy_name, objType = 'locator')
     pm.matchTransform(aim_proxy, aimer)
-    aim_constraint = pm.aimConstraint(target,aim_proxy, aimVector = aimer_vector, worldUpType = 'scene', skip = skip_val)
+    aim_constraint = pm.aimConstraint(target,aim_proxy, aimVector = vector, worldUpType = 'scene', skip = skip_val)
     pm.delete(aim_constraint)
     pm.matchTransform(aimer,aim_proxy)
     pm.delete(aim_proxy)
@@ -843,20 +882,6 @@ def check_connections(target, tranlation = 1, rotation = 1):
     else:
         pass
     return True
-
-
-def list_influences(mesh):
-	#test_thing.listHistory(type = 'skinCluster')
-	target_cluster = mesh.history(type = 'skinCluster')
-	
-	influence_list = pm.skinCluster(target_cluster,query=True,inf=True)
-	influence_return_list = []
-	for item in influence_list:
-		influence_return_list.append(str(item))
-		#print(item)
-	return influence_return_list
-
-
 
 
 def load_csv(sourcename = '', targetname = '', filename = 'JointMapping.csv', directory = 'Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/'):

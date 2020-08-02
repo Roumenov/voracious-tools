@@ -56,15 +56,27 @@ def copy_blendshape_params(blendshape, target):
 #copy_blendshape_params(blendshape,target)
 
 
+def check_skincluster(target):
+    if target.connections(type = 'skinCluster'):
+        return True
+    else:
+        return False
+
+
 #PURPOSE            check if given joint is skinned
 #PROCEDURE            cycle through connections and find skinCluster nodes
 #PRESUMPTIONS        arg is a single object of type joint
-def check_skincluster(jointObject):
+def check_skincluster2(jointObject):
     for node in jointObject.connections():
         if node.nodeType() == 'skinCluster':
             return True
         else:
             return False
+
+
+def list_influences(mesh):
+	#test_thing.listHistory(type = 'skinCluster')
+    return pm.skinCluster(mesh.history(type = 'skinCluster'),query=True,inf=True)
 
 
 #TODO:     look into using OpenMaya and pymel to see if these operations can be sped up
@@ -89,22 +101,23 @@ def combine_skin_mesh(meshName, targets):
         for item in matrix_array:
             list = cmds.connectionInfo(item_cluster + ".matrix[" + str(item) + "]", sourceFromDestination = True)
             joint = list.split(".")
-            joint_list.append(joint[0])         
-                    
+            joint_list.append(joint[0])
+            
     if(len(targets) < 2):
         raise TypeError ('Please Select at least two skinned Meshes')
+
     elif(len(targets) > 2):
         duplicate = cmds.duplicate (targets)
-        duplicate_offset = cmds.group (duplicate)#....  this looks mega redundant
+        #duplicate_offset = cmds.group (duplicate)#....  this looks mega redundant
         combine = cmds.polyUnite (duplicate_offset, name = meshName)
         cmds.delete (combine, ch=True)
-        deleteGrp = cmds.select (cmds.delete (duplicate_offset))
-        new_cluster = cmds.skinCluster(joint_list,meshName, n="skinCluster"+meshName)
+        #deleteGrp = cmds.select (cmds.delete (duplicate_offset))
+        new_cluster = cmds.skinCluster(joint_list,meshName, n="skinCluster"+meshName, maximumInfluences = 4)
         cmds.select (joint_list, targets, meshName, add= True )
         cmds.copySkinWeights (nm=True, sa ="closestPoint", ia ="closestJoint")
         cmds.delete (targets)
         cmds.select (meshName)
-        mel.eval('removeUnusedInfluences ')
+        #mel.eval('removeUnusedInfluences ')
         return 
         
     else:
@@ -113,6 +126,58 @@ def combine_skin_mesh(meshName, targets):
 #selection = cmds.ls(sl=1)
 #combine_skin_mesh('skin_mesh', selection)
 
+
+def CombineSkinnedMeshProc(*args):
+    
+    selection = cmds.ls(sl=True)
+    joint_list = []
+    if(len(selection) == 0):
+        raise TypeError ('Please Select at least two skinned Meshes')
+		
+    elif(len(selection) == 1):
+        raise TypeError ('Please Select at least two skinned Meshes')	
+
+    textField_obj = cmds.textField( textFieldName, query=True, text=True )
+    
+    if(len(textField_obj) == 0):
+        raise TypeError ('Please Assign a Name')
+    if " " in textField_obj:
+        raise TypeError("Warning: you are using illegal characters for the name")
+    if cmds.objExists(textField_obj):
+           raise TypeError("Warning: this name is already in use")
+             
+    for item in selection:       
+        findSkinStart = mel.eval('findRelatedSkinCluster ' + item)
+        
+        if cmds.objExists (findSkinStart):
+            print findSkinStart
+                 
+        else:
+            raise TypeError("Please Select at least two skinned Meshes ") 
+            
+        matrix_array = cmds.getAttr(findSkinStart + ".matrix", mi = True)
+    
+        for i in matrix_array:
+            list = cmds.connectionInfo(findSkinStart + ".matrix[" + str(i) + "]", sourceFromDestination = True)
+            joint = list.split(".")
+            joint_list.append(joint[0])         
+                    
+    if (len(selection) > 0):
+            print selection
+            for i in range(1):
+                duplicateObj = cmds.duplicate (selection)
+                createGrp = cmds.group (duplicateObj)        
+                combine = cmds.polyUnite (createGrp, name = textField_obj)
+                deleteHistory = cmds.delete (combine, ch=True)
+                deleteGrp = cmds.select (cmds.delete (createGrp))
+                cmds.textField( textFieldName, e=True, text='')   
+                newskin = cmds.skinCluster(joint_list,textField_obj, n=textField_obj + "_SKC")
+                newSelect = cmds.select (joint_list, selection, textField_obj, add= True )
+                transfer = cmds.copySkinWeights (nm=True, sa ="closestPoint", ia ="closestJoint")
+                delete = cmds.delete (selection)
+                selectnewobj = cmds.select (textField_obj)
+                cleanSkinEnd = mel.eval('removeUnusedInfluences ')
+                deselect = cmds.select (cl=True)
 
 
 def SeparateSkinnedMeshProc( *args):

@@ -37,7 +37,7 @@ def meta_tag_wrapper():
         meta.meta_tag(target)
 
 
-def object_at_selection(name = '', objType = '', radius = 1.0, ):
+def object_at_selection(name = '', objType = '', radius = 1.0):
     output = []
     if len(pm.ls(sl=1)):
         for target in pm.ls(sl=1):

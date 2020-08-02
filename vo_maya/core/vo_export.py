@@ -404,6 +404,7 @@ def export_skeleton(characters):
                 pass
         else:
             remove_scene_prefix(this_dict['namespace_data'][1])
+        #TODO:  combine skinMeshes using function in vo_deformers
         pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
         pm.select(this_dict['root'], replace = True)
         pm.exportSelected(this_dict['path'], force=True, type="FBX export")
