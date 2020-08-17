@@ -71,7 +71,7 @@ base_material.setAmbientColor(ambient_color = color_value)
 
 
 def select_by_material(materialName):
-    
+    #TODO:      update this to take material node reference as arg instead of string
     #materialName = "lambert1"
     shading_group = pm.listConnections(materialName, type="shadingEngine")
     mesh_components = pm.sets(shading_group, q=True)
@@ -169,10 +169,10 @@ def shadow_primitive(primitive='cylinder'):
         return False
 
 def extrude_band(name, targets, profile = 'segment'):
-    path_curve = general.curve_on_transforms(name = name, transforms = targets)[0]
+    path_curve = general.curve_on_transforms(name = name, transforms = targets)#[0]
+    print(type(path_curve))
     profile_curve = general.create_object(name = (name+'_CRV'), objType = profile, radius = 1.0)
-    output = pm.extrude(profile_curve, path_curve, et = 2, fixedPath = True,useComponentPivot = 1, name = name)[0]
-    #pm.extrude(pm.ls(sl=1)[0], pm.ls(sl=1)[1], et = 2, fixedPath = True,useComponentPivot = 1)
+    output = pm.extrude(profile_curve, path_curve, et = 2, fixedPath = True, useComponentPivot = 1, name = name)[0]
 
     return output
 
