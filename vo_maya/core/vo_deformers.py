@@ -80,7 +80,7 @@ def list_influences(mesh):
 
 
 #TODO:     look into using OpenMaya and pymel to see if these operations can be sped up
-#TODO:      add args to return skincluster or mesh, as well as preserving source objects
+#TODO:     return new mesh
 #PURPOSE:       Combine a bunch of skinned meshes to one shape with one skinCluster attached to all the bones of the source meshes
 #PROCEDURE:     Make a list of skin joints, duplicate and group meshes, combine the duplicates, copySkinWeights to combo mesh, delete sources
 def combine_skin_mesh(meshName, targets):

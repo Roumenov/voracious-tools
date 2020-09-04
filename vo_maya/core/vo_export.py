@@ -33,9 +33,9 @@ def get_export_path(character_name):#TODO:    character_name conflicts with loca
     #TODO:  store these values into the .export attr
     output_path = None
     character_paths = {
-        'Anubia' : None,
+        'Anubia' : '/scenes/Animation/Anubia/export/',
         'Baptiste' : '/scenes/Animation/Baptist/export/',
-        'BossFinn' : None,
+        'BossFinn' : '/scenes/Animation/BossFinn/export',
         'Corsac' : '/scenes/Animation/Corsac/export/',
         'GenChar' : '/scenes/Animation/GenChar/export/',
         'Luna' : '/scenes/Animation/Luna/export/',
@@ -43,12 +43,12 @@ def get_export_path(character_name):#TODO:    character_name conflicts with loca
         'Mint' : '/scenes/Animation/Mint/export/',
         'Muktuk' : '/scenes/Animation/MukTuk/export/',
         'Owl' : '/scenes/Animation/Owl/Export/',#no RRARigConnection attr
-        'Pepper' : None,
+        'Pepper' : '/scenes/Animation/SaltPepper/export/',
         'Quinn' : '/scenes/Animation/Quinn/Export/',
         'Robin' : '/scenes/Animation/Robin/export/',
         'Roxanne' : '/scenes/Animation/Roxanne/Export/',
         'Saffron' : '/scenes/Animation/Saffron/export/',
-        'Salt' : None,
+        'Salt' : '/scenes/Animation/SaltPepper/export/',
         'SoulWitch' : '/scenes/Animation/SoulWitch/export/',
         'sylv_ROOT' : '/scenes/Animation/Sylvia/export/',#no RRARigConnection attr
         'Xidriel' : '/scenes/Animation/Xidriel/export/'
