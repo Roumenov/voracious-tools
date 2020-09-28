@@ -22,6 +22,8 @@ def create_anim_layer(anim_layer_name):
                 new_anim_layer = pm.animLayer(anim_layer_name)
         else:
             pm.warning('weird shit happened')
+    else:
+        new_anim_layer = pm.animLayer(anim_layer_name)
     return new_anim_layer
 
 def get_anim_layers():

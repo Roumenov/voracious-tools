@@ -79,6 +79,38 @@ def list_influences(mesh):
     return pm.skinCluster(mesh.history(type = 'skinCluster'),query=True,inf=True)
 
 
+def auto_copy_weights(source_mesh,target_mesh, surface_association = 'closestComponent'):
+    """
+    @param surface_association: 'closestPoint', 'rayCast', or 'closestComponent'
+    
+    auto_copy_weights(source_mesh = pm.ls(sl=1)[0],target_mesh = pm.ls(sl=1)[1], surface_association = 'closestComponent')
+    auto_copy_weights(source_mesh = pm.ls(sl=1)[0],target_mesh = pm.ls(sl=1)[1], surface_association = 'closestPoint')
+    auto_copy_weights(source_mesh = pm.ls(sl=1)[0],target_mesh = pm.ls(sl=1)[1], surface_association = 'rayCast')
+    """
+    #joints = pm.skinCluster(source_mesh.history(type = 'skinCluster'),query=True,inf=True)
+    pm.select(cl=1) 
+    source_cluster = source_mesh.history(type = 'skinCluster')[0]
+    joints = pm.skinCluster(source_cluster,query=True,inf=True)
+    max_influences = pm.skinCluster(source_mesh.history(type = 'skinCluster'), query = True, maximumInfluences = True)
+    try:
+        target_cluster = target_mesh.history(type = 'skinCluster')[0]
+    except:
+        target_cluster = pm.skinCluster(joints, target_mesh, toSelectedBones = True, bindMethod = 0, normalizeWeights = 1, weightDistribution = 1, maximumInfluences = max_influences, obeyMaxInfluences = True, skinMethod = 0, smoothWeights = 0.8, dropoffRate = 2, removeUnusedInfluence = False)
+    pm.copySkinWeights(sourceSkin = source_cluster, destinationSkin = target_cluster, noMirror = True, surfaceAssociation = 'rayCast', influenceAssociation = ('label'), normalize = True)
+    
+    #pm.skinCluster(target_cluster, removeUnusedInfluence = True, edit = True)
+    pm.select(source_mesh,target_mesh)    
+    return target_cluster
+    #pm.copySkinWeights(sourceSkin = source_cluster,destinationSkin = target_cluster, noMirror = True, surfaceAssociation = 'rayCast', influenceAssociation = ('label'), normalize = True)
+    #,'oneToOne','name'
+    #copySkinWeights  -noMirror -surfaceAssociation rayCast -influenceAssociation label -influenceAssociation oneToOne -influenceAssociation name -normalize;
+
+    #pm.mel.removeUnusedInfluences(mesh)
+    #cmds.file(export_path, exportSelected=True, type="FBX export")
+
+
+
+
 #TODO:     look into using OpenMaya and pymel to see if these operations can be sped up
 #TODO:     return new mesh
 #PURPOSE:       Combine a bunch of skinned meshes to one shape with one skinCluster attached to all the bones of the source meshes

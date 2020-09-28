@@ -634,6 +634,12 @@ global proc shelf_vo_polyTools () {
         -doubleClickCommand "CreatePolygonPlaneOptions" 
         -commandRepeatable 1
         -flat 1
+        -mi "Plane X" ( "import pymel.core as pm\nplane_x = pm.polyPlane(axis = [1,0,0], width = 2, height = 2, subdivisionsX=2, subdivisionsY = 2)\n" )
+        -mip 0
+        -mi "Plane Y" ( "import pymel.core as pm\nplane_y = pm.polyPlane(axis = [0,1,0], width = 2, height = 2, subdivisionsX=2, subdivisionsY = 2)\n" )
+        -mip 1
+        -mi "Plane Z" ( "import pymel.core as pm\nplane_z = pm.polyPlane(axis = [0,0,1], width = 2, height = 2, subdivisionsX=2, subdivisionsY = 2)\n" )
+        -mip 2
     ;
     shelfButton
         -enableCommandRepeat 1

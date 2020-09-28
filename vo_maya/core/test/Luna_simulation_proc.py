@@ -60,3 +60,5 @@ simulator.run(objects, **sim_parameters)
 
 #Z:\0_p4v\PotionomicsSourceAssets\Art_sourcefiles\Characters\scenes\Animation\Luna\config
 
+sim_layer.setKeyframe(weight)
+pm.setKeyframe(sim_layer.weight)
