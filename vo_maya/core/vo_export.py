@@ -25,6 +25,10 @@ def publish_rig(rig):
     return
 
 
+def generate_scene_list(raw, path= None, name = None):
+    output = str([path+item+'.ma' for item in raw.split('\n')])
+    return output
+#generate_scene_list(raw, path = voe.get_export_path('Roxanne').split('Export')[0])
 #
 def get_export_path(character_name):#TODO:    character_name conflicts with local variable
     """
@@ -74,7 +78,7 @@ def get_export_path(character_name):#TODO:    character_name conflicts with loca
 #PRESUMPTION        pathA is current scene, pathB is fbx scene
 def need_export(pathA, pathB):
     """
-        return True if pathA indicates a newer file
+        return True if pathA indicates a newer file or pathB doesn't exist yet
         pathA is current scene, pathB is fbx scene
     """
     #files = pm.getFileList(path, filespec = '*.fbx')
@@ -139,6 +143,33 @@ def remove_target_reference(filepath, reference):
     else:
         return False
 
+
+#PURPOSE            replace existing reference to target file with another file
+#PROCEDURE          compare absolute filepaths of references, then replace if they don't match
+#PRESUMPTION        
+def replace_target_reference(reference, filepath):
+    """
+    @param filename:    string of filename to search for
+    @param filepath:    string of replacement path
+
+    returns number of refs replaced
+    """
+    if reference.path.abspath() == os.path.abspath(filepath):
+        pm.warning('reference and filepath appear to be identical')
+    else:
+        reference.replaceWith(filepath)
+        print('replaced %s with %s' %(reference,filepath))
+    """
+    try:
+        reference.replaceWith(filepath)
+        output += 1
+    except:
+        pm.warning('attempted and failed to replace %s with %s' %(reference,filepath))
+    """
+
+#replace_target_reference(filename = 'Roxanne_Rig.ma', filepath = '//scenes/Rigs/roxanne_rig.mb')
+
+
 def obliterate_references(filepath = None):
     """
     """
@@ -159,7 +190,7 @@ def obliterate_references(filepath = None):
     return# True
 
 
-#if scene uses namespace, return True and the namespace
+ #if reference uses namespace, return True and the namespace
 #otherwise return false and the prefix
 #refs = pm.listReferences()
 def eval_namespace(reference):
@@ -177,11 +208,44 @@ def eval_namespace(reference):
 
 
 #TODO:      integrate this into import function so we don't have to do this manually
-#TODO:  reevaluate whether this is still necessary
+#TODO:      reevaluate whether this is still necessary, seems like you could just do object._setNamespace('root') or smth
 def remove_object_namespace(object):
     target_namespace = object.namespace()
     print 'removing namespace :: ' + target_namespace
     pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
+
+
+#PURPOSE        this basically exists so that namespaces won't get changed recursively the way references do
+def replace_target_namespace(namespace, string):
+    for reference in pm.listReferences(recursive = False):
+        if reference._getNamespace() == namespace:
+            reference._setNamespace(string)
+    return
+#replace_target_namespace('mesh', 'rig')
+
+
+def claim_namespace(filepath, namespace, debug = False):
+    """
+    claim_namespace(filepath = "Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/scenes/Rigs/ShopCameraScene.ma", namespace = 'cam')
+
+    """
+    data = {ref._getNamespace():ref for ref in pm.listReferences(recursive = False)}
+    for key in data:
+        if debug:
+            print(key, data[key])
+        if os.path.abspath(filepath) == data[key].path.abspath() and key == namespace:
+            print('namespace already belongs to reference with target filepath')
+            #return
+        elif os.path.abspath(filepath) == data[key].path.abspath():
+            print('assigning namespace %s to reference in filepath %s' %(namespace,filepath))
+            data[key]._setNamespace(namespace)
+        elif key == namespace and os.path.abspath(filepath) != data[key].path.abspath():
+            print('reference %s pushed from target namespace %s' %(data[key],namespace))
+            data[key]._setNamespace(key + str(1))
+        else:
+            pass
+    return
+
 
 
 #PROCEDURE          get 
@@ -203,15 +267,51 @@ def remove_scene_prefix(prefix, namespace = None):
 
 
 
-def set_timeline():
-    playStartTime = pm.playbackOptions(query = True, minTime = True)
-    playEndTime = pm.playbackOptions(query = True, maxTime = True)
-    playStartTime = int(playStartTime)
-    playEndTime = int(playEndTime)
-    return playStartTime, playEndTime
+#PURPOSE        load available file references and unload unavailable ones
+def load_unload_reference(reference):
+    
+    if os.path.isfile(reference.path.abspath()):
+        if not reference.isLoaded():
+            try:
+                reference.load(loadReferenceDepth = 'all')
+                print('loaded %s' %(reference))
+            except:
+                pm.warning('unknown exception when loading reference %s' %(reference))
+    else:
+        pm.warning('file not found')
 
 
-def bake_animation(targets, sampling = 1):#changed to list input
+#PURPOSE        to clean up the poorly set up references in our animation files
+def clean_references(filename, filepath):
+    """
+    @param filename:    string of filename to search for
+    @param filepath:    string of replacement path
+
+    returns number of refs replaced
+
+    clean_references(filename = 'Roxanne_Rig.ma', filepath = '//scenes/Rigs/roxanne_rig.mb', namespace = 'mesh', string = 'rig')
+    """
+    ##ZOMBIE CODE##
+    #if replace:
+    #    replace_target_namespace(namespace, string)
+    #else:
+    #    claim_namespace(filepath, namespace, debug = False)
+    output = 00
+    for item in pm.listReferences(recursive = True):
+        load_unload_reference(item)
+        if item.path.__contains__(filename):
+            replace_target_reference(reference = item, filepath = filepath)
+            output += 1
+        else:
+            continue
+    return output
+
+
+def get_timeline():#TODO:   move to animation or general?
+    return pm.playbackOptions(query = True, minTime = True), pm.playbackOptions(query = True, maxTime = True)
+
+
+def bake_animation(targets, sampling = 1):#TODO:   move to animation or general?
     #pm.select(bakeTarget)
     #set timeline
     playStartTime = int(pm.playbackOptions(query = True, minTime = True))

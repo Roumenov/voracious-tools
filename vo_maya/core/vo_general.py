@@ -23,7 +23,7 @@ def strip_suffix(inputString='', suffix=''):
         return output_string
     else:
         print "suffix not found"
-        return inputString
+        return False
 
 def strip_prefix(inputString='', prefix=''):
     """
@@ -38,7 +38,7 @@ def strip_prefix(inputString='', prefix=''):
         return output_string
     else:
         #print "prefix not found"
-        return inputString
+        return False
 
 
 class NameString():
@@ -54,9 +54,102 @@ class NameString():
                 self.warble = '_'.join(components[2:-1])
                 return
 
-    def get_number():
+    def get_number(self):
         warble_components = self.warble.split('_')
+        return warble_components[-1]
+
+character_acronyms = {
+        'Anubia' : 'anu',
+        'Baptiste' : 'bapt',
+        'BossFinn' : 'boss',
+        'Corsac' : 'cor',
+        'GenChar' : 'genchar',
+        'Luna' : 'luna',
+        'Maven' : 'mav',
+        'Mint' : 'mint',
+        'Muktuk' : 'muk',
+        'Owl' : 'owl',#no RRARigConnection attr
+        'Pepper' : 'pep',
+        'Quinn' : 'quinn',
+        'Robin' : 'rob',
+        'Roxanne' : 'rox',
+        'Saffron' : 'saf',
+        'Salt' : 'salt',
+        'SoulWitch' : 'soul',
+        'sylv_ROOT' : 'sylv',#no RRARigConnection attr
+        'Xidriel' : 'xid'
+    }
+
+
+class AnimAsset():#
+    """
+    class for managing and reading potionomics asset names
+    
+    """
+    
+    def __init__(
+            self,
+            root):
+                self.scene_name = pm.sceneName().split('/')[-1].split('.')[0]
+                self.character = root.name(stripNamespace = 1)
+                self.components = self.scene_name.split('_')
+                self.owner_character = self.components[0]
+                self.warble = '_'.join(self.components[2:-1])#warble is everything after name acronym
+                self.system = self.find_system()
+                self.anim_type = self.valdiate_anim_type()#everything defaults to idle without suffix. _act, _talk and (also need one for closed loops, looping anims )
+
+                if self.anim_type == "transition":
+                    poses = self.warble.split('_')[-1].split('-to-')
+                    self.start_pose = poses[0]
+                    self.end_pose = poses[-1]
+                else:
+                    self.start_pose = self.warble.split('_')[-1]
+                    self.end_pose = self.warble.split('_')[-1]
+                
+                self.version_number = self.find_version_number()
+                
+                return
+
+    def hyphen_check(self, string):
         return
+    
+    def valdiate_anim_type(self):
+        """
+        takes warble
+        """
+        anim_type = self.warble.split('_')[-1]
+        
+        if anim_type == "act":
+            return anim_type
+        elif anim_type == "talk":
+            return anim_type
+        else:
+            if "_to_" in self.warble:
+                return "transition"
+            else:
+                return None
+        return
+
+    def break_to(self):
+        return
+    
+    def find_version_number(self):
+        for item in self.warble.split('_'):
+            if item.isdigit():
+                return item
+            else:
+                continue
+        return False
+    
+    def find_system(self):
+        components = self.warble.split('_')
+        if components[1] in ('ccg', 'test', 'string'):
+            return '_'.join(components[0:2])
+        return
+
+    def get_anim_fbx_name(self):#TODO:      finish this for the exporter to use
+        return self.character
+
 
 #PURPOSE/PROCEDURE      create prompt that requests name input, then returns input
 #PRESUMPTIONS   user knows the name they want and doesn't have a reason to click elsewhere, user only needs one name
