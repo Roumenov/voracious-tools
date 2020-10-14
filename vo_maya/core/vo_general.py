@@ -1,7 +1,13 @@
 import pymel.core as pm
 import maya.cmds as cmds
 import math
+import os as os
+import pprint
+
 #general utilities, no dependencies on the rest of vo-maya
+p4_path = r'Z:\0_p4v'#NOTE:     can't end with \
+pose_path = r"\Maya_sourcefiles\PoseLibrary"
+project_path = r"0_p4v\PotionomicsSourceAssets\Art_sourcefiles\Characters"
 
 
 def strip_string(operation = '', string = ''):
@@ -17,12 +23,12 @@ def strip_suffix(inputString='', suffix=''):
 
     if inputString.endswith(suffix):
         remove = len(suffix)
-        print "removing prefix"
+        #print "removing prefix"
         output_string = inputString[:-remove]
         #print (output_string)
         return output_string
     else:
-        print "suffix not found"
+        #print "suffix not found"
         return False
 
 def strip_prefix(inputString='', prefix=''):
@@ -83,73 +89,82 @@ character_acronyms = {
 
 class AnimAsset():#
     """
-    class for managing and reading potionomics asset names
-    
+    class for managing and reading potionomics anim asset names
     """
     
-    def __init__(
-            self,
-            root):
+    def __init__(self, root, pose_path):
                 self.scene_name = pm.sceneName().split('/')[-1].split('.')[0]
-                self.character = root.name(stripNamespace = 1)
+                self.root       = root
+                self.character  = root.name(stripNamespace = 1)
+                self.pose_path  = os.path.normpath(pose_path).replace('\\', '/')
                 self.components = self.scene_name.split('_')
-                self.owner_character = self.components[0]
-                self.warble = '_'.join(self.components[2:-1])#warble is everything after name acronym
-                self.system = self.find_system()
-                self.anim_type = self.valdiate_anim_type()#everything defaults to idle without suffix. _act, _talk and (also need one for closed loops, looping anims )
-
-                if self.anim_type == "transition":
-                    poses = self.warble.split('_')[-1].split('-to-')
-                    self.start_pose = poses[0]
-                    self.end_pose = poses[-1]
-                else:
-                    self.start_pose = self.warble.split('_')[-1]
-                    self.end_pose = self.warble.split('_')[-1]
+                self.scene_owner = [self.components.pop(0)]
                 
-                self.version_number = self.find_version_number()
+                if self.components[-1] == 'act' or self.components[-1] == 'talk':
+                    self.anim_type = [self.components.pop(-1)]
+                    #self.warble = '_'.join(self.components)#[char]_[warble]_[typ] is everything between name acronym and type suffix
+                else:
+                    #self.warble = '_'.join(self.components)
+                    pass
+                #multi-part system prefix
+                if self.components[1] in ('ccg', 'emot'):
+                    self.system = self.components[0:2]#don't join into strings except on return?
+                    del self.components[0:2]
+                else:
+                    self.system = [self.components.pop(0)]
+                #check for transition
+                if '-to-' in '_'.join(self.components):#TODO:     warble doesn't actually seem necessary to hold on to
+                    self.anim_type = "transition"
+                    self.version_number = None#TODO:    can't have transitions with pose versions, can't have more than one transition
+                    self.start_enum, self.end_enum = '_'.join(self.components).split('-to-')
+                else:#start and end are equal here
+                    self.anim_type = None
+                    #TODO:     this needs to be moved later to support transitions like pose_01-to-pose_02
+                    self.start_enum = '_'.join(self.components)
+                    self.end_enum = '_'.join(self.components)
+                    if self.components[-1].isdigit():
+                        self.version_number = self.components.pop(-1)
+                    else:
+                        self.version_number = None
+                        pass
+                self.start_pose, self.end_pose = self.set_poses()
+                #everything defaults to idle without suffix. _act, _talk and (also need one for closed loops, looping anims )
+                self.start_frame = pm.playbackOptions(query = True, minTime = True)
+                self.end_frame = pm.playbackOptions(query = True, maxTime = True)
                 
                 return
-
-    def hyphen_check(self, string):
-        return
-    
-    def valdiate_anim_type(self):
-        """
-        takes warble
-        """
-        anim_type = self.warble.split('_')[-1]
-        
-        if anim_type == "act":
-            return anim_type
-        elif anim_type == "talk":
-            return anim_type
-        else:
-            if "_to_" in self.warble:
-                return "transition"
-            else:
-                return None
-        return
-
-    def break_to(self):
-        return
-    
-    def find_version_number(self):
-        for item in self.warble.split('_'):
-            if item.isdigit():
-                return item
-            else:
-                continue
-        return False
-    
-    def find_system(self):
-        components = self.warble.split('_')
-        if components[1] in ('ccg', 'test', 'string'):
-            return '_'.join(components[0:2])
-        return
-
+                
+    def return_data(self):
+        return {
+                '01 scene_name' : self.scene_name,
+                '02 character' : self.character,
+                '03 components' : self.components,
+                '04 owner' : self.scene_owner,
+                #'05_warble' : self.warble,
+                '05 system' : self.system,
+                '06 type' : self.anim_type,
+                '07 version' : self.version_number,
+                '08 start' : self.start_enum,
+                '09 end' : self.end_enum,
+                '10 frame range' : '-'.join((str(int(self.start_frame)), str(int(self.end_frame))))
+                }
+    def set_poses(self):
+        start_pose = '_'.join(self.system + [self.start_enum])
+        end_pose = '_'.join(self.system + [self.end_enum])
+        return start_pose, end_pose
+    def get_pose_path(self):
+        start_pose_path = os.path.normpath(os.path.join(self.pose_path, self.start_pose+'.pose')).replace('\\', '/')
+        end_pose_path = os.path.normpath(os.path.join(self.pose_path, self.end_pose+'.pose')).replace('\\', '/')
+        return start_pose_path, end_pose_path
     def get_anim_fbx_name(self):#TODO:      finish this for the exporter to use
         return self.character
 
+"""
+Asset = AnimAsset(root, scene_name)
+Asset.return_data()
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint(Asset.return_data())
+"""
 
 #PURPOSE/PROCEDURE      create prompt that requests name input, then returns input
 #PRESUMPTIONS   user knows the name they want and doesn't have a reason to click elsewhere, user only needs one name
