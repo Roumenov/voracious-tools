@@ -9,6 +9,8 @@ import os as os
 import Red9.core.Red9_PoseSaver as r9Pose
 import Red9.core.Red9_CoreUtils as r9Core
 import Red9.startup.setup as r9Setup
+import BroTools as bro
+import json
 
 
 
@@ -21,12 +23,11 @@ def create_anim_layer(anim_layer_name = None, objects = None):
     if (base_anim_layer != None):
         child_layers = pm.animLayer(base_anim_layer, query=True, children=True)
 
-        if (len(child_layers) > 0) :
-            if anim_layer_name in child_layers:
-                pm.warning('Layer ' + anim_layer_name + ' already exists')
-            else:
-                new_anim_layer = pm.animLayer(anim_layer_name)
-                #return new_anim_layer
+        #if (len(child_layers) > 0) :
+        if anim_layer_name in child_layers:
+            pm.warning('Layer ' + anim_layer_name + ' already exists')
+            #TODO:      select layer, rename, and take 
+            new_anim_layer = pm.animLayer(anim_layer_name)
         else:
             new_anim_layer = pm.animLayer(anim_layer_name)
             #return new_anim_layer
@@ -70,7 +71,7 @@ def get_anim_layers():
         return anim_layers
     except:
         pm.warning('no base layer found in scene')
-        return None
+        return None#TODO:   consider returning false instead of none? right now using this as falsey, maybe that's not optimal return?
     
 
 def select_anim_layer(anim_layer = None):
@@ -126,7 +127,15 @@ def select_layer_objects(anim_layer = None):
 
 
 def flatten_anim_layers():
-    return
+    anim_layers = get_anim_layers()
+    if anim_layers:
+        layer_targets = get_layer_objects(anim_layer = None)
+        if layer_targets:
+            pm.bakeResults(layer_targets, removeBakedAttributeFromLayer = True, time=(0,65), sac=True, resolveWithoutLayer = anim_layers)
+        pm.delete(anim_layers)
+        return True
+    else:
+        return False
 
 
 def pose_correct_layer(targets, priority, AnimAsset):
@@ -136,16 +145,16 @@ def pose_correct_layer(targets, priority, AnimAsset):
     pose_layer = create_anim_layer(anim_layer_name = 'PoseCorrectLayer', objects = targets)
     select_anim_layer(anim_layer = pose_layer)
     #select_layer_objects(anim_layer = pose_layer)
-    loader = PoseData_Loader(AnimAsset.root, priority)
+    loader = PoseData_Loader(AnimAsset.root.name(), priority)#correct way to pass root?
     start_pose, end_pose = AnimAsset.get_pose_path()
     #GOTO:  anim start
     pm.currentTime(AnimAsset.start_frame, edit = True)
-    pm.select(targets, clear = True)
+    pm.select(targets, replace = True)
     loader.poseLoad_relativeProjected_stripPrefix(start_pose)
     pm.setKeyframe(targets, animLayer = pose_layer, time=AnimAsset.start_frame)#key controls
     #GOTO:  anim end
     pm.currentTime(AnimAsset.end_frame, edit = True)
-    pm.select(targets, clear = True)
+    pm.select(targets, replace = True)
     loader.poseLoad_relativeProjected_stripPrefix(end_pose)
     pm.setKeyframe(targets, animLayer = pose_layer, time=AnimAsset.end_frame)#key controls
     return pose_layer
@@ -190,16 +199,256 @@ class PoseData_Loader():
         #TODO:  select target controls
         self.poseData.poseLoad(self.rootNode, filepath=file_path, useFilter=True,
                                relativePose=True,
-                               relativeRots='projected',
-                               relativeTrans='projected')#TODO:     test with 'absolute'
-        print '\n\n\n##########   MAYA UP AXIS : ###################', r9Setup.mayaUpAxis()#prints up axis, seems unnecessary
+                               relativeRots='relative',
+                               relativeTrans='relative')#TODO:     test with 'absolute'
+        #print '\n\n\n##########   MAYA UP AXIS : ###################', r9Setup.mayaUpAxis()#prints up axis, seems unnecessary
 
         # the pose is no longer in the same space due to the relative code,
         # we need up update the internal pose before comparing
         nodes = self.poseData.buildDataMap(self.rootNode)
         self.poseData.buildBlocks_fill(nodes)
         assert r9Pose.PoseCompare(self.poseData, requiredPose).compare()
+    
+    def poseLoad_stripPrefix(self, file_path):
+        self.poseData.matchMethod = 'stripPrefix'
+        cmds.currentTime(0)
+        filepath = os.path.join(self.poseFolder, 'jump_f218.pose')
+        self.poseData.poseLoad(self.rootNode, filepath=filepath, useFilter=True)
+        assert r9Pose.PoseCompare(self.poseData, filepath).compare()
 
+
+def read_bro_cfg(config_path, sim_group):
+    #print('entry sim type %s' %(sim_group['sim_type']))
+    file_path = os.path.normpath(os.path.join(config_path, sim_group["config"])).replace('\\', '/')
+    if os.path.isfile(file_path):
+        broConfig_parser = bro.core.config_parser.BroConfig(file_path)
+        sim_properties = broConfig_parser.__dict__[sim_group['sim_type']].__dict__
+        sim_parameters = {
+                        'preserveAnimation': False,
+                        'collisionMode': False,
+                        'skipFrames': 1,
+                        'shiftDistance': 1.0,
+                        'dontRefresh': True,
+                        'followBaseTwist': True,
+                        'preAlign': False,
+                        'autoShiftDistance': True,
+                        'aimRotation': True,
+                        'multiPassSimulation': False,
+                        'simulationProperties': sim_properties,
+                        'skipControls': 1,
+                        'eulerFilter': True,
+                        'matchPositions': False,
+                        'forces': [],
+                        'colliders': [],
+                        'deleteNucleus': True
+                        }
+        return sim_parameters
+    else:
+        return False
+"""
+def read_bro_cfg(config_path, sim_group):
+    #print('entry sim type %s' %(sim_group['sim_type']))
+    broConfig_parser = bro.core.config_parser.BroConfig(config_path)
+    sim_properties = broConfig_parser.__dict__[sim_group['sim_type']].__dict__
+    return sim_properties
+"""
+
+def read_bro_json(config_path, config):
+    path = os.path.normpath(os.path.join(config_path, config)).replace('\\', '/')
+    sim_parameters = {}
+    if not path.endswith('.json'):
+        pm.warning("file %s not json? check extension"%())
+        return False
+    elif os.path.isfile(path):
+        with open(path, 'r') as read_json:
+            sim_parameters = json.load(read_json)
+            return sim_parameters
+    else:
+        pm.warning("file not found")
+        return False
+#print(read_bro_config(filepath))
+
+
+def read_sim_json(config_path, config):
+    """
+    Reads sim groups 
+    @param config:    string name of json file
+    @param config_path:     config filepath for sim and its target configs
+    @param return :       sim parameters dictionary
+    filepath = os.path.normpath(os.path.join(config_path, sim_group["config"])).replace('\\', '/')
+    """
+    path = os.path.normpath(os.path.join(config_path, config)).replace('\\', '/')
+    sim_data = {}
+    sim_list = []
+    if os.path.isfile(path):
+        sim_data = json.load(path)
+        for sim_group in sim_data:
+            sim_group['config'] = read_bro_config(config_path, sim_group["config"])
+            sim_list.append(sim_group)
+    return sim_list
+
+
+def read_config(config_path, config):
+    path = os.path.normpath(os.path.join(config_path, config)).replace('\\', '/')
+    sim_parameters = {}
+    if os.path.isfile(path):
+        if path.endswith('.json'):
+            sim_parameters = read_bro_json(config_path, config)
+            return sim_parameters
+        elif path.endswith('.cfg'):
+            sim_parameters = read_bro_json(config_path, config)
+            return sim_parameters
+        else:
+            pm.warning('filetype appears to be  invalid')
+        return
+    else:
+        pm.warning("file not found")
+
+
+def run_bro_sim(sim_targets, sim_parameters = None, sim_type = "chain"):
+    if not sim_parameters:
+        pm.warning("must provie sim params")
+    else:
+        if sim_type == 'chain_simple':
+            import BroTools.BroDynamics.modules.chain_simple
+            simulator = BroTools.BroDynamics.modules.chain_simple.SimulatorModule()
+        elif sim_type == 'chain':
+            import BroTools.BroDynamics.modules.chain
+            simulator = BroTools.BroDynamics.modules.chain.SimulatorModule()
+        elif sim_type == 'point':
+            #print(entry['sim_type'])
+            import BroTools.BroDynamics.modules.point
+            simulator = BroTools.BroDynamics.modules.point.SimulatorModule()
+        else:
+            pm.warning('sim type not found, RBD not currently set up')
+        #objects = cmds.ls(sl=1)#replace with sim target
+        simulator.run(sim_targets, **sim_parameters)
+
+def sim_bro_scene(sim_list, flatten = False):
+
+    sim_layer = create_anim_layer(anim_layer_name = "SimulationAnimLayer", objects = all_sim_targets)
+
+    for entry in sim_list:
+        select_anim_layer(anim_layer = sim_layer)#TODO:    create sim layer here  !!
+        
+        #pm.select(voa.get_layer_objects(anim_layer = sim_layer))
+        sim_targets = [target.name() for target in pm.ls(entry['targets'], recursive = True)]
+        print('simulation targets %s' %(sim_targets))
+        #config_file = os.path.normpath(os.path.join(config_path, entry["config"])).replace('\\', '/')#replace with data from sim_dict
+        print('entry sim type %s' %(entry['sim_type']))
+        read_config()#TODO:     input 
+
+        run_bro_sim(sim_targets, sim_parameters = None)
+    
+    #TODO:      add option to auto flatten layers?
+    if flatten:
+        return
+    else:
+        return
+    return
+
+
+character_acronyms = {
+        'Anubia' : 'anu',
+        'Baptiste' : 'bapt',
+        'BossFinn' : 'boss',
+        'Corsac' : 'cor',
+        'GenChar' : 'genchar',
+        'Luna' : 'luna',
+        'Maven' : 'mav',
+        'Mint' : 'mint',
+        'Muktuk' : 'muk',
+        'Owl' : 'owl',#no RRARigConnection attr
+        'Pepper' : 'pep',
+        'Quinn' : 'quinn',
+        'Robin' : 'rob',
+        'Roxanne' : 'rox',
+        'Saffron' : 'saf',
+        'Salt' : 'salt',
+        'SoulWitch' : 'soul',
+        'sylv_ROOT' : 'sylv',#no RRARigConnection attr
+        'Xidriel' : 'xid'
+    }
+
+
+class AnimAsset():#
+    """
+    class for managing and reading potionomics anim asset names
+    """
+    
+    def __init__(self, root, pose_path):
+                self.scene_name = pm.sceneName().split('/')[-1].split('.')[0]
+                self.root       = root
+                self.character  = root.name(stripNamespace = 1)
+                self.pose_path  = os.path.normpath(pose_path).replace('\\', '/')
+                self.components = self.scene_name.split('_')
+                self.scene_owner = [self.components.pop(0)]
+                
+                if self.components[-1] == 'act' or self.components[-1] == 'talk':
+                    self.anim_type = [self.components.pop(-1)]
+                    #self.warble = '_'.join(self.components)#[char]_[warble]_[typ] is everything between name acronym and type suffix
+                else:
+                    #self.warble = '_'.join(self.components)
+                    pass
+                #multi-part system prefix
+                if self.components[1] in ('ccg', 'emot'):
+                    self.system = self.components[0:2]#don't join into strings except on return?
+                    del self.components[0:2]
+                else:
+                    self.system = [self.components.pop(0)]
+                #check for transition
+                if '-to-' in '_'.join(self.components):#TODO:     warble doesn't actually seem necessary to hold on to
+                    self.anim_type = "transition"
+                    self.version_number = None#TODO:    can't have transitions with pose versions, can't have more than one transition
+                    self.start_enum, self.end_enum = '_'.join(self.components).split('-to-')
+                else:#start and end are equal here
+                    self.anim_type = None
+                    #TODO:     this needs to be moved later to support transitions like pose_01-to-pose_02
+                    self.start_enum = '_'.join(self.components)
+                    self.end_enum = '_'.join(self.components)
+                    if self.components[-1].isdigit():
+                        self.version_number = self.components.pop(-1)
+                    else:
+                        self.version_number = None
+                        pass
+                self.start_pose, self.end_pose = self.set_poses()
+                #everything defaults to idle without suffix. _act, _talk and (also need one for closed loops, looping anims )
+                self.start_frame = pm.playbackOptions(query = True, minTime = True)
+                self.end_frame = pm.playbackOptions(query = True, maxTime = True)
+                
+                return
+                
+    def return_data(self):
+        return {
+                '01 scene_name' : self.scene_name,
+                '02 character' : self.character,
+                '03 components' : self.components,
+                '04 owner' : self.scene_owner,
+                #'05_warble' : self.warble,
+                '05 system' : self.system,
+                '06 type' : self.anim_type,
+                '07 version' : self.version_number,
+                '08 start' : self.start_enum,
+                '09 end' : self.end_enum,
+                '10 frame range' : '-'.join((str(int(self.start_frame)), str(int(self.end_frame))))
+                }
+    def set_poses(self):
+        start_pose = '_'.join(self.system + [self.start_enum])
+        end_pose = '_'.join(self.system + [self.end_enum])
+        return start_pose, end_pose
+    def get_pose_path(self):
+        start_pose_path = os.path.normpath(os.path.join(self.pose_path, self.start_pose+'.pose')).replace('\\', '/')
+        end_pose_path = os.path.normpath(os.path.join(self.pose_path, self.end_pose+'.pose')).replace('\\', '/')
+        return start_pose_path, end_pose_path
+    def get_anim_fbx_name(self):#TODO:      finish this for the exporter to use
+        return self.character
+
+"""
+Asset = AnimAsset(root, scene_name)
+Asset.return_data()
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint(Asset.return_data())
+"""
 
 
 """

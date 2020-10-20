@@ -16,20 +16,21 @@ Asset_Data = vog.AnimAsset(root = pm.ls(target_character,recursive = 1)[0], pose
 sim_group_01 = {#NOTE:  03  make one of these for each chain that needs to be simulated
     "targets" : [u'Mint_braid_04_CTL', u'Mint_braid_06_CTL', u'Mint_braid_08_CTL', u'Mint_braid_10_CTL'],
     "config" : 'antenna_fluid_simple.cfg',#name of config file with simulation settings
-    "sim_type" : "chain_simple"#chain, point, or chain_simple to indicate which key and SimulatorModule to use
+    "sim_type" : "chain"#chain, point, or chain_simple to indicate which key and SimulatorModule to use
 }
 sim_group_02 = {#NOTE:  03  make one of these for each chain that needs to be simulated
     "targets" : [u'Mint_MainHipC', u'Mint_satchel_01_CTL', u'Mint_satchel_02_CTL', u'Mint_satchel_03_CTL'],
     "config" : 'antenna_stiff_simple.cfg',#name of config file with simulation settings
-    "sim_type" : "chain_simple"#chain, point, or chain_simple to indicate which key and SimulatorModule to use
+    "sim_type" : "chain"#chain, point, or chain_simple to indicate which key and SimulatorModule to use
 }
 
 #NOTE:  04  list all sim objects in sim_list
-sim_list = [sim_group_02, sim_group_02]#, sim_group_03]#, sim_group_04, sim_group_05, sim_group_06, sim_group_07, sim_group_08, sim_group_09]
+sim_list = [sim_group_01, sim_group_02]#, sim_group_03]#, sim_group_04, sim_group_05, sim_group_06, sim_group_07, sim_group_08, sim_group_09]
 
 priority_list = []
 all_sim_targets = []
 for group in sim_list:
+    print(group['targets'])
     all_sim_targets.extend(pm.ls(group['targets'], recursive = True))
     priority_list.append(group['targets'][0])
     
@@ -64,21 +65,52 @@ for entry in sim_list:
     #values = testty.__dict__[entry['sim_type']].__dict__
     broConfig_parser = BroTools.core.config_parser.BroConfig(config_file)
     sim_properties = broConfig_parser.__dict__[entry['sim_type']].__dict__
-    sim_parameters = {#must be here to hold sim properties
-                        "preserveAnimation" : True,
-                        "simulationProperties" : sim_properties,
-                        "autoShiftDistance" : True,
-                        "collisionMode" : False,
-                        "dontRefresh" : True,
-                        "skipControls" : 0,
-                        "skipFrames" : 0,
-                        "aimRotation" : False,
-                        "matchPositions" : True,
-                        "debugMode" : True,
-                        "deleteNucleus" : True,
-                        "up" : [0, 1, 0],
-                        "axis" : [1, 0, 0]
-                        }
+    sim_parameters = {
+                      "preserveAnimation": True,
+                      "collisionMode": False,
+                      "skipFrames": 1,
+                      "shiftDistance": 1.0,
+                      "dontRefresh": False,
+                      "followBaseTwist": True,
+                      "preAlign": False,
+                      "autoShiftDistance": True,
+                      "aimRotation": True,
+                      "multiPassSimulation": False,
+                      "simulationProperties": {
+                                                "attractionScale[1].attractionScale_Position": 1,
+                                                "stiffnessScale[1].stiffnessScale_Position": 1,
+                                                'stiffnessScale[1].stiffnessScale_FloatValue': 0.3,
+                                                'autoShiftDistance': True,
+                                                'startCurveAttract': 0.6,
+                                                'attractionDamp': 0.5,
+                                                'eulerFilter': True,
+                                                'matchPositions': False,
+                                                'preserveAnimation': True,
+                                                'drag': 0.3,
+                                                'compressionResistance': 10.0,
+                                                'collideWidthOffset': 0.0,
+                                                'gravity': 0.0,
+                                                'attractionScale[0].attractionScale_FloatValue': 1.0,
+                                                'stiffnessScale[0].stiffnessScale_FloatValue': 1.0,
+                                                'followBaseTwist': True,
+                                                'preAlign': False,
+                                                'attractionScale[1].attractionScale_FloatValue': 0.6,
+                                                'collisionMode': False,
+                                                'damp': 0.8,
+                                                'multiPassSimulation': False,
+                                                'aimRotation': True,
+                                                'bendResistance': 1.0,
+                                                'mass': 1.0,
+                                                'stretchResistance': 10.0,
+                                                'qt_spinbox_lineedit': 1.0
+                                            },
+                      "skipControls": 1,
+                      "eulerFilter": True,
+                      "matchPositions": False,
+                      "forces": [],
+                      "colliders": [],
+                      "deleteNucleus": True
+                    } 
     #running simulation
     if entry['sim_type'] == 'chain_simple':
         #print(entry['sim_type'])
@@ -99,6 +131,7 @@ for entry in sim_list:
 
 #TODO:  poseCorrectLayer.setKeyframe(weight), add controls, key pose corrections
 stuff = voa.get_layer_objects(anim_layer = None)
+pm.select(all_sim_targets)
 voa.pose_correct_layer(all_sim_targets, priority_list, Asset_Data)
 pm.playbackOptions(min = Asset_Data.start_frame, max = Asset_Data.end_frame)
 
