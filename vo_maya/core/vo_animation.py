@@ -381,10 +381,10 @@ class AnimAsset():#
     def __init__(self, root, pose_path):
                 self.scene_name = pm.sceneName().split('/')[-1].split('.')[0]
                 self.root       = root
-                self.character  = root.name(stripNamespace = 1)
+                self.character  = root.name(stripNamespace = 1)#character_acronyms[root.name(stripNamespace = 1)]
                 self.pose_path  = os.path.normpath(pose_path).replace('\\', '/')
                 self.components = self.scene_name.split('_')
-                self.scene_owner = [self.components.pop(0)]
+                self.scene_owner = self.components.pop(0)
                 
                 if self.components[-1] == 'act' or self.components[-1] == 'talk':
                     self.anim_type = [self.components.pop(-1)]
@@ -399,7 +399,7 @@ class AnimAsset():#
                 else:
                     self.system = [self.components.pop(0)]
                 #check for transition
-                if '-to-' in '_'.join(self.components):#TODO:     warble doesn't actually seem necessary to hold on to
+                if '-to-' in '_'.join(self.components):
                     self.anim_type = "transition"
                     self.version_number = None#TODO:    can't have transitions with pose versions, can't have more than one transition
                     self.start_enum, self.end_enum = '_'.join(self.components).split('-to-')
