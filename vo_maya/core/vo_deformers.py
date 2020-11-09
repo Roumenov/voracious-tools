@@ -96,7 +96,7 @@ def auto_copy_weights(source_mesh,target_mesh, surface_association = 'closestCom
         target_cluster = target_mesh.history(type = 'skinCluster')[0]
     except:
         target_cluster = pm.skinCluster(joints, target_mesh, toSelectedBones = True, bindMethod = 0, normalizeWeights = 1, weightDistribution = 1, maximumInfluences = max_influences, obeyMaxInfluences = True, skinMethod = 0, smoothWeights = 0.8, dropoffRate = 2, removeUnusedInfluence = False)
-    pm.copySkinWeights(sourceSkin = source_cluster, destinationSkin = target_cluster, noMirror = True, surfaceAssociation = 'rayCast', influenceAssociation = ('label'), normalize = True)
+    pm.copySkinWeights(sourceSkin = source_cluster, destinationSkin = target_cluster, noMirror = True, surfaceAssociation = surface_association, influenceAssociation = ('label'), normalize = True)
     
     #pm.skinCluster(target_cluster, removeUnusedInfluence = True, edit = True)
     pm.select(source_mesh,target_mesh)    

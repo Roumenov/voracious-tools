@@ -803,6 +803,12 @@ global proc shelf_vo_animTools () {
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
+        -mi "Scene List on _E_xport path" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\nimport vo_maya.core.vo_export as voe\n\ntarget_character = vog.prompt_string(promptTitle = 'Target Character', promptMessage = 'Enter Target Character Name')\nraw = vog.prompt_string(promptTitle = 'Scene Names', promptMessage = 'Enter Target Scene Names as copied from Triage')\n\nprint(voe.generate_scene_list(raw, path = voe.get_export_path(target_character).split('Export')[0]))\n" )
+        -mip 0
+        -mi "Scene List on -e-xport path" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\nimport vo_maya.core.vo_export as voe\n\ntarget_character = vog.prompt_string(promptTitle = 'Target Character', promptMessage = 'Enter Target Character Name')\nraw = vog.prompt_string(promptTitle = 'Scene Names', promptMessage = 'Enter Target Scene Names as copied from Triage')\n\nprint(voe.generate_scene_list(raw, path = voe.get_export_path(target_character).split('export')[0]))\n" )
+        -mip 1
+        -mi "Set Sim Paths" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\n\n#output = pm.fileDialog2(fileMode = 2)\npose_path = pm.fileDialog2(fileMode = 2)#\"Z:/0_p4v/PotionomicsSourceAssets/Maya_sourcefiles/PoseLibrary/Mint\"\ntarget_character = vog.prompt_string(promptTitle = 'Target Character', promptMessage = 'Enter Target Rig Name')#name of rig root without namespace\nconfig_path = pm.fileDialog2(fileMode = 2)#r\"Z:\\0_p4v\\PotionomicsSourceAssets\\Art_sourcefiles\\Characters\\scenes\\Animation\\Luna\\config\"#Z:\\0_p4v\\PotionomicsSourceAssets\\Art_sourcefiles\\Characters\\scenes\\Animation\\Luna\\config\nAsset_Data = vog.AnimAsset(root = pm.ls(target_character,recursive = 1)[0], pose_path = pose_path)\n" )
+        -mip 2
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -863,11 +869,11 @@ global proc shelf_vo_animTools () {
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
         -image "BroDynamics_icon.png" 
-        -image1 "BroDynamics_icon.png" 
+        -image1 "BroDynamics_icon.png"  
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "<function wrapped at 0x00000060E7CE26D8>" 
+        -command "<function wrapped at 0x000000005BBEA9E8>" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1

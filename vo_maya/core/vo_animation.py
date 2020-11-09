@@ -219,7 +219,8 @@ class PoseData_Loader():
 
 def read_bro_cfg(config_path, sim_group):
     #print('entry sim type %s' %(sim_group['sim_type']))
-    file_path = os.path.normpath(os.path.join(config_path, sim_group["config"])).replace('\\', '/')
+    config = sim_group["config"]
+    file_path = os.path.normpath(os.path.join(config_path, config)).replace('\\', '/')
     if os.path.isfile(file_path):
         broConfig_parser = bro.core.config_parser.BroConfig(file_path)
         sim_properties = broConfig_parser.__dict__[sim_group['sim_type']].__dict__
@@ -253,11 +254,12 @@ def read_bro_cfg(config_path, sim_group):
     return sim_properties
 """
 
-def read_bro_json(config_path, config):
+def read_bro_json(config_path, sim_group):
+    config = sim_group["config"]
     path = os.path.normpath(os.path.join(config_path, config)).replace('\\', '/')
     sim_parameters = {}
     if not path.endswith('.json'):
-        pm.warning("file %s not json? check extension"%())
+        pm.warning("file %s not json? check extension"%(config))
         return False
     elif os.path.isfile(path):
         with open(path, 'r') as read_json:
@@ -269,7 +271,7 @@ def read_bro_json(config_path, config):
 #print(read_bro_config(filepath))
 
 
-def read_sim_json(config_path, config):
+def read_simgroup(config_path, config):
     """
     Reads sim groups 
     @param config:    string name of json file
@@ -278,31 +280,31 @@ def read_sim_json(config_path, config):
     filepath = os.path.normpath(os.path.join(config_path, sim_group["config"])).replace('\\', '/')
     """
     path = os.path.normpath(os.path.join(config_path, config)).replace('\\', '/')
-    sim_data = {}
     sim_list = []
     if os.path.isfile(path):
-        sim_data = json.load(path)
-        for sim_group in sim_data:
-            sim_group['config'] = read_bro_config(config_path, sim_group["config"])
-            sim_list.append(sim_group)
+        #print('filepath is %s' %(path))
+        with open(path, 'r') as read_json:
+            sim_list = json.load(read_json)
     return sim_list
 
 
-def read_config(config_path, config):
+def read_config(config_path, sim_group):
+    config = sim_group["config"]
     path = os.path.normpath(os.path.join(config_path, config)).replace('\\', '/')
     sim_parameters = {}
     if os.path.isfile(path):
         if path.endswith('.json'):
-            sim_parameters = read_bro_json(config_path, config)
+            sim_parameters = read_bro_json(config_path, sim_group)
             return sim_parameters
         elif path.endswith('.cfg'):
-            sim_parameters = read_bro_json(config_path, config)
+            sim_parameters = read_bro_cfg(config_path, sim_group)
             return sim_parameters
         else:
             pm.warning('filetype appears to be  invalid')
         return
     else:
         pm.warning("file not found")
+
 
 
 def run_bro_sim(sim_targets, sim_parameters = None, sim_type = "chain"):
@@ -324,21 +326,21 @@ def run_bro_sim(sim_targets, sim_parameters = None, sim_type = "chain"):
         #objects = cmds.ls(sl=1)#replace with sim target
         simulator.run(sim_targets, **sim_parameters)
 
+
 def sim_bro_scene(sim_list, flatten = False):
 
-    sim_layer = create_anim_layer(anim_layer_name = "SimulationAnimLayer", objects = all_sim_targets)
-
-    for entry in sim_list:
-        select_anim_layer(anim_layer = sim_layer)#TODO:    create sim layer here  !!
-        
+    for sim_group in sim_list:
         #pm.select(voa.get_layer_objects(anim_layer = sim_layer))
-        sim_targets = [target.name() for target in pm.ls(entry['targets'], recursive = True)]
+        sim_targets = [target.name() for target in pm.ls(sim_group['targets'], recursive = True)]
         print('simulation targets %s' %(sim_targets))
-        #config_file = os.path.normpath(os.path.join(config_path, entry["config"])).replace('\\', '/')#replace with data from sim_dict
-        print('entry sim type %s' %(entry['sim_type']))
-        read_config()#TODO:     input 
-
-        run_bro_sim(sim_targets, sim_parameters = None)
+        #config_file = os.path.normpath(os.path.join(config_path, sim_group["config"])).replace('\\', '/')#replace with data from sim_dict
+        print('sim_group sim type %s' %(sim_group['sim_type']))
+        sim_params = sim_group['sim_parameters']
+        sim_type = sim_group['sim_type']
+        try:
+            run_bro_sim(sim_targets, sim_parameters = sim_params, sim_type = sim_type)
+        except Exception as e:
+            print(e, type(e))
     
     #TODO:      add option to auto flatten layers?
     if flatten:
