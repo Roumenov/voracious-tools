@@ -107,6 +107,10 @@ global proc shelf_vo_rigTools () {
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
+        -mi "maya odd error fix" ( "import cgm.core.lib.mayaBeOdd_utils as MAYAODD\nreload(MAYAODD)\nMAYAODD.killRoguePanel('DCF_updateViewportList')\nprint('removed DCF_updateViewportList')\nMAYAODD.killRoguePanel('CgAbBlastPanelOptChangeCallback')\nprint('removed CgAbBlastPanelOptChangeCallback')\n\n" )
+        -mip 0
+        -mi "cgAbBlast" ( "\"\"\"\nThis will iterate all modelPanels and remove the \"CgAbBlastPanelOptChangeCallback\"\nAs such, after running this the following error should be fixed:\n\t// Error: line 1: Cannot find procedure \"CgAbBlastPanelOptChangeCallback\". //\n\"\"\"\nfrom maya import cmds\n\nfor model_panel in cmds.getPanel(typ=\"modelPanel\"):\n    # Get callback of the model editor\n    callback = cmds.modelEditor(model_panel, query=True, editorChanged=True)\n    # If the callback is the erroneous `CgAbBlastPanelOptChangeCallback`\n    if callback == \"CgAbBlastPanelOptChangeCallback\":\n        # Remove the callbacks from the editor\n        cmds.modelEditor(model_panel, edit=True, editorChanged=\"\")\n    elif callback == \"DCF_updateViewportList\":\n        # Remove the callbacks from the editor\n        cmds.modelEditor(model_panel, edit=True, editorChanged=\"\")\n    else:\n        pass\n" )
+        -mip 1
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -815,6 +819,12 @@ global proc shelf_vo_rigTools () {
         -mi "transfer weights" ( "#credit : shinyprem\n# https://www.highend3d.com/maya/script/skintransferbetweentwojnt-for-maya\n# .\n# \n# \n# Position the new joint in its new position\n#Follow the UI instruction to transfer the skinWeight between two joint\n\n\nimport maya.cmds as mc\nimport maya.mel as mel\nclass skinInflJnt:\n    def __init__(self):\n        pass\n        if mc.window('SkinInflJnt', exists=True):\n            mc.deleteUI('SkinInflJnt', window=True)\n        mc.window( 'SkinInflJnt', s=1 )\n        mc.rowColumnLayout( numberOfColumns=2 )\n        mc.text( label='Select mesh  ( Geo ) !              ', align = 'left' )\n        mc.button( label='    Get    ', command= 'Geo = mc.ls(sl=True); print(Geo)')\n        mc.text( label='Select New Influence joint ( Jnt ) !            ', align = 'left' )\n        mc.button( label='    Get    ', command='Jnt = mc.ls(sl=True)')\n        mc.text( label='Select Old Influence joint ( Jnt ) !            ', align = 'left' )\n        mc.button( label='    Get    ', command='sourceJnt = mc.ls(sl=True)')\n        mc.button( label='Transfer', command=lambda event:self.skinToJnt())\n        mc.setParent( '..' )\n        mc.showWindow( 'SkinInflJnt' )\n        \n    def skinToJnt(self):\n        skin = mel.eval('findRelatedSkinCluster '+Geo[0])\n        mc.select (mc.skinCluster(skin,query=True,inf=True))\n        allJntInfl = mc.ls(sl=True)\n        eachJnt = 0\n        for eachJnt in allJntInfl:\n            mc.skinCluster(skin,e=True,inf=eachJnt,lw=1)\n            eachJnt = ++1\n        mc.skinCluster(skin,edit=True,lw=True,wt=0,ai=Jnt)\n        mc.skinCluster(skin,e=True,inf=Jnt[0],lw=0)\n        mc.skinCluster(skin,e=True,inf=sourceJnt[0],lw=0)\n        mc.skinCluster(skin,edit=True,selectInfluenceVerts=sourceJnt[0])\n        mc.skinPercent(skin, transformValue=[(sourceJnt[0],0),(Jnt[0],1)])\n        eachJnt = 0\n        for eachJnt in allJntInfl:\n            mc.skinCluster(skin,e=True,inf=eachJnt,lw=0)\n            eachJnt = ++1\n        mc.select (cl=True)\nskinInflJnt()" )
         -mip 0
         -mi "Component Editor" ( "ComponentEditor" )
+        -mi "AutoCopy - closestComponent" ( "import pymel.core as pm\nimport vo_maya.core.vo_deformers as vod\n\nvod.auto_copy_weights(source_mesh = pm.ls(sl=1)[0],target_mesh = pm.ls(sl=1)[1], surface_association = 'closestComponent')\n" )
+        -mip 2
+        -mi "AutoCopy - closestPoint" ( "import pymel.core as pm\nimport vo_maya.core.vo_deformers as vod\n\nvod.auto_copy_weights(source_mesh = pm.ls(sl=1)[0],target_mesh = pm.ls(sl=1)[1], surface_association = 'closestPoint')\n" )
+        -mip 3
+        -mi "AutoCopy - rayCast" ( "import pymel.core as pm\nimport vo_maya.core.vo_deformers as vod\n\nvod.auto_copy_weights(source_mesh = pm.ls(sl=1)[0],target_mesh = pm.ls(sl=1)[1], surface_association = 'rayCast')\n" )
+        -mip 4
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -1011,19 +1021,19 @@ global proc shelf_vo_rigTools () {
         -mip 2
         -mi "Orient Constraint" ( "import pymel.core as pm\n\nsource_object = pm.ls(sl=1)[0]\ntarget_object = pm.ls(sl=1)[1]\norient_constraint = pm.orientConstraint(source_object, target_object, maintainOffset = True)\norient_constraint.setAttr('interpType', 2)" )
         -mip 3
-        -mi "Link T/R attr" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\nuf.list_link_attrs(Translate = 'xyz', Rotate = 'xyz', targets = pm.ls(sl=1))" )
+        -mi "Link T/R attr" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\nreload(vog)\n\nvog.list_link_attrs(Translate = 'xyz', Rotate = 'xyz', targets = pm.ls(sl=1))" )
         -mip 4
-        -mi "Link Translate" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\nuf.list_link_attrs(Translate = 'xyz', targets = pm.ls(sl=1))\n" )
+        -mi "Link Translate" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\nreload(vog)\n\nvog.list_link_attrs(Translate = 'xyz', targets = pm.ls(sl=1))\n" )
         -mip 5
-        -mi "Link Rotate" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\nuf.list_link_attrs(Rotate = 'xyz', targets = pm.ls(sl=1))\n" )
+        -mi "Link Rotate" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\nreload(vog)\n\nvog.list_link_attrs(Rotate = 'xyz', targets = pm.ls(sl=1))\n" )
         -mip 6
-        -mi "Link Scale" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\nuf.list_link_attrs(Scale = 'xyz', targets = pm.ls(sl=1))\n" )
+        -mi "Link Scale" ( "import pymel.core as pm\nimport vo_maya.core.vo_general as vog\nreload(vog)\n\nvog.list_link_attrs(Scale = 'xyz', targets = pm.ls(sl=1))\n" )
         -mip 7
-        -mi "MultiParent constraint" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nuf.multi_constrain(satellites, target)" )
+        -mi "MultiParent constraint" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nvoc.vo_controls.multi_constrain(satellites, target)\n" )
         -mip 8
-        -mi "MultiPoint constraint" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nuf.multi_constrain(satellites, target, constraintType = 'point')" )
+        -mi "MultiPoint constraint" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nvoc.vo_controls.multi_constrain(satellites, target, constraintType = 'point')" )
         -mip 9
-        -mi "MultiOrient constraint" ( "import pymel.core as pm\nimport vo_usefulFunctions as uf\nreload(uf)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nuf.multi_constrain(satellites, target, constraintType = 'orient')" )
+        -mi "MultiOrient constraint" ( "import pymel.core as pm\nimport vo_maya.core as voc\nreload(voc)\n\nsatellites = pm.ls(sl=1)[0:-1]\ntarget = pm.ls(sl=1)[-1]\n\nvoc.vo_controls.multi_constrain(satellites, target, constraintType = 'orient')" )
         -mip 10
         -mi "Aim YZ" ( "import pymel.core as pm\n\nconstraint = pm.aimConstraint (mo = 1, weight = 1)\n\n" )
         -mip 11
@@ -1668,6 +1678,171 @@ global proc shelf_vo_rigTools () {
         -marginHeight 1
         -command "'''\n\n\n\njsObjFol\n\n\n\n'''\n\n\n\n# Select objects to create follicles based on the locations of, followed by the object\n# to create follicles on. Then Run.\n\n\n\nimport maya.cmds as mc\nimport maya.mel as mel\n\n\n\ndef jsObjFol():\n    \n    sel = mc.ls (sl=True)\n    length = len(sel)\n    shape = mc.listRelatives (sel[length-1], s = True)\n    type = mc.objectType (shape[0])\n    \n    if type == 'mesh':\n    \n        for obj in sel:\n            \n            if obj == sel[-1]:\n                pass\n            else:\n                \n                loc = mc.spaceLocator ()[0]\n                cnst = mc.parentConstraint (obj, loc)\n                mc.delete (cnst)\n                \n                closest = cmds.createNode ('closestPointOnMesh')\n                mc.connectAttr (sel[-1] + '.outMesh', closest + '.inMesh')\n                pos = mc.xform (loc, t = True, q = True)\n                mc.setAttr (closest + '.inPositionX', pos[0])\n                mc.setAttr (closest + '.inPositionY', pos[1])\n                mc.setAttr (closest + '.inPositionZ', pos[2])\n                \n                face = mc.getAttr (closest + '.closestFaceIndex')\n                clus = mc.cluster ('%s.f[%s]' %(sel[-1], face))[1]\n                loc2 = mc.spaceLocator ()[0]\n                cnst = mc.parentConstraint (clus, loc2)\n                mc.delete (cnst)\n                \n                closest2 = cmds.createNode ('closestPointOnMesh')\n                mc.connectAttr (sel[-1] + '.outMesh', closest2 + '.inMesh')\n                pos2 = mc.xform (loc2, t = True, q = True)\n                mc.setAttr (closest2 + '.inPositionX', pos2[0])\n                mc.setAttr (closest2 + '.inPositionY', pos2[1])\n                mc.setAttr (closest2 + '.inPositionZ', pos2[2])\n                \n                fol = mc.createNode (\"follicle\")\n                folTrans = mc.listRelatives (fol, type = 'transform', p = True)\n                mc.connectAttr (fol + \".outRotate\", folTrans[0] + \".rotate\")\n                mc.connectAttr (fol + \".outTranslate\", folTrans[0] + \".translate\")\n                mc.connectAttr (sel[-1] + '.worldMatrix', fol + '.inputWorldMatrix')\n                mc.connectAttr (sel[-1] + '.outMesh', fol + '.inputMesh')\n                mc.setAttr(fol + \".simulationMethod\", 0)\n                \n                u = mc.getAttr (closest2 + '.result.parameterU')\n                v = mc.getAttr (closest2 + '.result.parameterV')\n                mc.setAttr (fol + '.parameterU', u)\n                mc.setAttr (fol + '.parameterV', v)\n                \n                mc.delete (closest, closest2, loc2, loc, clus)\n\n\n\n                mc.select (folTrans)\n                    \n    elif type == 'nurbsSurface':\n        \n        for obj in sel:\n            \n            if obj == sel[-1]:\n                pass\n            else:\n                closest = cmds.createNode ('closestPointOnSurface')\n                print shape[0], closest\n                mc.connectAttr (shape[0] + '.worldSpace', closest + '.inputSurface')\n                pos = mc.xform (obj, t = True, q = True)\n                mc.setAttr (closest + '.inPositionX', pos[0])\n                mc.setAttr (closest + '.inPositionY', pos[1])\n                mc.setAttr (closest + '.inPositionZ', pos[2])\n                \n                fol = mc.createNode (\"follicle\")\n                folTrans = mc.listRelatives (fol, type = 'transform', p = True)\n                mc.connectAttr (fol + \".outRotate\", folTrans[0] + \".rotate\")\n                mc.connectAttr (fol + \".outTranslate\", folTrans[0] + \".translate\")\n                mc.connectAttr (shape[0] + '.worldSpace', fol + '.inputSurface')\n                mc.setAttr(fol + \".simulationMethod\", 0)\n                \n                u = mc.getAttr (closest + '.result.parameterU')\n                v = mc.getAttr (closest + '.result.parameterV')\n                mc.setAttr (fol + '.parameterU', u)\n                mc.setAttr (fol + '.parameterV', v)\n                \n                mc.delete (closest)\n                \n                if obj not in sel[length - 1]:\n                    mc.delete (obj)        \n\n\n\njsObjFol()" 
         -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Match the transforms of selected objects to the last-selected object." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Match All Transforms" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "MAT" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "MatchTransform" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Match the translation of selected objects to the last-selected object." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Match Translation" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "MT" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "MatchTranslation" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Match the rotation of selected objects to the last-selected object." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Match Rotation" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "MR" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "MatchRotation" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Match the scale of selected objects to the last-selected object." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Match Scaling" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "MS" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "MatchScaling" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Match the pivot positions of the selected objects to the last-selected object's pivot." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Match Pivots" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "MP" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconModify.png" 
+        -image1 "menuIconModify.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "MatchPivots" 
+        -sourceType "mel" 
         -commandRepeatable 1
         -flat 1
     ;
