@@ -11,6 +11,7 @@ import Red9.core.Red9_CoreUtils as r9Core
 import Red9.startup.setup as r9Setup
 import BroTools as bro
 import json
+import vo_export as voe
 
 
 
@@ -381,7 +382,14 @@ class AnimAsset():#
     def __init__(self, root, pose_path):
                 self.scene_name = pm.sceneName().split('/')[-1].split('.')[0]
                 self.root       = root
-                self.character  = root.name(stripNamespace = 1)#character_acronyms[root.name(stripNamespace = 1)]
+                
+                self.reference = voe.get_reference(root)
+                self.namespace_data = voe.eval_namespace(self.reference)
+                if self.namespace_data[0]:#using namespace
+                    self.character  = root.name(stripNamespace = 1)#character_acronyms[root.name(stripNamespace = 1)]
+                else:#using prefix
+                    self.character = root.name()[len(self.namespace_data[1]):]
+                
                 self.pose_path  = os.path.normpath(pose_path).replace('\\', '/')
                 self.components = self.scene_name.split('_')
                 self.scene_owner = self.components.pop(0)
@@ -403,7 +411,7 @@ class AnimAsset():#
                     self.anim_type = "transition"
                     self.version_number = None#TODO:    can't have transitions with pose versions, can't have more than one transition
                     self.start_enum, self.end_enum = '_'.join(self.components).split('-to-')
-                else:#start and end are equal here
+                else:#enums start and end are equal here
                     self.anim_type = None
                     #TODO:     this needs to be moved later to support transitions like pose_01-to-pose_02
                     self.start_enum = '_'.join(self.components)
