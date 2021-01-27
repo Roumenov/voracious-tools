@@ -742,8 +742,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 36
-        -height 36
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -799,7 +799,7 @@ global proc shelf_vo_animTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "from BatchTool import main\nmain.start()" 
+        -command "import vo_maya\nfrom vo_maya.core.lib.batchTool import main\nmain.start()" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
@@ -849,8 +849,8 @@ global proc shelf_vo_animTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -869,7 +869,7 @@ global proc shelf_vo_animTools () {
         -overlayLabelColor 0.8 0.8 0.8 
         -overlayLabelBackColor 0 0 0 0.5 
         -image "BroDynamics_icon.png" 
-        -image1 "BroDynamics_icon.png"  
+        -image1 "BroDynamics_icon.png" 
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1

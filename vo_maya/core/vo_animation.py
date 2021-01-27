@@ -127,12 +127,12 @@ def select_layer_objects(anim_layer = None):
     return set(layer_objects)
 
 
-def flatten_anim_layers():
+def flatten_anim_layers(start=0, end=250):
     anim_layers = get_anim_layers()
     if anim_layers:
         layer_targets = get_layer_objects(anim_layer = None)
         if layer_targets:
-            pm.bakeResults(layer_targets, removeBakedAttributeFromLayer = True, time=(0,65), sac=True, resolveWithoutLayer = anim_layers)
+            pm.bakeResults(layer_targets, removeBakedAttributeFromLayer = True, time=(start,end), sac=True, resolveWithoutLayer = anim_layers)#TODO:     don't limit time to 65 frames!!!!
         pm.delete(anim_layers)
         return True
     else:

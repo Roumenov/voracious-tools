@@ -311,7 +311,7 @@ def get_timeline():#TODO:   move to animation or general?
     return pm.playbackOptions(query = True, minTime = True), pm.playbackOptions(query = True, maxTime = True)
 
 
-def bake_animation(targets, sampling = 1):#TODO:   move to animation or general?
+def bake_animation(targets, sampling = 1, start = 0, end = 0):#TODO:   move to animation or general?
     #pm.select(bakeTarget)
     #set timeline
     playStartTime = int(pm.playbackOptions(query = True, minTime = True))
@@ -319,6 +319,8 @@ def bake_animation(targets, sampling = 1):#TODO:   move to animation or general?
     #Bake Animation
     #for target in targets:
     pm.bakeResults(targets, simulation = 1, sampleBy = sampling, pok = 1, sac = 0, time = (playStartTime, playEndTime))
+
+    return playStartTime, playEndTime
 
 
 #def fileExport(arg):
@@ -525,7 +527,9 @@ def potionomics_export1(characters):
         else:
             remove_scene_prefix(this_dict['namespace_data'][1])
         try:
-            bake_animation(pm.ls('*.jointSkin', objectsOnly = True, recursive = True))
+            play_start_time = int(pm.playbackOptions(query = True, minTime = True))
+            play_end_time = int(pm.playbackOptions(query = True, maxTime = True))
+            bake_animation(pm.ls('*.jointSkin', objectsOnly = True, recursive = True), start = play_start_time, end = play_end_time)
             #export_animation1(this_dict['root'], this_dict['path'])#
         except:
             pm.warning('export failed')
@@ -547,7 +551,7 @@ if len(characters) > 0:
     voe.import_references()
     voe.potionomics_export1(characters)
 else:
-    print('nothing ot export')
+    print('nothing to export')
 
 """
 
