@@ -200,3 +200,60 @@ def create_chain(offset = False):
 
     pm.select(control_list)
 
+
+#ATTACH CONTROLS
+"""
+import pymel.core as pm
+import vo_maya.core.vo_controls as voc
+reload(voc)
+import vo_maya.core.vo_general as vog
+reload(vog)
+import vo_maya.core.vo_meta as vom
+reload(vom)
+
+targets = pm.ls(sl=1)
+micro_controls = []
+main_controls = []
+
+#attach proc
+#PURPOSE        create an offset control that takes over target control's constraint targets
+#PROCEDR        get target
+#PRESUMP        selecting a control
+for item in targets:
+	#prompt string
+    item_name = item.stripNamespace()
+    current_control = voc.Control(target=item, name = item_name, scale = 5.0, line_width = 2.0)   #circle centerX = 2.4, y in thumb direction
+    print('control object = ' +str(current_control))
+    #control = current_control.control_object
+    #insert offset
+    offset_name = str(current_control.control_object).replace('_CTL', '_OST')
+    offset_object = vog.nest_transform(name = offset_name, action = 'parent', target = current_control.control_object, transformObj = 'group')
+    main_controls.append(current_control.control_object)
+    #get target parent
+    target_parent = item.listRelatives(parent=True)[0]
+    #build constraint from target parent to current_control
+    tr_constraint = pm.parentConstraint (target_parent,current_control.root_offset, mo = 1, weight = 1)
+    tr_constraint.setAttr('interpType', 2)
+    #s_constraint =
+    pm.scaleConstraint(target_parent,current_control.root_offset, mo = True)
+
+
+
+#micro offset proc
+#PURPOSE        create an offset control that takes over target control's constraint targets
+#PROCEDR        get target
+#PRESUMP        selecting a control
+for item in main_controls:
+    #connections = item.listConnections()
+    child_target = vom.meta_traverse(source = item, relation = 'child')
+    #set group_parent
+    group_offset = str(child_target).replace('_CTL','_GRP')
+    #clear constraints
+    pm.delete(child_target, constraints = 1)
+    micro_control = voc.Control(target=child_target, name = str(item).replace('_CTL','_micro'), scale = 2.5, line_width = 1.0, control_type = 'microController')
+    #link to existing control
+    links = item,micro_control.control_object
+    voc.chain_controls(links)
+    micro_controls.append(micro_control.control_object)
+
+"""

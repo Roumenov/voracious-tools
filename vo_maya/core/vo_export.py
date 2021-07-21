@@ -327,8 +327,6 @@ def bake_animation(targets, sampling = 1, start = 0, end = 0):#TODO:   move to a
 #    pm.select(arg)
 #    cmds.file(outputFile, exportSelected=True, type="FBX export")
 
-    
-
 
 ####====                    ========                    ====####
 #
@@ -348,7 +346,6 @@ def export_skeletal_mesh(rig):
     else:
         pm.warning('reference is neither mClass or network node')
 
-
     #delete rig controls and setup structure
 
     #get skin meshes
@@ -356,24 +353,6 @@ def export_skeletal_mesh(rig):
     #combine skinned meshes
     #skinned_mesh = combine_skinMeshes(rig.skinMeshes)
     #reparent skinned_mesh
-
-
-def export_animation(root, path):
-    #TODO:  make this function handle namespace and prefix shit
-    """
-    @param root: root node of character to export
-    """
-    
-    bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
-    pm.delete(pm.ls('*.noExport', objectsOnly = True))
-    #pm.select(pm.ls('*.export', objectsOnly = True, recursive = True), replace = True)#TODO:  this should select root
-    pm.select(root, replace = True)
-    pm.exportSelected(path, force=True, type="FBX export")
-    #cmds.file(path, exportSelected=True, type="FBX export", force = True)
-
-
-#pm.delete(pm.ls('*.skinMesh', objectsOnly = True))
-#pm.delete(pm.ls('*.blendMesh', objectsOnly = True))
 
 
 #export prop, hat, broom, wand
@@ -411,8 +390,6 @@ def export_prop(param):
         return
 
 
-
-def potionomics_export():
     #
     #TODO:  mke dict for rigs and iterate over the keys?
     characters = []
@@ -433,7 +410,6 @@ def potionomics_export():
                 'path' : path,
                 'namespace_data' : ns_data
             }
-            
             characters.append(character_data)
             #print(character_data)
         else:
@@ -455,7 +431,6 @@ def potionomics_export():
     return
 
 
-
 def character_prep1(overwrite = False):
     #
     characters = []
@@ -467,7 +442,6 @@ def character_prep1(overwrite = False):
         ns_data = eval_namespace(ref)
         name = root.name().split(ns_data[1])[1]
         path = get_export_path(name)
-
         if overwrite or need_export(pm.sceneName(), path):
             character_data = {
                 'name' : name,
@@ -481,18 +455,57 @@ def character_prep1(overwrite = False):
             print('scene file is older than export')
     return characters
 
-def export_animation1(root, path):
-    #TODO:  make this function handle namespace and prefix shit
+
+def prep_character(root, overwrite = False):
     """
-    @param root: root node of character to export
+    prep single character, arg is character root
     """
-    
-    bake_animation(pm.ls('*.jointSkin', objectsOnly = True))
+    #print(root.name())
+    #print(root)
+    ref = get_reference(root)
+    ns_data = eval_namespace(ref)
+    name = root.name().split(ns_data[1])[1]
+    path = get_export_path(name)
+    if overwrite or need_export(pm.sceneName(), path):
+        character_data = {
+            'name' : name,
+            'root' : root,
+            'path' : path,
+            'namespace_data' : ns_data
+        }
+        #characters.append(character_data)
+        #print(character_data)
+    else:
+        print('scene file is older than export')
+    return character_data
+
+
+def export_animation(data):
+    """
+    arg data is character dictionary as output by prep_character()
+    """
+    print(data)
+    if data['namespace_data'][0]:
+        try:
+            target_namespace = data['namespace_data'][1]
+            pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
+            #voe.export_animation(data['root'], data['path'])#
+        except:
+            pass
+    else:
+        remove_scene_prefix(data['namespace_data'][1])
+    try:
+        play_start_time = int(pm.playbackOptions(query = True, minTime = True))
+        play_end_time = int(pm.playbackOptions(query = True, maxTime = True))
+        bake_animation(pm.ls('*.jointSkin', objectsOnly = True, recursive = True), start = play_start_time, end = play_end_time)
+        #export_animation1(data['root'], data['path'])#
+    except:
+        pm.warning('bake failed')
     pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
-    #pm.select(pm.ls('*.export', objectsOnly = True, recursive = True), replace = True)#TODO:  this should select root
-    pm.select(root, replace = True)
-    #pm.exportSelected(path, force=True, type="FBX export")
-    cmds.file(path, exportSelected=True, type="FBX export", force = True)
+    pm.select(data['root'], replace = True)
+    pm.exportSelected(data['path'], force=True, type="FBX export")
+    return True
+
 
 def export_skeleton(characters):
     print(characters)
@@ -514,6 +527,7 @@ def export_skeleton(characters):
     #else:
     #    return False
 
+
 def potionomics_export1(characters):
     print(characters)
     for this_dict in characters:
@@ -530,9 +544,8 @@ def potionomics_export1(characters):
             play_start_time = int(pm.playbackOptions(query = True, minTime = True))
             play_end_time = int(pm.playbackOptions(query = True, maxTime = True))
             bake_animation(pm.ls('*.jointSkin', objectsOnly = True, recursive = True), start = play_start_time, end = play_end_time)
-            #export_animation1(this_dict['root'], this_dict['path'])#
         except:
-            pm.warning('export failed')
+            pm.warning('bake failed')
         pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
         pm.select(this_dict['root'], replace = True)
         pm.exportSelected(this_dict['path'], force=True, type="FBX export")

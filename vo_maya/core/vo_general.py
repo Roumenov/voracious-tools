@@ -52,12 +52,12 @@ class NameString():
             self,
             target):
                 self.components = target.name().split('_')
-                self.name = components[0]
-                self.side = components[1]
-                self.suffix = components[-1]  # ....    this isn't reliable
+                self.name = self.components[0]
+                self.side = self.components[1]
+                self.suffix = self.components[-1]  # ....    this isn't reliable
                 # because of how many items end in numbers.. which is primarily
                 # a symptom of maya's simplistic renaming when duplicating
-                self.warble = '_'.join(components[2:-1])
+                self.warble = '_'.join(self.components[2:-1])
                 return
 
     def get_number(self):
