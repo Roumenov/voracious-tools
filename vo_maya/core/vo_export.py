@@ -9,6 +9,7 @@ import pymel.core as pm
 import maya.cmds as cmds
 import vo_deformers as deformers
 import vo_general as general
+import Red9.core.Red9_Meta as r9Meta
 import sys, inspect, os, platform
 
 
@@ -190,7 +191,7 @@ def obliterate_references(filepath = None):
     return# True
 
 
- #if reference uses namespace, return True and the namespace
+#if reference uses namespace, return True and the namespace
 #otherwise return false and the prefix
 #refs = pm.listReferences()
 def eval_namespace(reference):
@@ -207,11 +208,21 @@ def eval_namespace(reference):
         return False, prefix
 
 
+
+
+
+class namespace_machine():
+    def __init__(self):
+        namespace = str
+        filepath = str
+        debug = False
+
+
 #TODO:      integrate this into import function so we don't have to do this manually
 #TODO:      reevaluate whether this is still necessary, seems like you could just do object._setNamespace('root') or smth
 def remove_object_namespace(object):
     target_namespace = object.namespace()
-    print 'removing namespace :: ' + target_namespace
+    print ('removing namespace :: ' + target_namespace)
     pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
 
 
@@ -431,6 +442,188 @@ def export_prop(param):
     return
 
 
+class character_asset0():
+    #character and skl export status
+    def __init__(self,root):
+        #self.reference = get_reference(root)## this is based on invalid assumptions
+        if need_export():
+            self.export = True
+        name = root.name().split(ns_data[1])[1]
+        self.filepath = get_export_path(name)
+        pass
+
+
+class character_asset():
+    #character and skl export status
+    def __init__(self, personality = '', jobClass = '', skeleton = None, simJoints=None, meshes = None, node = None):
+        """
+        @param personality : animation class indicating animation set
+        @param jobClass : gameplay class indicating costume type
+        @param skeleton : root of skeleton
+        @param meshes : unicode name of geometry objects to be combined to skinned_mesh
+        """
+        self.name = personality.capitalize() + jobClass.capitalize()
+        if node:
+            self.node = r9Meta.MetaClass(node.name())
+            self.skeleton, self.meshes, self.filepath = node.skeleton, node.meshes, node.filepath#set values from node
+        else:
+            self.node = r9Meta.MetaClass(name = self.name)
+            
+            self.node.addAttr('personality',attrType = 'string', value = personality)
+            self.node.addAttr('jobClass',attrType = 'string', value = jobClass)#
+            #node.addAttr('meshes',attrType = 'message')
+            self.skeleton = skeleton
+            self.node.connectChild(self.skeleton.name(), 'skeleton')#
+            self.meshes = meshes
+            self.node.connectChildren(self.meshes, 'meshes')
+            
+            #TODO CBB set these by checking pm.ls('*.jointSim', objectsOnly = True) against all skinned joints
+            
+            if simJoints:
+                self.simJoints = simJoints
+                self.node.connectChildren(cmds.ls(self.simJoints), 'jointSim')
+            #node.connectChildren(skeleton, 'simJoints')#
+            #testnode2.connectChild(node = newnode.shortName(), attr = 'skeleton')
+            
+            self.filepath = self.set_export_path()
+        self.garbage = {}#TODO maybe better to store on node for consistency???
+        
+    def set_export_path(self):
+        """
+            Write filepath to node for current costume
+        """
+        output_path = None
+        filename = self.name + '.fbx'
+        filepath = os.path.abspath(pm.sceneName().split('/scenes')[0] + '/scenes/Models/GenChar/export/' +filename)
+        self.node.addAttr('filepath',attrType = 'string', value = filepath)
+        return filepath
+    
+    
+    #PRESUMPTION: all files are using namespaces and we always import w/out ns
+    def set_namespace_data(self):#TODO: remove this, seems extraneous
+        if self.reference.isUsingNamespaces():
+            self.namespace = self.reference.reference.namespace+':'
+        else:
+            self.prefix = self.reference.reference.namespace+'_'
+        return
+    #this function is redundant and superfluous
+    def add_component(self,component,tag = ''):#
+        self.node.connectChild(component.name(), tag)#
+        return#
+    def check_for_skin(mesh):
+        return deformers.check_skincluster(mesh)
+        
+    def garbage_store(self, target):#store so we can investigate erroneous elements in the set
+        self.garbage.add(target.name())
+    def garbage_collect(self):
+        #pm.hyperShade(o="blinn1") FIXME    need to delete everything with delete material, clear non-deform hist
+        pm.delete(self.garbage)
+    def process_joints(self, joints):
+        processed_joints = []
+        	#process child components, clean garbage
+        for item in joints:
+            if item.type() == 'joint':#make sure it's a joint
+                #self.node.connectChild(child.name(), tag)
+                item.rename(item.name().replace('Fkel', 'Skel'))
+                pm.delete(item, constraints = 1)
+                isSkinned = self.check_for_skin(item)#TODO: write check for skin function
+                if not isSkinned:
+                    self.garbage_store(item)
+                else:
+                    processed_joints.push(item)
+            else:
+                self.garbage.push(item.name())
+                #pm.delete(child)    garbage collect will clean this later
+        return processed_joints
+    #PURPOSE    check that meshes are ready to be combined
+    def validate_meshes(self):
+        for mesh in self.node.meshes:#may need to explicitly cast to pynode?
+            if deformers.check_skincluster(mesh):
+                #TODO CBB
+                #if mesh.skinCluster.influences() > 4:
+                    #print(mesh.name() + ' exceeds max influences of 4')
+                return
+            else:
+                #TODO!      need some way to get the male or female mesh to copy skinweights from
+                #deformers.auto_copy_weights(source_mesh = source, target_mesh=mesh)
+                #add skinluster? delete mesh connection?
+                return
+    def prepare_export(self):
+        #Create root node with target file name
+        import_references()
+        skinned_mesh = pm.polyUniteSkinned(self.meshes, ch = 0, muv = 1, name = 'skinned_mesh')
+        root = pm.group(self.skeleton, skinned_mesh, name = 'GenChar')
+        #Remove extraneous joints
+        self.process_joints(self.node.skeleton.getChildren())
+        self.garbage_collect()
+        #process child components, clean garbage
+        return
+    def export(self, root):
+        """
+        @param root : root of hierarchy to export
+        """
+        pm.select(root, replace = True)
+        #TODO!    need to get/provide path
+        pm.exportSelected(root, force=True, type="FBX export")
+
+
+
+class genchar_asset():
+    #character and skl export status
+    def __init__(self,name):
+        self.node = r9Meta.MetaClass(name=name)
+        node.addAttr('meshes',attrType = 'message')
+        node.addAttr('joints',attrType = 'message')#root, simulation
+        node.addAttr('personality',attrType = 'message')
+        node.addAttr('class',attrType = 'message')
+        self.reference = get_reference()
+        self.export = need_export()
+        
+        #node.addAttr(tag)
+        self.reference = get_reference(root)#TODO
+        if need_export():
+            self.export = True
+        name = root.name().split(ns_data[1])[1]#TODO
+        
+        self.filepath = get_export_path(name)
+        if self.reference.isUsingNamespaces():
+            self.namespace = self.reference.reference.namespace+':'
+        else:
+            self.prefix = self.reference.reference.namespace+'_'
+            
+        return
+    def add_component(self,component):
+        node.connectChild(component.name())
+        return
+    def add_mesh(self,mesh):
+        node.connectChild(mesh.name(),'meshes')
+        return
+
+
+
+class anim_asset(character_asset):
+    assets = []#to track all asset class instances
+
+    def __init__(self, root):
+        self.reference = get_reference(root)
+        if need_export(root):
+            self.export = True
+        name = root.name().split(ns_data[1])[1]
+        
+        self.filepath = get_export_path(name)
+        if self.reference.isUsingNamespaces():
+            self.namespace = self.reference.reference.namespace+':'
+        else:
+            self.prefix = self.reference.reference.namespace+'_'
+            
+        self.debug = False
+    
+    def prep_for_export(self):
+        pass
+
+
+
+
 def character_prep1(overwrite = False):
     #
     characters = []
@@ -552,6 +745,54 @@ def potionomics_export1(characters):
     return True
     #else:
     #    return False
+
+
+
+class export_system():
+    assets = []#to track all asset class instances
+
+    def __init__(self, name_space, file_path, debug):
+        self.namespace = str
+        self.filepath = str
+        self.debug = False
+
+    def process(self, args):#export skel or anim? time range? 
+        for char_dict in args:
+            if char_dict['namespace_data'][0]:
+                try:
+                    target_namespace = char_dict['namespace_data'][1]
+                    pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)
+                    #voe.export_animation(this_dict['root'], this_dict['path'])#
+                except:
+                    pass
+            else:
+                remove_scene_prefix(char_dict['namespace_data'][1])
+            try:
+                play_start_time = int(pm.playbackOptions(query = True, minTime = True))
+                play_end_time = int(pm.playbackOptions(query = True, maxTime = True))
+                bake_animation(pm.ls('*.jointSkin', objectsOnly = True, recursive = True), start = play_start_time, end = play_end_time)
+            except:
+                pm.warning('bake failed')
+            self.clean()
+            self.export(char_dict['root'])
+        return True
+
+    def export(self, root):
+        """
+        @param root : root of hierarchy to export
+        """
+        pm.select(root, replace = True)
+        pm.exportSelected(root, force=True, type="FBX export")
+
+    def clean(self, profile = ''):#TODO:    make profiles to delete specific subsets of stuff
+        targets = pm.ls('*.noExport', objectsOnly = True, recursive = True)
+        pm.delete(targets)
+
+
+    def run(self, args):
+        return self.process(args)
+
+
 
 """
 

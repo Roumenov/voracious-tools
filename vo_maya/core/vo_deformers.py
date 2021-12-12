@@ -64,23 +64,56 @@ def check_skincluster(target):
 
 
 #PURPOSE            check if given joint is skinned
-#PROCEDURE            cycle through connections and find skinCluster nodes
-#PRESUMPTIONS        arg is a single object of type joint
+#PROCEDURE          cycle through connections and find skinCluster nodes
+#PRESUMPTIONS       arg is a single object of type joint, only one skinCluster is connected
 def check_skincluster2(jointObject):
-    for node in jointObject.connections():
+    for node in jointObject.connections():#TODO: CBB if this made a list of all skinClusters, many joints are part of multiple skins
         if node.nodeType() == 'skinCluster':
-            return True
+            return True #TODO: CBB if it returned the cluster
         else:
             return False
 
 
-def list_influences(mesh):
+def list_influences(mesh):#TODO: superfluous
 	#test_thing.listHistory(type = 'skinCluster')
     return pm.skinCluster(mesh.history(type = 'skinCluster'),query=True,inf=True)
 
 
+def replace_influence(source, destination, mesh):
+    """
+    replace source influence with destination influence
+    assumes mesh has one skinCluster
+    if more than one cluster, will target first
+    """
+    target_skinCluster = mesh.listHistory(type='skinCluster')[0]
+    try:
+        target_skinCluster.addInfluence(destination, weight = 0.0)
+    except:
+        pass
+    source.setAttr('lockInfluenceWeights', 0)
+    destination.setAttr('lockInfluenceWeights', 0)
+    pm.select(mesh.vtx[:], replace = True)
+    pm.skinPercent(target_skinCluster, transformMoveWeights = [source, destination]) # the data from the first will be written to the second
+    pm.select(cl=1)
+    target_skinCluster.removeInfluence(source)
+
+
+def deleteUnusedBindPose(mesh):
+    """
+    removes bind pose nodes that aren't connected to a skinCluster
+    """
+    poses = mesh.listConnections(type = 'dagPose')
+    #dagPose = pm.ls(type="dagPose")
+    for dag_bind_pose in poses:
+        clstr = dag_bind_pose.listConnections(type="skinCluster")
+        if len(clstr) == 0:
+            pm.delete(dag_bind_pose)
+
+
 def auto_copy_weights(source_mesh,target_mesh, surface_association = 'closestComponent'):
     """
+    copy skinning from one mesh to another
+
     @param surface_association: 'closestPoint', 'rayCast', or 'closestComponent'
     
     auto_copy_weights(source_mesh = pm.ls(sl=1)[0],target_mesh = pm.ls(sl=1)[1], surface_association = 'closestComponent')
@@ -109,6 +142,37 @@ def auto_copy_weights(source_mesh,target_mesh, surface_association = 'closestCom
     #cmds.file(export_path, exportSelected=True, type="FBX export")
 
 
+class xml_import():
+    def __init__(self):
+        #ui for loading skin weights
+        #target namespace
+
+        return
+    
+    pm.select(pm.ls(sl=1, dagObjects = True, type = 'joint'))
+
+    target = pm.ls(sl=1, dagObjects = True)
+    target = pm.ls(sl=1, type ='joint')
+    pm.listRelatives(fullPath = True)
+    print target[0]
+
+    import xml.etree.ElementTree as ET
+    xml_root = ET.parse('Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/scenes/Rigs/Maven/body.xml').getroot()
+
+    joints = []
+    for type_tag in xml_root.findall('weights'):
+        value = type_tag.get('source')
+        joints.append(value)
+        print(value)
+    print joints
+
+    for entry in joints:
+        try:
+            pm.select(entry, add=True)
+        except:
+            print(entry)
+    
+    
 
 
 #TODO:     look into using OpenMaya and pymel to see if these operations can be sped up
