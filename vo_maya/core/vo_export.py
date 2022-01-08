@@ -442,16 +442,6 @@ def export_prop(param):
     return
 
 
-class character_asset0():
-    #character and skl export status
-    def __init__(self,root):
-        #self.reference = get_reference(root)## this is based on invalid assumptions
-        if need_export():
-            self.export = True
-        name = root.name().split(ns_data[1])[1]
-        self.filepath = get_export_path(name)
-        pass
-
 
 class character_asset():
     #character and skl export status
@@ -461,32 +451,32 @@ class character_asset():
         @param jobClass : gameplay class indicating costume type
         @param skeleton : root of skeleton
         @param meshes : unicode name of geometry objects to be combined to skinned_mesh
+
+        @param node : passed in as pyObject reference....
         """
-        self.name = personality.capitalize() + jobClass.capitalize()
+        
         if node:
             self.node = r9Meta.MetaClass(node.name())
+            self.name = node.personality.capitalize() + node.jobClass.capitalize()
             self.skeleton, self.meshes, self.filepath = node.skeleton, node.meshes, node.filepath#set values from node
         else:
             self.node = r9Meta.MetaClass(name = self.name)
-            
+            self.name = personality.capitalize() + jobClass.capitalize()
             self.node.addAttr('personality',attrType = 'string', value = personality)
             self.node.addAttr('jobClass',attrType = 'string', value = jobClass)#
             #node.addAttr('meshes',attrType = 'message')
-            self.skeleton = skeleton
-            self.node.connectChild(self.skeleton.name(), 'skeleton')#
-            self.meshes = meshes
-            self.node.connectChildren(self.meshes, 'meshes')
+            #self.skeleton = skeleton
+            self.node.connectChild(skeleton.name(), 'skeleton')#
+            #self.meshes = meshes
+            self.node.connectChildren(meshes, 'meshes')
             
             #TODO CBB set these by checking pm.ls('*.jointSim', objectsOnly = True) against all skinned joints
-            
             if simJoints:
-                self.simJoints = simJoints
-                self.node.connectChildren(cmds.ls(self.simJoints), 'jointSim')
+                #self.simJoints = simJoints
+                self.node.connectChildren(cmds.ls(simJoints), 'jointSim')
             #node.connectChildren(skeleton, 'simJoints')#
-            #testnode2.connectChild(node = newnode.shortName(), attr = 'skeleton')
-            
-            self.filepath = self.set_export_path()
-        self.garbage = {}#TODO maybe better to store on node for consistency???
+            self.set_export_path()
+        self.garbage = {}#maybe better to store on node for consistency???
         
     def set_export_path(self):
         """
@@ -506,13 +496,6 @@ class character_asset():
         else:
             self.prefix = self.reference.reference.namespace+'_'
         return
-    #this function is redundant and superfluous
-    def add_component(self,component,tag = ''):#
-        self.node.connectChild(component.name(), tag)#
-        return#
-    def check_for_skin(mesh):
-        return deformers.check_skincluster(mesh)
-        
     def garbage_store(self, target):#store so we can investigate erroneous elements in the set
         self.garbage.add(target.name())
     def garbage_collect(self):
@@ -526,7 +509,7 @@ class character_asset():
                 #self.node.connectChild(child.name(), tag)
                 item.rename(item.name().replace('Fkel', 'Skel'))
                 pm.delete(item, constraints = 1)
-                isSkinned = self.check_for_skin(item)#TODO: write check for skin function
+                isSkinned = deformers.check_skincluster(item)#TODO: write check for skin function
                 if not isSkinned:
                     self.garbage_store(item)
                 else:
@@ -537,34 +520,67 @@ class character_asset():
         return processed_joints
     #PURPOSE    check that meshes are ready to be combined
     def validate_meshes(self):
+        skinned_meshes = self.node.meshes
+        unskinned_meshes = self.node.meshes
         for mesh in self.node.meshes:#may need to explicitly cast to pynode?
-            if deformers.check_skincluster(mesh):
-                #TODO CBB
-                #if mesh.skinCluster.influences() > 4:
-                    #print(mesh.name() + ' exceeds max influences of 4')
-                return
-            else:
+            if not deformers.check_skincluster(mesh):
+                unskinned_meshes.append(mesh)
+                skinned_meshes.pop(mesh)
+                #prop : 
+                ##mesh_node = r9Meta.MetaClass(mesh.name())
+                #node.addAttr('coverage', 'body')
+                ##mesh_node.coverage
+                #match coverage with source
                 #TODO!      need some way to get the male or female mesh to copy skinweights from
                 #deformers.auto_copy_weights(source_mesh = source, target_mesh=mesh)
                 #add skinluster? delete mesh connection?
-                return
+                #TODO!      tag source meshes with string attr that ids what they're for?
+                #later we could come back and add rules for further discrimination
+                
+            else:#[body, hands, legs, arms, head, face] indicate influence joint set
+                skinned_meshes.append(mesh)
+                unskinned_meshes.pop(mesh)
+                #TODO CBB
+                #if mesh.skinCluster.influences() > 4:
+                    #print(mesh.name() + ' exceeds max influences of 4')
+        return skinned_meshes, unskinned_meshes
+    ##      SPECIAL SKIN PROCS
+    def auto_skin_body_parts(self, mesh):
+        #need to 
+        if mesh.coverage == 'body':
+            #find body source mesh
+            #?  male/female?
+            #?  namespace
+            pass
+        elif mesh.coverage == 'head':
+            pass
+        elif mesh.coverage == 'hands':
+            pass
+        elif mesh.coverage == 'faceParts':
+            pass
+        return
+    def import_costume_cluster(self,mesh):
+        
+        return
     def prepare_export(self):
-        #Create root node with target file name
         import_references()
-        skinned_mesh = pm.polyUniteSkinned(self.meshes, ch = 0, muv = 1, name = 'skinned_mesh')
-        root = pm.group(self.skeleton, skinned_mesh, name = 'GenChar')
+        skinned_meshes, unskinned_meshes = self.validate_meshes()
+        skinned_mesh = pm.polyUniteSkinned(skinned_meshes, ch = 0, muv = 1)
+        skinned_mesh.rename('skinned_mesh')
+        root = pm.group(self.node.skeleton, skinned_mesh, name = 'GenChar')
+        garbage = pm.group(unskinned_meshes, name = '{}_unskinned_meshes'.format(self.name))
         #Remove extraneous joints
         self.process_joints(self.node.skeleton.getChildren())
         self.garbage_collect()
         #process child components, clean garbage
-        return
+        return root, garbage
     def export(self, root):
         """
         @param root : root of hierarchy to export
         """
         pm.select(root, replace = True)
         #TODO!    need to get/provide path
-        pm.exportSelected(root, force=True, type="FBX export")
+        pm.exportSelected(self.filepath, force=True, type="FBX export")
 
 
 

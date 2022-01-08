@@ -1,0 +1,45 @@
+{
+    "editor.cursorStyle": "block-outline",
+    "todohighlight.keywords": [
+        {
+            "text": "TODO",
+            "color": "light blue",
+            "border": "1px solid green",
+            "borderRadius": "0px", //NOTE: use borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "rgba(0,0,0,0)"
+            //other styling properties goes here ... 
+        },
+        {
+            "text": "CBB",
+            "color": "peach",
+            "border": "1px solid gray",
+            "borderRadius": "0px", //NOTE: use borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "rgba(0,0,0,0)"
+        },
+        {
+            "text": "FIXME",
+            //"color": "yellow",
+            //"backgroundColor": ""
+            //other styling properties goes here ... 
+        },
+        {
+            "text": "URGENT",
+            "color": "red",
+            "border": "1px solid red",
+            "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "rgba(0,0,0,0)",
+            //other styling properties goes here ... 
+        }
+    ],
+    "todohighlight.include": [
+        "**/*.py",
+        "**/*.js",
+        "**/*.jsx",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.html",
+        "**/*.php",
+        "**/*.css",
+        "**/*.scss"
+    ]
+}

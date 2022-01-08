@@ -3,6 +3,41 @@ import vo_general as general
 reload(general)
 
 
+#Bunch of path manipulation shit
+
+export_dir = os.path.abspath(pm.sceneName().split('/scenes')[0] + '/scenes/Models/GenChar/export/' +filename)
+
+model_path = '/scenes/Models/GenChar/export/'
+
+working_dir = os.path.abspath(pm.sceneName().split('/scenes')[0])
+model_path = os.path.normpath('/scenes/Models/GenChar/export/')
+
+os.path.abspath(pm.sceneName().split('/scenes')[0])
+
+os.path.normpath('/scenes/Models/GenChar/export/')
+
+filename = 'TestCharacter.fbx'
+
+.replace("\\","\")
+
+print(working_dir,model_path)
+
+extension = '.fbx'
+filepath = os.path.join(working_dir,model_path)
+filename = name + extension
+print(os.defpath.join([working_dir,model_path,name,extension]))
+path_list = [working_dir,model_path,name,extension]
+print(os.defpath.join(path_list))
+
+print(os.path.normpath(pm.sceneName().split('/scenes')[0]))
+print(pm.sceneName().split('/scenes')[0])
+
+print(os.path.abspath(export_dir))
+os.path.abspath(os.getcwd())
+
+pm.exportSelected(os.path.abspath(export_dir), force=True, type="FBX export")
+pm.FBXExport(export_dir)
+
 
 voc.vo_shadow.loft_band(name = 'text', targets = pm.ls(sl=1), profile = 'segment')
 pathAnimation -fractionMode true -follow true -followAxis x -upAxis y -worldUpType "vector" -worldUpVector 0 1 0 -inverseUp false -inverseFront false -bank false -startTimeU `playbackOptions -query -minTime` -endTimeU  `playbackOptions -query -maxTime`;

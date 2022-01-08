@@ -110,23 +110,31 @@ def set_character_node(target, meshes):
 
 
 
-class MetaNode():
-    """
-    class to make network nodes that help find rig and character stuff
-    """
-    def __init__(
-                self,
-                character_part,
-
-                start,
-                end,
-                name = ''
-                ):
-        """
-        @param :
-        """
+class meta_navigator:
+    def __init__(self):
+        if pm.window('MetaNavigator', exists=True):
+            pm.deleteUI('MetaNavigator', window=True)
+        pm.window('MetaNavigator', sizeable=1 )
+        pm.rowColumnLayout( numberOfColumns=3 )
+        self.character_targets = voe.r9Meta.getMetaNodes()
+        self.char_names = []
+        for target in self.character_targets:
+            target_name = "{}{}".format(target.personality,target.jobClass)
+            self.char_names.append(target_name)
+            pm.button(bgc = (0.2,0.1,0.5), label = "    {}    ".format(target_name), command = "pm.select('{}')".format(target_name) )
+            pm.button(bgc = (0.2,0.6,0.2),label = '    meshes    ', command = 'pm.select(voe.character_asset(node = pm.ls(sl=1)[0]).node.meshes)' )
+            pm.button(bgc = (0.4,0.2,0.5),label = '    skel    ', command = 'pm.select(voe.character_asset(node = pm.ls(sl=1)[0]).node.skeleton)')
         
-        meta_tag(target, tag='metaParent')
+        pm.setParent( '..' )
+        pm.showWindow('MetaNavigator')
+    def get_meshes(self,target_name):
+        target = r9Meta.MetaClass(target_name)
+        pm.select(target.meshes)
+        print(target)
+    def get_skel(self,target):
+        #target = r9Meta.MetaClass(target_name)
+        pm.select(target.skeleton)
+        print(target)
 
 
 

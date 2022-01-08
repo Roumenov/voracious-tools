@@ -200,6 +200,29 @@ def create_chain(offset = False):
 
     pm.select(control_list)
 
+#targets = pm.ls(sl=1)
+def make_trackers(targets):
+    
+    tracker_list = []
+
+    for item in targets:
+        tracker_name = str(item) + '_tracker'
+        print(tracker_name)
+        tracker_group = general.nest_transform(name = tracker_name + '_GRP', action = 'child', target = tracker_target, transformObj = 'group', transformRadius = 1)
+    #tracker_offset = general.nest_transform(name = tracker_name, action = 'child', target = tracker_group, transformObj = 'cubeShape', transformRadius = .1)
+        tracker_object = general.nest_transform(name = tracker_name, action = 'child', target = tracker_group, transformObj = 'cubeShape', transformRadius = 1)
+        shape_node = pm.listRelatives(tracker_object, shapes=True)[0]
+        shape_node.overrideEnabled.set(1)
+        shape_node.overrideRGBColors.set(1)
+        shape_node.overrideColorRGB.set(0, 0.6, 1)
+        pm.parent(tracker_group, world = True)
+        pm.addAttr(tracker_object, longName = 'tracker', attributeType = 'message')
+        tracker_target.metaParent >> tracker_object.metaParent
+        tracker_list.append(tracker_object)
+
+    pm.select(tracker_list, replace = True)
+
+
 
 #ATTACH CONTROLS
 """

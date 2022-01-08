@@ -110,6 +110,17 @@ def deleteUnusedBindPose(mesh):
             pm.delete(dag_bind_pose)
 
 
+def updateBindPose():
+    """
+    Updates bind pose to the selected joint hierarchies current state
+    """
+
+    dag = pm.dagPose(q=True, bindPose=True)
+    transforms = pm.dagPose(dag, q=True, members=True)
+    for item in transforms:
+        pm.dagPose(item, reset=True, name=dag[0])
+
+
 def auto_copy_weights(source_mesh,target_mesh, surface_association = 'closestComponent'):
     """
     copy skinning from one mesh to another
@@ -142,41 +153,127 @@ def auto_copy_weights(source_mesh,target_mesh, surface_association = 'closestCom
     #cmds.file(export_path, exportSelected=True, type="FBX export")
 
 
+import xml.etree.ElementTree as et
+
 class xml_import():
     def __init__(self):
+        self.path = None
         #ui for loading skin weights
-        #target namespace
-
+        #TODO!      target namespace
+        #need to account for source/destination namespaces
+        if pm.window('MetaNavigator', exists=True):
+            pm.deleteUI('MetaNavigator', window=True)
+        self.tool_ui = pm.window('MetaNavigator', sizeable=1 )
+        pm.rowColumnLayout( numberOfColumns=3 )
+        pm.text(label = 'mesh', bgc = (0.1,0.05,0.25))
+        pm.text(label = 'xml', bgc = (0.1,0.3,0.1))
+        xml_name = 
+        self.xml_field = pm.field(text = self.path, bgc = (0.2,0.1,0.25))
+        #field = pm.textField(fileName = filepath, editable = False, enabled = True, text = 'strings')
+        
+        pm.button(bgc = (0.2,0.1,0.5),label = "    select    ", command = self.get_xml())
+        pm.button(bgc = (0.2,0.6,0.2),label = '    prep    ', command = self.skincluster_from_xml )
+        pm.button(bgc = (0.4,0.2,0.5),label = '    apply    ', command = self.apply_skincluster() )
+        pm.setParent( '..' )
+        pm.showWindow('MetaNavigator')
         return
     
-    pm.select(pm.ls(sl=1, dagObjects = True, type = 'joint'))
+    def get_xml(self):
+        self.path = pm.fileDialog2(fileMode=1, caption="Select Source")[0]#.getroot()
+        self.xml_field.setText(self.path)
+        return
+    #xml_tree = et.parse('Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/scenes/Models/GenChar/costume/SocialiteHat.xml').getroot()
+    #filename = pm.fileDialog2(fileMode=1, caption="Select Source")[0]
 
-    target = pm.ls(sl=1, dagObjects = True)
-    target = pm.ls(sl=1, type ='joint')
-    pm.listRelatives(fullPath = True)
-    print target[0]
-
-    import xml.etree.ElementTree as ET
-    xml_root = ET.parse('Z:/0_p4v/PotionomicsSourceAssets/Art_sourcefiles/Characters/scenes/Rigs/Maven/body.xml').getroot()
-
-    joints = []
-    for type_tag in xml_root.findall('weights'):
-        value = type_tag.get('source')
-        joints.append(value)
-        print(value)
-    print joints
-
-    for entry in joints:
-        try:
-            pm.select(entry, add=True)
-        except:
-            print(entry)
+    #TODO: these are sort of functional/data oriented....
+    #      maybe better here to pass etree and handle xml only once?
+    def skincluster_from_xml(self):
+        mesh = pm.ls(sl=1)[0]
+        joints = []
+        xml_tree = et.parse(self.path)#.getroot() is superfluous here
+        for tag in xml_tree.findall('weights'):
+            source = tag.get('source')
+            joints.append(source)
+        skincluster = pm.skinCluster(joints, mesh, bindMethod = 0, normalizeWeights = 1, weightDistribution = 1, maximumInfluences = 4, obeyMaxInfluences = True, skinMethod = 0, smoothWeights = 0.8, dropoffRate = 2, removeUnusedInfluence = False)
+        #TODO CBB:      check actual influences and reduce maxInfluences appropriately
+        return skincluster
     
+    def apply_skincluster(self, xml, cluster):
+        mesh = cluster.listHistory(type = 'mesh')[0]
+        skeleton = cluster.listHistory(type = 'mesh')[0]
+        target_namespace = skeleton.namespace()
+        #TODO figure out how remap param works remap='nsp1:(.*);nsp2:$1')
+        pm.deformerWeights(xml, im = True, shape = mesh, deformer = cluster )
+        return
+    
+    #CBB  this seems extraneous
+    def joint_value_dict_from_xml(self, path = None):
+        xml_tree = et.parse(path)
+        this_dict = {}
+        for weight in xml_tree.findall('weights'):#.getchildren():
+            this_dict[weight.get('source')] = weight.getchildren()
+            
+        return this_dict
+    #CBB  this seems extraneous
+    def set_influence_value(self, skincluster = None, influence = None, value = None, blend = 'default', weight = 0.5):
+        mesh = skincluster.listHistory(type = 'mesh')[0]#.listRelatives( parent=True, fullPath=True)[0]
+        #might be better with shape instead of xform, what if multiple shapes?
+        #for source, iterate through selection of points
+        
+        if blend == 'default' or 'overwrite':
+            for entry in points:
+                try:
+                    #TODO!      check what values transformMoveWeights takes
+                    pm.skinPercent(skincluster, transformValue = [influence, value])#TODO!   test how this assignment works
+                    #add 
+                except:
+                    Exception
+        elif blend == 'multiply':
+            for entry in points:
+                try:
+                    #TODO!      MATH
+                    pm.skinPercent(skincluster, transformValue = [influence, value])
+                    #add 
+                except:
+                    Exception
+        elif blend == 'blend':
+            for entry in points:
+                try:
+                    #TODO!      linearly blend based on weight value
+                    pm.skinPercent(skincluster, transformValue = [influence, value])
+                    #add 
+                except:
+                    Exception
+        else:
+            return#TODO put an informative error message here
+        return
+    
+    #CBB  this seems extraneous
+    #TODO!  get dict instead of xml or tree
+    def apply_xml_values(self, weightdict, skincluster = None, blend = 'default', weight = 0.5):
+        """
+        import xml values onto existing skinCluster
+        @param blend: overwrite, multiply, blend
+        """
+        if not check_skincluster2():
+            return False
+        else:
+            for influence in weightdict:
+                points = None
+            joints = pm.skinCluster(query=True,influence=True)
+            #TODO!  make a dict with joint : point/value entries
+            #TODO!  iterate dict influences to thne write their values
+            #print(points.get('index'))
+            #print(points.get('value'))
+            #feed index/value into
+            self.set_influence_value(skincluster, )
+    #removeUnusedInfluences
+
     
 
 
-#TODO:     look into using OpenMaya and pymel to see if these operations can be sped up
-#TODO:     return new mesh
+#CBB:     look into using OpenMaya and pymel to see if these operations can be sped up
+#CBB:     return new mesh
 #PURPOSE:       Combine a bunch of skinned meshes to one shape with one skinCluster attached to all the bones of the source meshes
 #PROCEDURE:     Make a list of skin joints, duplicate and group meshes, combine the duplicates, copySkinWeights to combo mesh, delete sources
 def combine_skin_mesh(meshName, targets):
