@@ -1,7 +1,7 @@
 """
     functions for character export
     TODO    add proc for exporting animated props
-    TODO    replace cmds.file usage with whatever the pymel equivalent is
+    CBB    replace cmds.file usage with whatever the pymel equivalent is
 
 """
 
@@ -31,11 +31,11 @@ def generate_scene_list(raw, path= None, name = None):
     return output
 #generate_scene_list(raw, path = voe.get_export_path('Roxanne').split('Export')[0])
 #
-def get_export_path(character_name):#TODO:    character_name conflicts with local variable
+def get_export_path(character_name):#CBB:    character_name conflicts with local variable
     """
         Get 
     """
-    #TODO:  store these values into the .export attr
+    #CBB:  store these values into the .export attr
     output_path = None
     character_paths = {
         'Anubia' : '/scenes/Animation/Anubia/export/',
@@ -218,8 +218,9 @@ class namespace_machine():
         debug = False
 
 
-#TODO:      integrate this into import function so we don't have to do this manually
-#TODO:      reevaluate whether this is still necessary, seems like you could just do object._setNamespace('root') or smth
+#CBB:      reevaluate whether this is still necessary, seems like you could just do object._setNamespace('root') or smth
+#PURPOSE:       removing namespaces from imported references
+#PRESUMPTION:   imported refs will keep namespaces
 def remove_object_namespace(object):
     target_namespace = object.namespace()
     print ('removing namespace :: ' + target_namespace)
@@ -318,7 +319,7 @@ def clean_references(filename, filepath):
     return output
 
 
-def get_timeline():#TODO:   move to animation or general?
+def get_timeline():#CBB:   move to animation or general?
     return pm.playbackOptions(query = True, minTime = True), pm.playbackOptions(query = True, maxTime = True)
 
 
@@ -468,9 +469,9 @@ class character_asset():
             #self.skeleton = skeleton
             self.node.connectChild(skeleton.name(), 'skeleton')#
             #self.meshes = meshes
-            self.node.connectChildren(meshes, 'meshes')
+            self.node.connectChildren(meshes, 'meshes')#FIXME   need to account for skinMesh tag
             
-            #TODO CBB set these by checking pm.ls('*.jointSim', objectsOnly = True) against all skinned joints
+            #CBB set these by checking pm.ls('*.jointSim', objectsOnly = True) against all skinned joints
             if simJoints:
                 #self.simJoints = simJoints
                 self.node.connectChildren(cmds.ls(simJoints), 'jointSim')
@@ -540,7 +541,7 @@ class character_asset():
             else:#[body, hands, legs, arms, head, face] indicate influence joint set
                 skinned_meshes.append(mesh)
                 unskinned_meshes.pop(mesh)
-                #TODO CBB
+                #CBB
                 #if mesh.skinCluster.influences() > 4:
                     #print(mesh.name() + ' exceeds max influences of 4')
         return skinned_meshes, unskinned_meshes
@@ -584,7 +585,7 @@ class character_asset():
 
 
 
-class genchar_asset():
+class genchar_asset():#FIXME    subclass from character asset, add personality+job class params
     #character and skl export status
     def __init__(self,name):
         self.node = r9Meta.MetaClass(name=name)
