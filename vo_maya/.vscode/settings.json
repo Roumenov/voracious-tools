@@ -3,18 +3,17 @@
     "todohighlight.keywords": [
         {
             "text": "TODO",
-            "color": "light blue",
-            "border": "1px solid green",
+            "border": "1px solid blue",
             "borderRadius": "0px", //NOTE: use borderRadius along with `border` or you will see nothing change
-            "backgroundColor": "rgba(0,0,0,0)"
+            "backgroundColor": "none"
             //other styling properties goes here ... 
         },
         {
             "text": "CBB",
-            "color": "peach",
+            "color": "white",
             "border": "1px solid gray",
             "borderRadius": "0px", //NOTE: use borderRadius along with `border` or you will see nothing change
-            "backgroundColor": "rgba(0,0,0,0)"
+            "backgroundColor": "blue"
         },
         {
             "text": "FIXME",
@@ -26,6 +25,14 @@
             "text": "URGENT",
             "color": "red",
             "border": "1px solid red",
+            "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
+            "backgroundColor": "rgba(0,0,0,0)",
+            //other styling properties goes here ... 
+        },
+        {
+            "text": "DONE",
+            "color": "green",
+            "border": "1px solid green",
             "borderRadius": "2px", //NOTE: using borderRadius along with `border` or you will see nothing change
             "backgroundColor": "rgba(0,0,0,0)",
             //other styling properties goes here ... 

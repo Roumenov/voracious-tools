@@ -6,6 +6,7 @@
 
 import pymel.core as pm
 import Red9.core.Red9_Meta as r9Meta
+import vo_export as export
 
 #def meta_find(attr = ''):
     #pm.select(pm.ls(attr, objectsOnly = True), replace = True)
@@ -15,7 +16,7 @@ import Red9.core.Red9_Meta as r9Meta
 attrType = 'messageSimple'#attr with no value only a name, used for tagging. Returns connected object.
 attrType = 'message'#red9 makes this a multiMessage attr that will return an ordered list
 red9 can assume attr types from the data type being passed(int, bool, float)
-JSON dicts can be passed right in, as well. written in as string attrType
+JSON dicts can be passed right in, as well. written in as string attrType(red9 has json serializer)
 """
 
 
@@ -39,10 +40,6 @@ def meta_tag(target, tag='', type = 'string'):#TODO:    deprecate this and repla
         tag = pm.addAttr(target, longName = attr, attributeType = 'string')
         return tag"""
 
-
-def tag_blend_meshes(meshes):
-    
-    return
 
 
 def meta_make_child(source, *target_list):
@@ -96,9 +93,10 @@ def meta_traverse(source, relation, tag = ''):
 
 #PURPOSE            Navigating parent/child relationship through .metaParent attr connections
 #PRESUMPTIONS       target is root transform of character hierarchy
-def set_character_node(target, meshes):
-    meta_tag(target, tag='pCharacter')
-    meta_tag(target, tag='metaParent')
+def set_character_node(target, meshes):#FIXME   this is unused, replace with func for making rig meta node
+    node = r9Meta.MetaClass(target.name())
+    node.addAttr('pCharacter')
+    node.addAttr('metaParent')
     for mesh in meshes:
         #TODO implement discrimination check and tagging
         #discriminate geo with blendShapes, skinClusters, and no deformation
@@ -116,22 +114,22 @@ class meta_navigator:
             pm.deleteUI('MetaNavigator', window=True)
         pm.window('MetaNavigator', sizeable=1 )
         pm.rowColumnLayout( numberOfColumns=3 )
-        self.character_targets = voe.r9Meta.getMetaNodes()
+        self.character_targets = export.r9Meta.getMetaNodes()
         self.char_names = []
         for target in self.character_targets:
             target_name = "{}{}".format(target.personality,target.jobClass)
             self.char_names.append(target_name)
             pm.button(bgc = (0.2,0.1,0.5), label = "    {}    ".format(target_name), command = "pm.select('{}')".format(target_name) )
-            pm.button(bgc = (0.2,0.6,0.2),label = '    meshes    ', command = 'pm.select(voe.character_asset(node = pm.ls(sl=1)[0]).node.meshes)' )
-            pm.button(bgc = (0.4,0.2,0.5),label = '    skel    ', command = 'pm.select(voe.character_asset(node = pm.ls(sl=1)[0]).node.skeleton)')
+            pm.button(bgc = (0.2,0.6,0.2),label = '    meshes    ', command = 'pm.select(export.character_asset(node = pm.ls(sl=1)[0]).node.meshes)' )
+            pm.button(bgc = (0.4,0.2,0.5),label = '    skel    ', command = 'pm.select(export.character_asset(node = pm.ls(sl=1)[0]).node.skeleton)')
         
         pm.setParent( '..' )
         pm.showWindow('MetaNavigator')
-    def get_meshes(self,target_name):
+    def get_meshes(self,target_name):#CBB   superfluous
         target = r9Meta.MetaClass(target_name)
         pm.select(target.meshes)
         print(target)
-    def get_skel(self,target):
+    def get_skel(self,target):#CBB   superfluous
         #target = r9Meta.MetaClass(target_name)
         pm.select(target.skeleton)
         print(target)
@@ -143,7 +141,7 @@ class meta_navigator:
 
 #PURPOSE            network node to assist other scripts in finding rig components
 #PRESUMPTIONS       corresponding character part and rig components already exist
-class RigPart():#TODO   make this subclass of a generic metaNode type
+class RigPart():#TODO   identify difference between RigPart and CharacterPart
     """
     class to make network nodes that help find rig sub components
     these should always connected to one of: character part or prop
@@ -164,7 +162,6 @@ class RigPart():#TODO   make this subclass of a generic metaNode type
         meta_tag(target, tag='metaParent')
 
 #PURPOSE            network node to assist other scripts in finding character parts
-# TODO    subclass for character props
 #PRESUMPTIONS       corresponding character root is already tagged for
 class CharacterPart():
     """

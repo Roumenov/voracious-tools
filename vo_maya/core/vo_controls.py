@@ -393,9 +393,6 @@ def constrain_list(listA,listB):
         target_object = pm.ls(target_name)[0]
         pm.matchTransform(source_object, target_object, pos = True, rot = True, scale = False)
 
-
-
-
     objectList = pm.ls (sl = 1)
     sourceObj = objectList[0]
     targetList = objectList[1:]
@@ -412,4 +409,15 @@ def constrain_list(listA,listB):
         #delete target
         targetParent = str(pm.listRelatives(target, parent = True)[0])
         print(targetParent)
+
+
+def break_trs_connections(target):
+    for character in 'XYZ':
+            target_attr = 'translate' + character
+            target.disconnectAttr(target_attr)
+            target_attr = 'rotate' + character
+            target.disconnectAttr(target_attr)
+            target_attr = 'scale' + character
+            target.disconnectAttr(target_attr)
+    return
 

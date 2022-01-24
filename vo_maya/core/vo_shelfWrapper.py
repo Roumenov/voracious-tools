@@ -32,9 +32,10 @@ class shelf_wrapper():
         self.function(args)
 
 
-def meta_tag_wrapper():
+def meta_tag_wrapper(tag):
     for target in pm.ls(sl=1):
-        meta.meta_tag(target)
+        node = meta.r9Meta.MetaClass(target.name())
+        node.addAttr(tag)
 
 
 def object_at_selection(name = '', objType = '', radius = 1.0):
@@ -77,11 +78,11 @@ def object_at_select_verts(name='', objType='', radius = 1.0):
     return new_object
 
 
-def object_at_vert_subset(vertices, name = '', objType = '', radius = 1.0, subset_len = 1):
+def object_at_vert_subset(vertices, name = '', objType = '', radius = 1.0, len = 1):
     #TODO:      make this function more than just zombie code idea
-    #make lists of verts by slicing with increments of subset_len
+    #make lists of verts by slicing with increments of len
     output = []
-    for subset in pm.ls(sl=1):
+    for subset in pm.ls(sl=1, flatten = True):
         new_object = general.object_on_vertices(vertices, name = '', objType = '', radius = 1.0)
         output.append(new_object)
     pm.select(output, r=1)
@@ -192,12 +193,9 @@ def create_control(offset = False):
 
 
 def create_chain(offset = False):
-
     object_list= pm.ls(sl = True)
     control_list = create_control()
-
     controls.chain_controls(control_list)
-
     pm.select(control_list)
 
 #targets = pm.ls(sl=1)
@@ -208,7 +206,7 @@ def make_trackers(targets):
     for item in targets:
         tracker_name = str(item) + '_tracker'
         print(tracker_name)
-        tracker_group = general.nest_transform(name = tracker_name + '_GRP', action = 'child', target = tracker_target, transformObj = 'group', transformRadius = 1)
+        tracker_group = general.nest_transform(name = tracker_name + '_GRP', action = 'child', target = item, transformObj = 'group', transformRadius = 1)
     #tracker_offset = general.nest_transform(name = tracker_name, action = 'child', target = tracker_group, transformObj = 'cubeShape', transformRadius = .1)
         tracker_object = general.nest_transform(name = tracker_name, action = 'child', target = tracker_group, transformObj = 'cubeShape', transformRadius = 1)
         shape_node = pm.listRelatives(tracker_object, shapes=True)[0]
@@ -217,7 +215,7 @@ def make_trackers(targets):
         shape_node.overrideColorRGB.set(0, 0.6, 1)
         pm.parent(tracker_group, world = True)
         pm.addAttr(tracker_object, longName = 'tracker', attributeType = 'message')
-        tracker_target.metaParent >> tracker_object.metaParent
+        item.metaParent >> tracker_object.metaParent
         tracker_list.append(tracker_object)
 
     pm.select(tracker_list, replace = True)

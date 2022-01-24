@@ -67,14 +67,14 @@ def check_skincluster(target):
 #PROCEDURE          cycle through connections and find skinCluster nodes
 #PRESUMPTIONS       arg is a single object of type joint, only one skinCluster is connected
 def check_skincluster2(jointObject):
-    for node in jointObject.connections():#TODO: CBB if this made a list of all skinClusters, many joints are part of multiple skins
+    for node in jointObject.connections():#CBB if this made a list of all skinClusters, many joints are part of multiple skins
         if node.nodeType() == 'skinCluster':
-            return True #TODO: CBB if it returned the cluster
+            return True #CBB if it returned the cluster
         else:
             return False
 
 
-def list_influences(mesh):#TODO: superfluous
+def list_influences(mesh):#CBB: superfluous
 	#test_thing.listHistory(type = 'skinCluster')
     return pm.skinCluster(mesh.history(type = 'skinCluster'),query=True,inf=True)
 
@@ -159,7 +159,7 @@ class xml_import():
     def __init__(self):
         self.path = None
         #ui for loading skin weights
-        #TODO!      target namespace
+        #TODO!      target namespace for influences
         #need to account for source/destination namespaces
         if pm.window('MetaNavigator', exists=True):
             pm.deleteUI('MetaNavigator', window=True)
@@ -167,7 +167,7 @@ class xml_import():
         pm.rowColumnLayout( numberOfColumns=3 )
         pm.text(label = 'mesh', bgc = (0.1,0.05,0.25))
         pm.text(label = 'xml', bgc = (0.1,0.3,0.1))
-        xml_name = 
+        xml_name = 'name_string'
         self.xml_field = pm.field(text = self.path, bgc = (0.2,0.1,0.25))
         #field = pm.textField(fileName = filepath, editable = False, enabled = True, text = 'strings')
         
@@ -195,7 +195,7 @@ class xml_import():
             source = tag.get('source')
             joints.append(source)
         skincluster = pm.skinCluster(joints, mesh, bindMethod = 0, normalizeWeights = 1, weightDistribution = 1, maximumInfluences = 4, obeyMaxInfluences = True, skinMethod = 0, smoothWeights = 0.8, dropoffRate = 2, removeUnusedInfluence = False)
-        #TODO CBB:      check actual influences and reduce maxInfluences appropriately
+        #CBB:      look up actual influences and reduce maxInfluences appropriately
         return skincluster
     
     def apply_skincluster(self, xml, cluster):
@@ -223,7 +223,7 @@ class xml_import():
         if blend == 'default' or 'overwrite':
             for entry in points:
                 try:
-                    #TODO!      check what values transformMoveWeights takes
+                    #URGENT!      research what values transformMoveWeights takes
                     pm.skinPercent(skincluster, transformValue = [influence, value])#TODO!   test how this assignment works
                     #add 
                 except:
@@ -281,20 +281,20 @@ def combine_skin_mesh(meshName, targets):
 
     if(len(meshName) == 0) or (" " in meshName) or cmds.objExists(meshName):
     	raise TypeError("Invalid name")
-    
-    for item in targets:       
-        item_cluster = mel.eval('findRelatedSkinCluster ' + item)
-        if cmds.objExists (item_cluster):
-            print item_cluster
-        else:
-            raise TypeError(item +" Clusters not found")
-            
-        matrix_array = cmds.getAttr(item_cluster + ".matrix", mi = True)
-    
-        for item in matrix_array:
-            list = cmds.connectionInfo(item_cluster + ".matrix[" + str(item) + "]", sourceFromDestination = True)
-            joint = list.split(".")
-            joint_list.append(joint[0])
+    else:
+        for item in targets:       
+            item_cluster = mel.eval('findRelatedSkinCluster ' + item)
+            if cmds.objExists (item_cluster):
+                print item_cluster
+            else:
+                raise TypeError(item +" Clusters not found")
+                
+            matrix_array = cmds.getAttr(item_cluster + ".matrix", mi = True)
+        
+            for item in matrix_array:
+                list = cmds.connectionInfo(item_cluster + ".matrix[" + str(item) + "]", sourceFromDestination = True)
+                joint = list.split(".")
+                joint_list.append(joint[0])
             
     if(len(targets) < 2):
         raise TypeError ('Please Select at least two skinned Meshes')
