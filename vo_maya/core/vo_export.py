@@ -25,7 +25,8 @@ def publish_rig():
     #DONE delete non rig parts
     #DONE   delete noExport joints
     joints = pm.ls('*.jointSkin', objectsOnly = True, recursive = True)
-    [pm.delete(item) for item in joints if item.hasAttr('noExport')]
+    if len(joints) > 0:
+        [pm.delete(item) for item in joints if item.hasAttr('noExport')]
     #DONE   do same with...unfinished rig parts? or tag finished parts?
     #CBB could we skip this if we select/export '*.rig' objects?
     #might pull in wip objects if there are connections
@@ -34,12 +35,18 @@ def publish_rig():
     [pm.delete(object) for object in assemblies]
     #DONE   merge geo
     #DONE delete unskinned geo
-    [pm.delete(item) for item in pm.ls('*.skinMesh', objectsOnly = True, recursive = True) if not item.listHistory(type = 'skinCluster')]
-    skinned_meshes = [item for item in pm.ls('*.skinMesh', objectsOnly = True, recursive = True) if item.listHistory(type = 'skinCluster')]
-    skinned_mesh = pm.PyNode(pm.polyUniteSkinned(skinned_meshes, ch = 0, muv = 1)[0])
-    skinned_mesh.rename('skinned_mesh')
-    skinned_mesh.addAttr('skinMesh', attributeType = 'message')
-    root | skinned_mesh
+    meshes = pm.ls('*.skinMesh', objectsOnly = True, recursive = True)
+    if len(meshes) > 0:
+        [pm.delete(item) for item in meshes if not item.listHistory(type = 'skinCluster')]
+        skinned_meshes = [item for item in pm.ls('*.skinMesh', objectsOnly = True, recursive = True) if item.listHistory(type = 'skinCluster')]
+        skinned_mesh = pm.PyNode(pm.polyUniteSkinned(skinned_meshes, ch = 0, muv = 1)[0])
+        skinned_mesh.rename('skinned_mesh')
+        skinned_mesh.addAttr('skinMesh', attributeType = 'message')
+        root | skinned_mesh
+    else:
+        pass
+    #URGENT handle blend meshes
+    #   in most files we want to rename, but for sylv we skip
     #CBB    delete unused layers?
     #       write path into export attr?
     #DONE export binary
@@ -410,7 +417,7 @@ def export_skeletal_mesh():#TODO param to run prop export would be cool, not too
         meshes = [geo for geo in pm.ls() if geo.hasAttr('skinMesh')]
         #CBB an intelligent way to go to bindpose would be really great
         #pm.dagPose( restore=True, global=True, bindPose=True )
-        #would also need to remove extraneous bind poses, as well...
+        #would need to remove extraneous bind poses, as well...
         #geo.goToBindPose()
         skinned_mesh = pm.PyNode(pm.polyUniteSkinned(meshes, ch = 0, muv = 1)[0])
         skinned_mesh.rename('skinned_mesh')
@@ -427,6 +434,8 @@ def export_skeletal_mesh():#TODO param to run prop export would be cool, not too
                 if item.hasAttr('noExport'):# or not deformers.check_skincluster2(item)
                     pm.delete(item)
         pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
+        #URGENT handle blend meshes
+        #   ideally rename, but that may break sylv....
         pm.select(root, replace = True)
         
         pm.exportSelected(pm.fileDialog2(), force=True, type="FBX export")
@@ -866,6 +875,7 @@ def export_animation(data):#TODO    this should go inside ptionomics_export1()
     except:
         pm.warning('bake failed')
     pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
+    pm.delete(pm.ls('*.blendMesh', objectsOnly = True, recursive = True))
     pm.delete(pm.ls('*.skinMesh', objectsOnly = True, recursive = True))
     pm.select(data['root'], replace = True)
     pm.exportSelected(data['path'], force=True, type="FBX export")

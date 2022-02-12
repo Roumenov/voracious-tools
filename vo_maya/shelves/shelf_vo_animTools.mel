@@ -843,14 +843,19 @@ global proc shelf_vo_animTools () {
         -flat 1
         -mi "old exporter" ( "\nimport pymel.core as pm\nimport vo_sceneTools as st\nreload(st)\n\nst.export_character('auto')" )
         -mip 0
-        -mi "new export override" ( "import vo_maya.core.vo_export as voe\nreload(voe)\n\ncharacters = voe.character_prep1(overwrite = True)\nif len(characters) > 0:\n    voe.import_references()\n    voe.potionomics_export1(characters)\nelse:\n    pass" )
+        -mi "publish rig binary" ( "#\nvoe.publish_rig()" )
         -mip 1
+        -mi "export skeletal mesh" ( "import vo_maya.core.vo_export as voe\nreload(voe)\n\nvoe.export_skeletal_mesh()\n" )
+        -mi "maven export" ( "\nimport vo_maya.core.vo_export as voe\nreload(voe)\n\nroot = pm.ls('Maven', recursive = True)[0]\nroot_control = pm.ls('Maven_MainC', recursive = True)[0]\ndata = voe.prep_character(root, overwrite = True)\ntry:\n    voe.import_references()\n    pm.select(root_control)\n    pm.delete(constraints = 1)\n    pm.xform(root_control, ws=True, translation = (0,0,0), rotation = (0,0,0))\n    voe.export_animation(data)\nexcept:\n    pm.warning('exception occured trying to export character')\n" )
+        -mip 3
+        -mi "new export overwrite" ( "import vo_maya.core.vo_export as voe\nreload(voe)\n\ncharacters = voe.character_prep1(overwrite = True)\nif len(characters) > 0:\n    voe.import_references()\n    voe.potionomics_export1(characters)\nelse:\n    pass" )
+        -mip 4
     ;
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0
