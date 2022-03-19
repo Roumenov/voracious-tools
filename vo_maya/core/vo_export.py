@@ -17,24 +17,22 @@ import sys, inspect, os, platform
 def publish_rig():
     """"Update rig binary file in rigs folder
     """
+    #this is basically how we find rigs in lieu of a more sophisticated data structure
+    #TODO:  why do we use both export and rig ?
     root = pm.ls('*.export', objectsOnly = True, recursive = True)[0]
-    #DONE delete keys
+    #sometimes keys are left on during testing/skinning
     [pm.cutKey(control) for control in pm.ls('*.controller', objectsOnly = True, recursive = True)]
-    #DONE    import geo
+    #references slow down file loading, so we bring everything in for this binary
     import_references()
-    #DONE delete non rig parts
-    #DONE   delete noExport joints
+    #check all the deformation objects for garbage or wip structures
     joints = pm.ls('*.jointSkin', objectsOnly = True, recursive = True)
     if len(joints) > 0:
         [pm.delete(item) for item in joints if item.hasAttr('noExport')]
-    #DONE   do same with...unfinished rig parts? or tag finished parts?
-    #CBB could we skip this if we select/export '*.rig' objects?
-    #might pull in wip objects if there are connections
+    #we want to remove scene objects that aren't considered rigs, like cameras
     cameras = [shape.root() for shape in pm.ls(ca = 1, dag = 1)]
     assemblies = pm.ls(set(pm.ls(assemblies = 1, o = 1, r = 0, rn = 0)) - set(pm.ls(assemblies = 1, o = 1, r = 0, rn = 1)) - set(cameras) - set(pm.ls('*.rig', o = 1)))
     [pm.delete(object) for object in assemblies]
-    #DONE   merge geo
-    #DONE delete unskinned geo
+    #minimal mesh objects
     meshes = pm.ls('*.skinMesh', objectsOnly = True, recursive = True)
     if len(meshes) > 0:
         [pm.delete(item) for item in meshes if not item.listHistory(type = 'skinCluster')]
@@ -45,16 +43,14 @@ def publish_rig():
         root | skinned_mesh
     else:
         pass
-    #URGENT handle blend meshes
-    #   in most files we want to rename, but for sylv we skip
+    #TODO   handle blend meshes
+    #       in most files we want to rename, but for sylv we skip
     #CBB    delete unused layers?
     #       write path into export attr?
-    #DONE export binary
     #CBB    create proc to get proper filename automatically
-        #   requires fixing a bunch of file name inconsistentcies and refs
+    #       requires fixing a bunch of file name inconsistentcies and refs
     pm.select(pm.ls('*.rig', objectsOnly = True),replace = True)
     pm.exportSelected(pm.fileDialog2(), type = 'mayaBinary')
-    #from rig path, go up to rig folder
 
     return
 
@@ -870,12 +866,17 @@ def export_animation(data):#TODO    this should go inside ptionomics_export1()
     try:
         play_start_time = int(pm.playbackOptions(query = True, minTime = True))
         play_end_time = int(pm.playbackOptions(query = True, maxTime = True))
+        bake_targets = pm.ls('*.jointSkin', objectsOnly = True, recursive = True)
+        bake_targets += pm.ls(type='blendShape', objectsOnly = True, recursive = True)#CBB using this operator is probably bad practice
+
         bake_animation(pm.ls('*.jointSkin', objectsOnly = True, recursive = True), start = play_start_time, end = play_end_time)
         #export_animation1(data['root'], data['path'])#
     except:
         pm.warning('bake failed')
     pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
-    pm.delete(pm.ls('*.blendMesh', objectsOnly = True, recursive = True))
+    #we'll be tagging blendshape meshes with noExport to take them out of anim files
+    #for sylvia, keeping the blendmesh has become necessary, described in [[Sylv Blendshape Bugs]]
+    #pm.delete(pm.ls('*.blendMesh', objectsOnly = True, recursive = True))
     pm.delete(pm.ls('*.skinMesh', objectsOnly = True, recursive = True))
     pm.select(data['root'], replace = True)
     pm.exportSelected(data['path'], force=True, type="FBX export")
