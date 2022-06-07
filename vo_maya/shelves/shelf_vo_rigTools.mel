@@ -7,8 +7,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 23
+        -height 23
         -manage 1
         -visible 1
         -preventOverride 0

@@ -870,12 +870,14 @@ def export_animation(data):#TODO    this should go inside ptionomics_export1()
     try:
         play_start_time = int(pm.playbackOptions(query = True, minTime = True))
         play_end_time = int(pm.playbackOptions(query = True, maxTime = True))
-        bake_animation(pm.ls('*.jointSkin', objectsOnly = True, recursive = True), start = play_start_time, end = play_end_time)
+        bake_targets = pm.ls('*.jointSkin', objectsOnly = True, recursive = True)
+        bake_targets += pm.ls(type = 'blendShape', objectsOnly = True, recursive = True)
+        bake_animation(bake_targets, start = play_start_time, end = play_end_time)
         #export_animation1(data['root'], data['path'])#
     except:
         pm.warning('bake failed')
     pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
-    pm.delete(pm.ls('*.blendMesh', objectsOnly = True, recursive = True))
+    #pm.delete(pm.ls('*.blendMesh', objectsOnly = True, recursive = True))
     pm.delete(pm.ls('*.skinMesh', objectsOnly = True, recursive = True))
     pm.select(data['root'], replace = True)
     pm.exportSelected(data['path'], force=True, type="FBX export")
