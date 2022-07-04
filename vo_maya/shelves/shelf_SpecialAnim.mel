@@ -1,0 +1,701 @@
+global proc shelf_SpecialAnim () {
+    global string $gBuffStr;
+    global string $gBuffStr0;
+    global string $gBuffStr1;
+
+
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 39
+        -height 39
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Quickly and easily label and save selected pose or selection commands for characters and controls as re-usable shelf buttons." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "p2s" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "p2s" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "vacantCell.png" 
+        -image1 "vacantCell.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "pose2shelf" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Object mask" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Object mask" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Mask" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "selectMode -object; selectType -handle 0 -ikHandle 0 -joint 0 -nurbsCurve 1 -cos 1 -stroke 1 -nurbsSurface 0 -polymesh 0 -subdiv 0 -plane 0 -lattice 0 -cluster 0 -sculpt 0 -nonlinear 0 -particleShape 0 -emitter 0 -field 0 -spring 0 -rigidBody 0 -fluid 0 -hairSystem 0 -follicle 0 -nCloth 0 -nRigid 0 -dynamicConstraint 0 -rigidConstraint 0 -collisionModel 0 -light 0 -camera 0 -texture 0 -ikEndEffector 0 -locator 0 -dimension 0;selectType -byName gpuCache 0;" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "ALL" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "ALL" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "ALL" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__L_armIK_CTL\"`);\ncatch (`select -add \"r__R_armIK_CTL\"`);\ncatch (`select -add \"r__C_pelvis_CTL\"`);\ncatch (`select -add \"r__C_belt14_CTL\"`);\ncatch (`select -add \"r__C_pouch_CTL\"`);\ncatch (`select -add \"r__C_belt13_CTL\"`);\ncatch (`select -add \"r__C_belt12_CTL\"`);\ncatch (`select -add \"r__C_belt11_CTL\"`);\ncatch (`select -add \"r__C_belt10_CTL\"`);\ncatch (`select -add \"r__C_belt09_CTL\"`);\ncatch (`select -add \"r__c_wand_CTL\"`);\ncatch (`select -add \"r__C_belt08_CTL\"`);\ncatch (`select -add \"r__C_belt07_CTL\"`);\ncatch (`select -add \"r__C_belt06_CTL\"`);\ncatch (`select -add \"r__C_belt05_CTL\"`);\ncatch (`select -add \"r__C_belt04_CTL\"`);\ncatch (`select -add \"r__C_belt03_CTL\"`);\ncatch (`select -add \"r__C_belt02_CTL\"`);\ncatch (`select -add \"r__C_belt01_CTL\"`);\ncatch (`select -add \"r__c_beltMaster_CTL\"`);\ncatch (`select -add \"r__C_coinSack_CTL\"`);\ncatch (`select -add \"r__C_coinSackBase_CTL\"`);\ncatch (`select -add \"r__R_belt07_CTL\"`);\ncatch (`select -add \"r__L_belt07_CTL\"`);\ncatch (`select -add \"r__R_belt06_CTL\"`);\ncatch (`select -add \"r__R_belt05_CTL\"`);\ncatch (`select -add \"r__L_belt06_CTL\"`);\ncatch (`select -add \"r__L_belt05_CTL\"`);\ncatch (`select -add \"r__L_pectoralis_CTL\"`);\ncatch (`select -add \"r__R_pectoralis_CTL\"`);\ncatch (`select -add \"r__R_belt04_CTL\"`);\ncatch (`select -add \"r__R_belt03_CTL\"`);\ncatch (`select -add \"r__R_belt02_CTL\"`);\ncatch (`select -add \"r__R_belt01_CTL\"`);\ncatch (`select -add \"r__R_thumb00_JNT_CTL\"`);\ncatch (`select -add \"r__R_pinky00_JNT_CTL\"`);\ncatch (`select -add \"r__R_ring00_JNT_CTL\"`);\ncatch (`select -add \"r__R_middle00_JNT_CTL\"`);\ncatch (`select -add \"r__R_index00_JNT_CTL\"`);\ncatch (`select -add \"r__R_fk_hand_CTL\"`);\ncatch (`select -add \"r__R_fk_foreArm_CTL\"`);\ncatch (`select -add \"r__R_fk_upArm_CTL\"`);\ncatch (`select -add \"r__R_fk_shoulder_CTL\"`);\ncatch (`select -add \"r__L_belt04_CTL\"`);\ncatch (`select -add \"r__L_belt03_CTL\"`);\ncatch (`select -add \"r__L_belt02_CTL\"`);\ncatch (`select -add \"r__L_belt01_CTL\"`);\ncatch (`select -add \"r__L_thumb00_JNT_CTL\"`);\ncatch (`select -add \"r__L_pinky00_JNT_CTL\"`);\ncatch (`select -add \"r__L_ring00_JNT_CTL\"`);\ncatch (`select -add \"r__L_middle00_JNT_CTL\"`);\ncatch (`select -add \"r__L_index00_JNT_CTL\"`);\ncatch (`select -add \"r__L_fk_hand_CTL\"`);\ncatch (`select -add \"r__L_fk_foreArm_CTL\"`);\ncatch (`select -add \"r__L_fk_upArm_CTL\"`);\ncatch (`select -add \"r__L_fk_shoulder_CTL\"`);\ncatch (`select -add \"r__hairBangH06_CTL\"`);\ncatch (`select -add \"r__hairBangH05_CTL\"`);\ncatch (`select -add \"r__hairBangH04_CTL\"`);\ncatch (`select -add \"r__hairBangH03_CTL\"`);\ncatch (`select -add \"r__hairBangH02_CTL\"`);\ncatch (`select -add \"r__hairBangH01_CTL\"`);\ncatch (`select -add \"r__hairBangY07_CTL\"`);\ncatch (`select -add \"r__hairBangY06_CTL\"`);\ncatch (`select -add \"r__hairBangY05_CTL\"`);\ncatch (`select -add \"r__hairBangY04_CTL\"`);\ncatch (`select -add \"r__hairBangY03_CTL\"`);\ncatch (`select -add \"r__hairBangY02_CTL\"`);\ncatch (`select -add \"r__C_hairA05_CTL\"`);\ncatch (`select -add \"r__C_hairA04_CTL\"`);\ncatch (`select -add \"r__C_hairA03_CTL\"`);\ncatch (`select -add \"r__C_hairA02_CTL\"`);\ncatch (`select -add \"r__C_hairB05_CTL\"`);\ncatch (`select -add \"r__C_hairB04_CTL\"`);\ncatch (`select -add \"r__C_hairB03_CTL\"`);\ncatch (`select -add \"r__C_hairB02_CTL\"`);\ncatch (`select -add \"r__C_hairB01_CTL\"`);\ncatch (`select -add \"r__R_tassel08_CTL\"`);\ncatch (`select -add \"r__R_tassel07_CTL\"`);\ncatch (`select -add \"r__R_tassel06_CTL\"`);\ncatch (`select -add \"r__R_tassel05_CTL\"`);\ncatch (`select -add \"r__R_tassel04_CTL\"`);\ncatch (`select -add \"r__R_tassel03_CTL\"`);\ncatch (`select -add \"r__R_tassel02_CTL\"`);\ncatch (`select -add \"r__L_tassel08_CTL\"`);\ncatch (`select -add \"r__L_tassel07_CTL\"`);\ncatch (`select -add \"r__L_tassel06_CTL\"`);\ncatch (`select -add \"r__L_tassel05_CTL\"`);\ncatch (`select -add \"r__L_tassel04_CTL\"`);\ncatch (`select -add \"r__L_tassel03_CTL\"`);\ncatch (`select -add \"r__L_tassel02_CTL\"`);\ncatch (`select -add \"r__C_ponytail_CTL\"`);\ncatch (`select -add \"r__C_hairC08_CTL\"`);\ncatch (`select -add \"r__C_hairC07_CTL\"`);\ncatch (`select -add \"r__C_hairC06_CTL\"`);\ncatch (`select -add \"r__C_hairC05_CTL\"`);\ncatch (`select -add \"r__C_hairC04_CTL\"`);\ncatch (`select -add \"r__C_hairC03_CTL\"`);\ncatch (`select -add \"r__C_hairC02_CTL\"`);\ncatch (`select -add \"r__C_hairD07_CTL\"`);\ncatch (`select -add \"r__C_hairD06_CTL\"`);\ncatch (`select -add \"r__C_hairD05_CTL\"`);\ncatch (`select -add \"r__C_hairD04_CTL\"`);\ncatch (`select -add \"r__C_hairD03_CTL\"`);\ncatch (`select -add \"r__C_hairD02_CTL\"`);\ncatch (`select -add \"r__C_hairF07_CTL\"`);\ncatch (`select -add \"r__C_hairF06_CTL\"`);\ncatch (`select -add \"r__C_hairF05_CTL\"`);\ncatch (`select -add \"r__C_hairF04_CTL\"`);\ncatch (`select -add \"r__C_hairF03_CTL\"`);\ncatch (`select -add \"r__C_hairF02_CTL\"`);\ncatch (`select -add \"r__C_hairE08_CTL\"`);\ncatch (`select -add \"r__C_hairE07_CTL\"`);\ncatch (`select -add \"r__C_hairE06_CTL\"`);\ncatch (`select -add \"r__C_hairE05_CTL\"`);\ncatch (`select -add \"r__C_hairE04_CTL\"`);\ncatch (`select -add \"r__C_hairE03_CTL\"`);\ncatch (`select -add \"r__C_hairE02_CTL\"`);\ncatch (`select -add \"r__C_bang07_CTL\"`);\ncatch (`select -add \"r__C_bang06_CTL\"`);\ncatch (`select -add \"r__C_bang05_CTL\"`);\ncatch (`select -add \"r__C_bang04_CTL\"`);\ncatch (`select -add \"r__C_bang03_CTL\"`);\ncatch (`select -add \"r__C_bang02_CTL\"`);\ncatch (`select -add \"r__R_eyebrow01_CTL\"`);\ncatch (`select -add \"r__R_eyebrow02_CTL\"`);\ncatch (`select -add \"r__R_eyebrow03_CTL\"`);\ncatch (`select -add \"r__R_eyebrow04_CTL\"`);\ncatch (`select -add \"r__R_eyebrowMaster_CTL\"`);\ncatch (`select -add \"r__L_eyebrow04_CTL\"`);\ncatch (`select -add \"r__L_eyebrow03_CTL\"`);\ncatch (`select -add \"r__L_eyebrow02_CTL\"`);\ncatch (`select -add \"r__L_eyebrow01_CTL\"`);\ncatch (`select -add \"r__L_eyebrowMaster_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth03_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth02_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth01_CTL\"`);\ncatch (`select -add \"r__C_bttmMouth_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth01_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth02_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth03_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth04_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth04_CTL\"`);\ncatch (`select -add \"r__R_topMouth01_CTL\"`);\ncatch (`select -add \"r__R_topMouth02_CTL\"`);\ncatch (`select -add \"r__R_topMouth04_CTL\"`);\ncatch (`select -add \"r__R_topMouth03_CTL\"`);\ncatch (`select -add \"r__L_topMouth04_CTL\"`);\ncatch (`select -add \"r__L_topMouth03_CTL\"`);\ncatch (`select -add \"r__L_topMouth02_CTL\"`);\ncatch (`select -add \"r__L_topMouth01_CTL\"`);\ncatch (`select -add \"r__C_topMouth_CTL\"`);\ncatch (`select -add \"r__C_mouth_CTL\"`);\ncatch (`select -add \"r__R_topLid01_CTL\"`);\ncatch (`select -add \"r__R_topLid02_CTL\"`);\ncatch (`select -add \"r__R_topLid03_CTL\"`);\ncatch (`select -add \"r__R_topLid04_CTL\"`);\ncatch (`select -add \"r__R_topLid05_CTL\"`);\ncatch (`select -add \"r__R_topLid06_CTL\"`);\ncatch (`select -add \"r__R_bttmLid01_CTL\"`);\ncatch (`select -add \"r__R_bttmLid05_CTL\"`);\ncatch (`select -add \"r__R_bttmLid04_CTL\"`);\ncatch (`select -add \"r__R_bttmLid03_CTL\"`);\ncatch (`select -add \"r__R_bttmLid02_CTL\"`);\ncatch (`select -add \"r__L_topLid01_CTL\"`);\ncatch (`select -add \"r__L_topLid02_CTL\"`);\ncatch (`select -add \"r__L_topLid03_CTL\"`);\ncatch (`select -add \"r__L_topLid04_CTL\"`);\ncatch (`select -add \"r__L_topLid05_CTL\"`);\ncatch (`select -add \"r__L_topLid06_CTL\"`);\ncatch (`select -add \"r__L_bttmLid01_CTL\"`);\ncatch (`select -add \"r__L_bttmLid02_CTL\"`);\ncatch (`select -add \"r__L_bttmLid03_CTL\"`);\ncatch (`select -add \"r__L_bttmLid04_CTL\"`);\ncatch (`select -add \"r__L_bttmLid05_CTL\"`);\ncatch (`select -add \"r__C_nose_CTL\"`);\ncatch (`select -add \"r__L_ear_CTL\"`);\ncatch (`select -add \"r__R_ear_CTL\"`);\ncatch (`select -add \"r__C_jaw_CTL\"`);\ncatch (`select -add \"r__R_eye_CTL\"`);\ncatch (`select -add \"r__L_eye_CTL\"`);\ncatch (`select -add \"r__C_eyeBase_CTL\"`);\ncatch (`select -add \"r__C_head_CTL\"`);\ncatch (`select -add \"r__C_C_neck_CTL\"`);\ncatch (`select -add \"r__C_C_chest_CTL\"`);\ncatch (`select -add \"r__C_spine03_JNT_CTL\"`);\ncatch (`select -add \"r__C_spine02_JNT_CTL\"`);\ncatch (`select -add \"r__C_spine01_JNT_CTL\"`);\ncatch (`select -add \"r__C_cog_CTL\"`);\ncatch (`select -add \"r__R_foot_IK_CTL\"`);\ncatch (`select -add \"r__L_foot_IK_CTL\"`);\ncatch (`select -add \"r__ROOT|r__controls_GRP|r__root_ZERO|r__root_SHAKE|r__root_OFF|r__root_CTL\"`);\ncatch (`select -add \"CTL_EyeTarget\"`);\ncatch (`select -add \"CTL_wand\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Listn" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Listn" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Listn" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "menuIconCharacters.xpm" 
+        -image1 "menuIconCharacters.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "catch (`setAttr \"r__L_armIK_CTL.ikHold\" 0`);\ncatch (`setAttr \"r__L_armIK_CTL.twist\" 52.4`);\ncatch (`setAttr \"r__L_armIK_CTL.fkik\" 1`);\ncatch (`setAttr \"r__L_armIK_CTL.rotateZ\" 144.5463479`);\ncatch (`setAttr \"r__L_armIK_CTL.rotateY\" 85.66308945`);\ncatch (`setAttr \"r__L_armIK_CTL.rotateX\" 132.1930631`);\ncatch (`setAttr \"r__L_armIK_CTL.translateZ\" 18.89654096`);\ncatch (`setAttr \"r__L_armIK_CTL.translateY\" 11.15413368`);\ncatch (`setAttr \"r__L_armIK_CTL.translateX\" -21.4817108`);\ncatch (`setAttr \"r__R_armIK_CTL.ikHold\" 0`);\ncatch (`setAttr \"r__R_armIK_CTL.twist\" 0`);\ncatch (`setAttr \"r__R_armIK_CTL.fkik\" 0`);\ncatch (`setAttr \"r__R_armIK_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_armIK_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_armIK_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_armIK_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_armIK_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_armIK_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_pelvis_CTL.rotateZ\" 3.340589761`);\ncatch (`setAttr \"r__C_pelvis_CTL.rotateY\" -0.9524501789`);\ncatch (`setAttr \"r__C_pelvis_CTL.rotateX\" -0.451535059`);\ncatch (`setAttr \"r__C_pelvis_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_pelvis_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_pelvis_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt14_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt14_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt14_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt14_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt14_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt14_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_pouch_CTL.pouchLength\" 0`);\ncatch (`setAttr \"r__C_pouch_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_pouch_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_pouch_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_pouch_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_pouch_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_pouch_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt13_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt13_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt13_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt13_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt13_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt13_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt12_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt12_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt12_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt12_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt12_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt12_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt11_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt11_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt11_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt11_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt11_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt11_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt10_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt10_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt10_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt10_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt10_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt10_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt09_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt09_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt09_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt09_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt09_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt09_CTL.translateX\" 0`);\ncatch (`setAttr \"r__c_wand_CTL.rotateZ\" -90.21034969`);\ncatch (`setAttr \"r__c_wand_CTL.rotateY\" -35.20479657`);\ncatch (`setAttr \"r__c_wand_CTL.rotateX\" -29.40335391`);\ncatch (`setAttr \"r__c_wand_CTL.translateZ\" -12.60511514`);\ncatch (`setAttr \"r__c_wand_CTL.translateY\" 23.66844726`);\ncatch (`setAttr \"r__c_wand_CTL.translateX\" -66.11270701`);\ncatch (`setAttr \"r__C_belt08_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt08_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt08_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt08_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt08_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt08_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_belt01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_belt01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_belt01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_belt01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_belt01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_belt01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__c_beltMaster_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__c_beltMaster_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__c_beltMaster_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__c_beltMaster_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__c_beltMaster_CTL.translateY\" 0`);\ncatch (`setAttr \"r__c_beltMaster_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_coinSack_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__C_coinSack_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__C_coinSack_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__C_coinSack_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_coinSack_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_coinSack_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_coinSack_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_coinSack_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_coinSack_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_coinSack_CTL.visibility\" 1`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_coinSackBase_CTL.visibility\" 1`);\ncatch (`setAttr \"r__R_belt07_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__R_belt07_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__R_belt07_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__R_belt07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_belt07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_belt07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_belt07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_belt07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_belt07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_belt07_CTL.visibility\" 1`);\ncatch (`setAttr \"r__L_belt07_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__L_belt07_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__L_belt07_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__L_belt07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_belt07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_belt07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_belt07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_belt07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_belt07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_belt07_CTL.visibility\" 1`);\ncatch (`setAttr \"r__R_belt06_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__R_belt06_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__R_belt06_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__R_belt06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_belt06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_belt06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_belt06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_belt06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_belt06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_belt06_CTL.visibility\" 1`);\ncatch (`setAttr \"r__R_belt05_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__R_belt05_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__R_belt05_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__R_belt05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_belt05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_belt05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_belt05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_belt05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_belt05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_belt05_CTL.visibility\" 1`);\ncatch (`setAttr \"r__L_belt06_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__L_belt06_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__L_belt06_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__L_belt06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_belt06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_belt06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_belt06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_belt06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_belt06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_belt06_CTL.visibility\" 1`);\ncatch (`setAttr \"r__L_belt05_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__L_belt05_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__L_belt05_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__L_belt05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_belt05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_belt05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_belt05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_belt05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_belt05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_belt05_CTL.visibility\" 1`);\ncatch (`setAttr \"r__L_pectoralis_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_pectoralis_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_pectoralis_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_pectoralis_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_pectoralis_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_pectoralis_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_pectoralis_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_pectoralis_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_pectoralis_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_pectoralis_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_pectoralis_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_pectoralis_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_belt04_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__R_belt04_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__R_belt04_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__R_belt04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_belt04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_belt04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_belt04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_belt04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_belt04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_belt04_CTL.visibility\" 1`);\ncatch (`setAttr \"r__R_belt03_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__R_belt03_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__R_belt03_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__R_belt03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_belt03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_belt03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_belt03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_belt03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_belt03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_belt03_CTL.visibility\" 1`);\ncatch (`setAttr \"r__R_belt02_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__R_belt02_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__R_belt02_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__R_belt02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_belt02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_belt02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_belt02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_belt02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_belt02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_belt02_CTL.visibility\" 1`);\ncatch (`setAttr \"r__R_belt01_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__R_belt01_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__R_belt01_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__R_belt01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_belt01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_belt01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_belt01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_belt01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_belt01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_belt01_CTL.visibility\" 1`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.finger3_rz\" 12.6`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.finger2_rz\" -15.4`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.finger1_rz\" 0`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.rotateZ\" -3.047194609`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.rotateY\" -7.264341223`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.rotateX\" 26.75979397`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_thumb00_JNT_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.finger3_rz\" 5.1`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.finger2_rz\" -68.1`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.finger1_rz\" -53`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.rotateY\" 17.51734725`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.translateZ\" -3.590687525`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.translateY\" 1.419458417`);\ncatch (`setAttr \"r__R_pinky00_JNT_CTL.translateX\" 1.324487732`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.finger3_rz\" -23.8`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.finger2_rz\" -62`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.finger1_rz\" -32.2`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.rotateY\" 17.06308886`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.translateZ\" -4.069996863`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.translateY\" 0.6553313167`);\ncatch (`setAttr \"r__R_ring00_JNT_CTL.translateX\" 2.22884676`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.finger3_rz\" -13.83638938`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.finger2_rz\" -84.32531454`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.finger1_rz\" -21.41511522`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.rotateY\" 12.64556895`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.translateZ\" -3.094382325`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.translateY\" 1.071198797`);\ncatch (`setAttr \"r__R_middle00_JNT_CTL.translateX\" 1.326640288`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.finger3_rz\" 2`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.finger2_rz\" -30.7`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.finger1_rz\" 0`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.rotateY\" 0.3327061872`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_index00_JNT_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.displayIK\" 1`);\ncatch (`setAttr \"r__R_fk_hand_CTL.bttmFlapTranslateZ\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.bttmFlapTranslateY\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.bttmFlapTranslateX\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.topFlapTranslateZ\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.topFlapTranslateY\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.topFlapTranslateX\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.bttm_glove_flap\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.top_glove_flap\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.rotateZ\" -2.192779054`);\ncatch (`setAttr \"r__R_fk_hand_CTL.rotateY\" -10.92918774`);\ncatch (`setAttr \"r__R_fk_hand_CTL.rotateX\" 6.103223175`);\ncatch (`setAttr \"r__R_fk_hand_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_fk_hand_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.rotateY\" -55.37653921`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.rotateX\" -33.96212472`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_fk_foreArm_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_fk_upArm_CTL.rotateZ\" -22.70088807`);\ncatch (`setAttr \"r__R_fk_upArm_CTL.rotateY\" 26.43817838`);\ncatch (`setAttr \"r__R_fk_upArm_CTL.rotateX\" -20.27712854`);\ncatch (`setAttr \"r__R_fk_upArm_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_fk_upArm_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_fk_upArm_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_fk_shoulder_CTL.rotateZ\" 8.938879792`);\ncatch (`setAttr \"r__R_fk_shoulder_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_fk_shoulder_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_fk_shoulder_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_fk_shoulder_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_fk_shoulder_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_belt04_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__L_belt04_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__L_belt04_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__L_belt04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_belt04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_belt04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_belt04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_belt04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_belt04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_belt04_CTL.visibility\" 1`);\ncatch (`setAttr \"r__L_belt03_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__L_belt03_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__L_belt03_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__L_belt03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_belt03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_belt03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_belt03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_belt03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_belt03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_belt03_CTL.visibility\" 1`);\ncatch (`setAttr \"r__L_belt02_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__L_belt02_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__L_belt02_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__L_belt02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_belt02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_belt02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_belt02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_belt02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_belt02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_belt02_CTL.visibility\" 1`);\ncatch (`setAttr \"r__L_belt01_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__L_belt01_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__L_belt01_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__L_belt01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_belt01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_belt01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_belt01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_belt01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_belt01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_belt01_CTL.visibility\" 1`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.finger3_rz\" 28.1`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.finger2_rz\" 28.1`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.finger1_rz\" 0`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.rotateY\" -35.96317624`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_thumb00_JNT_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.finger3_rz\" 17.8`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.finger2_rz\" 7.5`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.finger1_rz\" 7.4`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.rotateZ\" 3.307596147`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.rotateY\" 6.334534597`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.rotateX\" 17.60700023`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_pinky00_JNT_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.finger3_rz\" 19.4`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.finger2_rz\" 2.1`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.finger1_rz\" 0`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.rotateZ\" -2.540076332`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.rotateY\" 4.989705776`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.rotateX\" 0.1844099673`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.translateZ\" 0.5955714189`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.translateY\" -0.1919944599`);\ncatch (`setAttr \"r__L_ring00_JNT_CTL.translateX\" 0.1674016232`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.finger3_rz\" 10.3`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.finger2_rz\" -7`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.finger1_rz\" 0`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.rotateZ\" -9.639593687`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.rotateY\" 5.012598785`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.rotateX\" 12.42761619`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_middle00_JNT_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.finger3_rz\" 2.7`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.finger2_rz\" 2.7`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.finger1_rz\" 7.6`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.rotateZ\" -8.986158003`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_index00_JNT_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.displayIK\" 1`);\ncatch (`setAttr \"r__L_fk_hand_CTL.bttmFlapTranslateZ\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.bttmFlapTranslateY\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.bttmFlapTranslateX\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.topFlapTranslateZ\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.topFlapTranslateY\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.topFlapTranslateX\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.bttm_glove_flap\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.top_glove_flap\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.rotateZ\" 7.617865013`);\ncatch (`setAttr \"r__L_fk_hand_CTL.rotateY\" 14.01699761`);\ncatch (`setAttr \"r__L_fk_hand_CTL.rotateX\" -31.96413646`);\ncatch (`setAttr \"r__L_fk_hand_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_fk_hand_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.scaleZ\" 1`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.scaleY\" 1`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.scaleX\" 1`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.rotateY\" -9.993196598`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_fk_foreArm_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_fk_upArm_CTL.rotateZ\" -28.22678014`);\ncatch (`setAttr \"r__L_fk_upArm_CTL.rotateY\" 3.36182489`);\ncatch (`setAttr \"r__L_fk_upArm_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_fk_upArm_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_fk_upArm_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_fk_upArm_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_fk_shoulder_CTL.rotateZ\" 9.186805779`);\ncatch (`setAttr \"r__L_fk_shoulder_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_fk_shoulder_CTL.rotateX\" 33.99326193`);\ncatch (`setAttr \"r__L_fk_shoulder_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_fk_shoulder_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_fk_shoulder_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangH06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangH06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangH06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangH06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangH06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangH06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangH05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangH05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangH05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangH05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangH05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangH05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangH04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangH04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangH04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangH04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangH04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangH04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangH03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangH03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangH03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangH03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangH03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangH03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangH02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangH02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangH02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangH02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangH02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangH02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangH01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangH01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangH01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangH01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangH01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangH01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangY07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangY07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangY07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangY07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangY07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangY07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangY06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangY06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangY06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangY06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangY06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangY06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangY05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangY05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangY05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangY05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangY05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangY05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangY04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangY04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangY04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangY04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangY04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangY04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangY03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangY03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangY03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangY03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangY03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangY03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__hairBangY02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__hairBangY02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__hairBangY02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__hairBangY02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__hairBangY02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__hairBangY02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairA05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairA05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairA05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairA05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairA05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairA05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairA04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairA04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairA04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairA04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairA04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairA04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairA03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairA03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairA03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairA03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairA03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairA03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairA02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairA02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairA02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairA02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairA02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairA02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairB05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairB05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairB05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairB05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairB05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairB05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairB04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairB04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairB04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairB04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairB04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairB04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairB03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairB03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairB03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairB03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairB03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairB03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairB02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairB02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairB02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairB02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairB02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairB02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairB01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairB01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairB01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairB01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairB01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairB01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_tassel08_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_tassel08_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_tassel08_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_tassel08_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_tassel08_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_tassel08_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_tassel07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_tassel07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_tassel07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_tassel07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_tassel07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_tassel07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_tassel06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_tassel06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_tassel06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_tassel06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_tassel06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_tassel06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_tassel05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_tassel05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_tassel05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_tassel05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_tassel05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_tassel05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_tassel04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_tassel04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_tassel04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_tassel04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_tassel04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_tassel04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_tassel03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_tassel03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_tassel03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_tassel03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_tassel03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_tassel03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_tassel02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_tassel02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_tassel02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_tassel02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_tassel02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_tassel02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_tassel08_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_tassel08_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_tassel08_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_tassel08_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_tassel08_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_tassel08_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_tassel07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_tassel07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_tassel07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_tassel07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_tassel07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_tassel07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_tassel06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_tassel06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_tassel06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_tassel06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_tassel06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_tassel06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_tassel05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_tassel05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_tassel05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_tassel05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_tassel05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_tassel05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_tassel04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_tassel04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_tassel04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_tassel04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_tassel04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_tassel04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_tassel03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_tassel03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_tassel03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_tassel03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_tassel03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_tassel03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_tassel02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_tassel02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_tassel02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_tassel02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_tassel02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_tassel02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_ponytail_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_ponytail_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_ponytail_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_ponytail_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_ponytail_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_ponytail_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairC08_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairC08_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairC08_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairC08_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairC08_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairC08_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairC07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairC07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairC07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairC07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairC07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairC07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairC06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairC06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairC06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairC06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairC06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairC06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairC05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairC05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairC05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairC05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairC05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairC05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairC04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairC04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairC04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairC04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairC04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairC04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairC03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairC03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairC03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairC03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairC03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairC03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairC02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairC02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairC02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairC02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairC02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairC02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairD07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairD07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairD07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairD07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairD07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairD07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairD06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairD06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairD06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairD06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairD06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairD06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairD05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairD05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairD05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairD05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairD05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairD05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairD04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairD04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairD04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairD04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairD04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairD04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairD03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairD03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairD03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairD03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairD03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairD03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairD02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairD02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairD02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairD02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairD02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairD02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairF07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairF07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairF07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairF07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairF07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairF07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairF06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairF06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairF06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairF06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairF06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairF06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairF05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairF05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairF05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairF05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairF05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairF05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairF04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairF04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairF04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairF04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairF04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairF04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairF03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairF03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairF03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairF03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairF03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairF03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairF02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairF02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairF02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairF02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairF02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairF02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairE08_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairE08_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairE08_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairE08_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairE08_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairE08_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairE07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairE07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairE07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairE07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairE07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairE07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairE06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairE06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairE06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairE06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairE06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairE06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairE05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairE05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairE05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairE05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairE05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairE05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairE04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairE04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairE04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairE04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairE04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairE04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairE03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairE03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairE03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairE03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairE03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairE03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_hairE02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_hairE02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_hairE02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_hairE02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_hairE02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_hairE02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_bang07_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_bang07_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_bang07_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_bang07_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_bang07_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_bang07_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_bang06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_bang06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_bang06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_bang06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_bang06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_bang06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_bang05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_bang05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_bang05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_bang05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_bang05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_bang05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_bang04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_bang04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_bang04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_bang04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_bang04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_bang04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_bang03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_bang03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_bang03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_bang03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_bang03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_bang03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_bang02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_bang02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_bang02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_bang02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_bang02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_bang02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_eyebrow01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrow01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_eyebrow01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_eyebrow01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrow01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_eyebrow01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_eyebrow02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrow02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_eyebrow02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_eyebrow02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrow02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_eyebrow02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_eyebrow03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrow03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_eyebrow03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_eyebrow03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrow03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_eyebrow03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_eyebrow04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrow04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_eyebrow04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_eyebrow04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrow04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_eyebrow04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_eyebrowMaster_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_eyebrowMaster_CTL.rotateY\" -5.467457833`);\ncatch (`setAttr \"r__R_eyebrowMaster_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_eyebrowMaster_CTL.translateZ\" 1.209580181`);\ncatch (`setAttr \"r__R_eyebrowMaster_CTL.translateY\" -0.6172628322`);\ncatch (`setAttr \"r__R_eyebrowMaster_CTL.translateX\" -0.5072320981`);\ncatch (`setAttr \"r__L_eyebrow04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_eyebrow04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_eyebrow04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_eyebrow04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_eyebrow04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_eyebrow04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_eyebrow03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_eyebrow03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_eyebrow03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_eyebrow03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_eyebrow03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_eyebrow03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_eyebrow02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_eyebrow02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_eyebrow02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_eyebrow02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_eyebrow02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_eyebrow02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_eyebrow01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_eyebrow01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_eyebrow01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_eyebrow01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_eyebrow01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_eyebrow01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_eyebrowMaster_CTL.rotateZ\" 3.232024897`);\ncatch (`setAttr \"r__L_eyebrowMaster_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_eyebrowMaster_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_eyebrowMaster_CTL.translateZ\" 1.442948035`);\ncatch (`setAttr \"r__L_eyebrowMaster_CTL.translateY\" -0.5956071571`);\ncatch (`setAttr \"r__L_eyebrowMaster_CTL.translateX\" -0.25690953`);\ncatch (`setAttr \"r__R_bttmMouth03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_bttmMouth03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmMouth03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmMouth03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_bttmMouth03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_bttmMouth03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_bttmMouth02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_bttmMouth02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmMouth02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmMouth02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_bttmMouth02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_bttmMouth02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_bttmMouth01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_bttmMouth01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmMouth01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmMouth01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_bttmMouth01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_bttmMouth01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_bttmMouth_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_bttmMouth_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_bttmMouth_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_bttmMouth_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_bttmMouth_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_bttmMouth_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_bttmMouth01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmMouth01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmMouth01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmMouth01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_bttmMouth01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_bttmMouth01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_bttmMouth02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmMouth02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmMouth02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmMouth02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_bttmMouth02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_bttmMouth02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_bttmMouth03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmMouth03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmMouth03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmMouth03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_bttmMouth03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_bttmMouth03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_bttmMouth04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmMouth04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmMouth04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmMouth04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_bttmMouth04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_bttmMouth04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_bttmMouth04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_bttmMouth04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmMouth04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmMouth04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_bttmMouth04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_bttmMouth04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topMouth01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topMouth01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topMouth01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topMouth01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topMouth01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topMouth01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topMouth02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topMouth02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topMouth02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topMouth02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topMouth02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topMouth02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topMouth04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topMouth04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topMouth04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topMouth04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topMouth04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topMouth04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topMouth03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topMouth03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topMouth03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topMouth03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topMouth03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topMouth03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topMouth04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topMouth04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topMouth04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topMouth04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topMouth04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topMouth04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topMouth03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topMouth03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topMouth03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topMouth03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topMouth03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topMouth03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topMouth02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topMouth02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topMouth02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topMouth02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topMouth02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topMouth02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topMouth01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topMouth01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topMouth01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topMouth01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topMouth01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topMouth01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_topMouth_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_topMouth_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_topMouth_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_topMouth_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_topMouth_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_topMouth_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueBaseTranslateZ\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueBaseTranslateY\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueBaseTranslateX\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate3Z\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate3Y\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate3X\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate2Z\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate2Y\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate2X\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate1Z\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate1Y\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.tongueRotate1X\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.bttmTeethRotateZ\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.bttmTeethRotateY\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.bttmTeethRotateX\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.bttmTeethTranslateZ\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.bttmTeethTranslateY\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.bttmTeethTranslateX\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.topTeehRotateZ\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.topTeehRotateY\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.topTeehRotateX\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.topTeethTranslateZ\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.topTeethTranslateY\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.topTeethTranslateX\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.R_mouthUpDown\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.L_mouthUpDown\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.R_mouthOut\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.L_mouthOut\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_mouth_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topLid01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topLid01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topLid01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topLid01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topLid01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topLid01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topLid02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topLid02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topLid02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topLid02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topLid02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topLid02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topLid03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topLid03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topLid03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topLid03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topLid03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topLid03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topLid04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topLid04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topLid04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topLid04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topLid04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topLid04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topLid05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topLid05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topLid05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topLid05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topLid05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topLid05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_topLid06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_topLid06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_topLid06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_topLid06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_topLid06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_topLid06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_bttmLid01_CTL.rotateZ\" 1.828130064`);\ncatch (`setAttr \"r__R_bttmLid01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmLid01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmLid01_CTL.translateZ\" 0.01446570481`);\ncatch (`setAttr \"r__R_bttmLid01_CTL.translateY\" 0.03661555756`);\ncatch (`setAttr \"r__R_bttmLid01_CTL.translateX\" -0.005755615439`);\ncatch (`setAttr \"r__R_bttmLid05_CTL.rotateZ\" 1.828130064`);\ncatch (`setAttr \"r__R_bttmLid05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmLid05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmLid05_CTL.translateZ\" -0.02339933293`);\ncatch (`setAttr \"r__R_bttmLid05_CTL.translateY\" 0.03160345123`);\ncatch (`setAttr \"r__R_bttmLid05_CTL.translateX\" 0.006064311088`);\ncatch (`setAttr \"r__R_bttmLid04_CTL.rotateZ\" 1.828130064`);\ncatch (`setAttr \"r__R_bttmLid04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmLid04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmLid04_CTL.translateZ\" -0.07507384246`);\ncatch (`setAttr \"r__R_bttmLid04_CTL.translateY\" 0.3294185036`);\ncatch (`setAttr \"r__R_bttmLid04_CTL.translateX\" -0.03653239074`);\ncatch (`setAttr \"r__R_bttmLid03_CTL.rotateZ\" 1.828130064`);\ncatch (`setAttr \"r__R_bttmLid03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmLid03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmLid03_CTL.translateZ\" 0.01997633661`);\ncatch (`setAttr \"r__R_bttmLid03_CTL.translateY\" 0.3388410992`);\ncatch (`setAttr \"r__R_bttmLid03_CTL.translateX\" -0.01658021123`);\ncatch (`setAttr \"r__R_bttmLid02_CTL.rotateZ\" 1.828130064`);\ncatch (`setAttr \"r__R_bttmLid02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_bttmLid02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_bttmLid02_CTL.translateZ\" 0.07601118321`);\ncatch (`setAttr \"r__R_bttmLid02_CTL.translateY\" 0.3312211668`);\ncatch (`setAttr \"r__R_bttmLid02_CTL.translateX\" 0.001444512226`);\ncatch (`setAttr \"r__L_topLid01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topLid01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topLid01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topLid01_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topLid01_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topLid01_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topLid02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topLid02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topLid02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topLid02_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topLid02_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topLid02_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topLid03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topLid03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topLid03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topLid03_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topLid03_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topLid03_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topLid04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topLid04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topLid04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topLid04_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topLid04_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topLid04_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topLid05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topLid05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topLid05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topLid05_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topLid05_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topLid05_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_topLid06_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_topLid06_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_topLid06_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_topLid06_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_topLid06_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_topLid06_CTL.translateX\" 0`);\ncatch (`setAttr \"r__L_bttmLid01_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmLid01_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmLid01_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmLid01_CTL.translateZ\" 0.01451920932`);\ncatch (`setAttr \"r__L_bttmLid01_CTL.translateY\" 0.03655085865`);\ncatch (`setAttr \"r__L_bttmLid01_CTL.translateX\" -0.006025784004`);\ncatch (`setAttr \"r__L_bttmLid02_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmLid02_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmLid02_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmLid02_CTL.translateZ\" 0.07598460514`);\ncatch (`setAttr \"r__L_bttmLid02_CTL.translateY\" 0.3312289895`);\ncatch (`setAttr \"r__L_bttmLid02_CTL.translateX\" -0.000971724469`);\ncatch (`setAttr \"r__L_bttmLid03_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmLid03_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmLid03_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmLid03_CTL.translateZ\" 0.01981238838`);\ncatch (`setAttr \"r__L_bttmLid03_CTL.translateY\" 0.3387243203`);\ncatch (`setAttr \"r__L_bttmLid03_CTL.translateX\" -0.01898820854`);\ncatch (`setAttr \"r__L_bttmLid04_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmLid04_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmLid04_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmLid04_CTL.translateZ\" -0.07655191384`);\ncatch (`setAttr \"r__L_bttmLid04_CTL.translateY\" 0.3288697177`);\ncatch (`setAttr \"r__L_bttmLid04_CTL.translateX\" -0.03836353966`);\ncatch (`setAttr \"r__L_bttmLid05_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_bttmLid05_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_bttmLid05_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_bttmLid05_CTL.translateZ\" -0.02359830098`);\ncatch (`setAttr \"r__L_bttmLid05_CTL.translateY\" 0.03148622889`);\ncatch (`setAttr \"r__L_bttmLid05_CTL.translateX\" 0.005900878003`);\ncatch (`setAttr \"r__C_nose_CTL.rotateZ\" 8.160234023`);\ncatch (`setAttr \"r__C_nose_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_nose_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_nose_CTL.translateZ\" -0.00484576294`);\ncatch (`setAttr \"r__C_nose_CTL.translateY\" 0.000613943595`);\ncatch (`setAttr \"r__C_nose_CTL.translateX\" 0.1674820042`);\ncatch (`setAttr \"r__L_ear_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_ear_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_ear_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_ear_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_ear_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_ear_CTL.translateX\" 0`);\ncatch (`setAttr \"r__R_ear_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_ear_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__R_ear_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_ear_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__R_ear_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_ear_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_jaw_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_jaw_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_jaw_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_jaw_CTL.translateZ\" -0.1205386005`);\ncatch (`setAttr \"r__C_jaw_CTL.translateY\" 0.2964896014`);\ncatch (`setAttr \"r__C_jaw_CTL.translateX\" 0.0004077273622`);\ncatch (`setAttr \"r__R_eye_CTL.eyeBias\" 1`);\ncatch (`setAttr \"r__R_eye_CTL.bttmLidZ\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.bttmLidY\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.bttmLidX\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.topLidZ\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.topLidY\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.topLidX\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.eye_raise\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.bttmLidBlink\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.topLidBlink\" 0`);\ncatch (`setAttr \"r__R_eye_CTL.translateY\" 0.003593067408`);\ncatch (`setAttr \"r__R_eye_CTL.translateX\" 2.306398286`);\ncatch (`setAttr \"r__L_eye_CTL.eyeBias\" 1`);\ncatch (`setAttr \"r__L_eye_CTL.bttmLidZ\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.bttmLidY\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.bttmLidX\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.topLidZ\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.topLidY\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.topLidX\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.eye_raise\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.bttmLidBlink\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.topLidBlink\" 0`);\ncatch (`setAttr \"r__L_eye_CTL.translateY\" -0.006124138163`);\ncatch (`setAttr \"r__L_eye_CTL.translateX\" -3.931098462`);\ncatch (`setAttr \"r__C_eyeBase_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__C_eyeBase_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_eyeBase_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_eyeBase_CTL.translateZ\" -0.0353116376`);\ncatch (`setAttr \"r__C_eyeBase_CTL.translateY\" -3.032441457`);\ncatch (`setAttr \"r__C_eyeBase_CTL.translateX\" 3.381503654`);\ncatch (`setAttr \"r__C_head_CTL.rotateZ\" -1.57783205`);\ncatch (`setAttr \"r__C_head_CTL.rotateY\" 2.094110685`);\ncatch (`setAttr \"r__C_head_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_head_CTL.translateZ\" -0.001640770769`);\ncatch (`setAttr \"r__C_head_CTL.translateY\" -0.07661201701`);\ncatch (`setAttr \"r__C_head_CTL.translateX\" -0.4036686407`);\ncatch (`setAttr \"r__C_C_neck_CTL.rotateZ\" -4.307961432`);\ncatch (`setAttr \"r__C_C_neck_CTL.rotateY\" -4.966228837`);\ncatch (`setAttr \"r__C_C_neck_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_C_neck_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_C_neck_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_C_neck_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_C_chest_CTL.rotateZ\" 0.2747585866`);\ncatch (`setAttr \"r__C_C_chest_CTL.rotateY\" -7.343159003`);\ncatch (`setAttr \"r__C_C_chest_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_C_chest_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_C_chest_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_C_chest_CTL.translateX\" -0.1846150938`);\ncatch (`setAttr \"r__C_spine03_JNT_CTL.rotateZ\" 2.387557374`);\ncatch (`setAttr \"r__C_spine03_JNT_CTL.rotateY\" -1.284095396`);\ncatch (`setAttr \"r__C_spine03_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_spine03_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_spine03_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_spine03_JNT_CTL.translateX\" -0.1846150938`);\ncatch (`setAttr \"r__C_spine02_JNT_CTL.rotateZ\" 2.422209185`);\ncatch (`setAttr \"r__C_spine02_JNT_CTL.rotateY\" 0.0287`);\ncatch (`setAttr \"r__C_spine02_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_spine02_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_spine02_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_spine02_JNT_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_spine01_JNT_CTL.rotateZ\" 0.5116193526`);\ncatch (`setAttr \"r__C_spine01_JNT_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__C_spine01_JNT_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__C_spine01_JNT_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__C_spine01_JNT_CTL.translateY\" 0`);\ncatch (`setAttr \"r__C_spine01_JNT_CTL.translateX\" 0`);\ncatch (`setAttr \"r__C_cog_CTL.rotateZ\" 2.667175709`);\ncatch (`setAttr \"r__C_cog_CTL.rotateY\" 0.2174398722`);\ncatch (`setAttr \"r__C_cog_CTL.rotateX\" 2.9332317`);\ncatch (`setAttr \"r__C_cog_CTL.translateZ\" -13.30021101`);\ncatch (`setAttr \"r__C_cog_CTL.translateY\" -3.108`);\ncatch (`setAttr \"r__C_cog_CTL.translateX\" 13.12425347`);\ncatch (`setAttr \"r__R_foot_IK_CTL.heelRaise\" 0`);\ncatch (`setAttr \"r__R_foot_IK_CTL.toeRaise\" 0`);\ncatch (`setAttr \"r__R_foot_IK_CTL.toeFlop\" 0`);\ncatch (`setAttr \"r__R_foot_IK_CTL.twist\" 0`);\ncatch (`setAttr \"r__R_foot_IK_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__R_foot_IK_CTL.rotateY\" -12.42618453`);\ncatch (`setAttr \"r__R_foot_IK_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__R_foot_IK_CTL.translateZ\" -18.32525657`);\ncatch (`setAttr \"r__R_foot_IK_CTL.translateY\" 0`);\ncatch (`setAttr \"r__R_foot_IK_CTL.translateX\" 4.50110355`);\ncatch (`setAttr \"r__L_foot_IK_CTL.heelRaise\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.toeRaise\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.toeFlop\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.twist\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.rotateZ\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.rotateY\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.rotateX\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.translateZ\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.translateY\" 0`);\ncatch (`setAttr \"r__L_foot_IK_CTL.translateX\" 11.48154626`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Body" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Body" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Body" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__C_spine01_JNT_CTL\"`);\ncatch (`select -add \"r__C_head_CTL\"`);\ncatch (`select -add \"r__C_C_chest_CTL\"`);\ncatch (`select -add \"r__C_spine03_JNT_CTL\"`);\ncatch (`select -add \"r__C_spine02_JNT_CTL\"`);\ncatch (`select -add \"r__C_pelvis_CTL\"`);\ncatch (`select -add \"r__L_fk_shoulder_CTL\"`);\ncatch (`select -add \"r__R_fk_shoulder_CTL\"`);\ncatch (`select -add \"r__R_fk_upArm_CTL\"`);\ncatch (`select -add \"r__R_fk_foreArm_CTL\"`);\ncatch (`select -add \"r__R_fk_hand_CTL\"`);\ncatch (`select -add \"r__R_armIK_CTL\"`);\ncatch (`select -add \"r__L_fk_upArm_CTL\"`);\ncatch (`select -add \"r__L_fk_foreArm_CTL\"`);\ncatch (`select -add \"r__L_fk_hand_CTL\"`);\ncatch (`select -add \"r__L_armIK_CTL\"`);\ncatch (`select -add \"r__R_foot_IK_CTL\"`);\ncatch (`select -add \"r__L_foot_IK_CTL\"`);\ncatch (`select -add \"r__C_eyeBase_CTL\"`);\ncatch (`select -add \"r__C_cog_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "L_FK" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "L_FK" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "L_FK" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__L_fk_hand_CTL\"`);\ncatch (`select -add \"r__L_fk_foreArm_CTL\"`);\ncatch (`select -add \"r__L_fk_upArm_CTL\"`);\ncatch (`select -add \"r__L_fk_shoulder_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "R_FK" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "R_FK" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "R_FK" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__R_fk_hand_CTL\"`);\ncatch (`select -add \"r__R_fk_foreArm_CTL\"`);\ncatch (`select -add \"r__R_fk_upArm_CTL\"`);\ncatch (`select -add \"r__R_fk_shoulder_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Spine" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Spine" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Spine" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__C_C_chest_CTL\"`);\ncatch (`select -add \"r__C_spine03_JNT_CTL\"`);\ncatch (`select -add \"r__C_spine02_JNT_CTL\"`);\ncatch (`select -add \"r__C_spine01_JNT_CTL\"`);\ncatch (`select -add \"r__C_cog_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "User Script" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "SEL 1" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "SEL1" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "commandButton.png" 
+        -image1 "commandButton.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import maya.cmds as cmds \n\nprint selectionAll\n\ncmds.select(cl = 1)\ncmds.select(selectionAll, tgl = 1)\n" 
+        -sourceType "python" 
+        -doubleClickCommand "import maya.cmds as cmds \n\nselectionAll = []\nselectionAll = cmds.ls(sl = 1)\nprint selectionAll\n\ncmds.headsUpMessage( 'selection All saved' )" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Mouth" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Mouth" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Mouth" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__R_bttmMouth03_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth02_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth01_CTL\"`);\ncatch (`select -add \"r__C_bttmMouth_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth01_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth02_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth03_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth04_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth04_CTL\"`);\ncatch (`select -add \"r__R_topMouth01_CTL\"`);\ncatch (`select -add \"r__R_topMouth02_CTL\"`);\ncatch (`select -add \"r__R_topMouth04_CTL\"`);\ncatch (`select -add \"r__R_topMouth03_CTL\"`);\ncatch (`select -add \"r__L_topMouth04_CTL\"`);\ncatch (`select -add \"r__L_topMouth03_CTL\"`);\ncatch (`select -add \"r__L_topMouth02_CTL\"`);\ncatch (`select -add \"r__L_topMouth01_CTL\"`);\ncatch (`select -add \"r__C_topMouth_CTL\"`);\ncatch (`select -add \"r__C_mouth_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Eyes" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Eyes" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Eyes" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__R_topLid01_CTL\"`);\ncatch (`select -add \"r__R_topLid02_CTL\"`);\ncatch (`select -add \"r__R_topLid03_CTL\"`);\ncatch (`select -add \"r__R_topLid04_CTL\"`);\ncatch (`select -add \"r__R_topLid05_CTL\"`);\ncatch (`select -add \"r__R_topLid06_CTL\"`);\ncatch (`select -add \"r__R_bttmLid01_CTL\"`);\ncatch (`select -add \"r__R_bttmLid05_CTL\"`);\ncatch (`select -add \"r__R_bttmLid04_CTL\"`);\ncatch (`select -add \"r__R_bttmLid03_CTL\"`);\ncatch (`select -add \"r__R_bttmLid02_CTL\"`);\ncatch (`select -add \"r__L_topLid01_CTL\"`);\ncatch (`select -add \"r__L_topLid02_CTL\"`);\ncatch (`select -add \"r__L_topLid03_CTL\"`);\ncatch (`select -add \"r__L_topLid04_CTL\"`);\ncatch (`select -add \"r__L_topLid05_CTL\"`);\ncatch (`select -add \"r__L_topLid06_CTL\"`);\ncatch (`select -add \"r__L_bttmLid01_CTL\"`);\ncatch (`select -add \"r__L_bttmLid02_CTL\"`);\ncatch (`select -add \"r__L_bttmLid03_CTL\"`);\ncatch (`select -add \"r__L_bttmLid04_CTL\"`);\ncatch (`select -add \"r__L_bttmLid05_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Brows" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "Brows" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "Brows" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__R_eyebrow04_CTL\"`);\ncatch (`select -add \"r__R_eyebrow03_CTL\"`);\ncatch (`select -add \"r__R_eyebrow02_CTL\"`);\ncatch (`select -add \"r__R_eyebrow01_CTL\"`);\ncatch (`select -add \"r__L_eyebrow04_CTL\"`);\ncatch (`select -add \"r__L_eyebrow03_CTL\"`);\ncatch (`select -add \"r__L_eyebrow02_CTL\"`);\ncatch (`select -add \"r__L_eyebrow01_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "LFingr" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "LFingr" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "LFingr" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__L_index00_JNT_CTL\"`);\ncatch (`select -add \"r__L_middle00_JNT_CTL\"`);\ncatch (`select -add \"r__L_ring00_JNT_CTL\"`);\ncatch (`select -add \"r__L_pinky00_JNT_CTL\"`);\ncatch (`select -add \"r__L_thumb00_JNT_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Right Fingers" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "RFingr" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "RFingr" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__R_thumb00_JNT_CTL\"`);\ncatch (`select -add \"r__R_pinky00_JNT_CTL\"`);\ncatch (`select -add \"r__R_ring00_JNT_CTL\"`);\ncatch (`select -add \"r__R_middle00_JNT_CTL\"`);\ncatch (`select -add \"r__R_index00_JNT_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "RArm" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "RArm" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "RArm" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__R_armIK_CTL\"`);\ncatch (`select -add \"r__R_fk_upArm_CTL\"`);\ncatch (`select -add \"r__R_fk_shoulder_CTL\"`);\ncatch (`select -add \"r__R_index00_JNT_CTL\"`);\ncatch (`select -add \"r__R_middle00_JNT_CTL\"`);\ncatch (`select -add \"r__R_ring00_JNT_CTL\"`);\ncatch (`select -add \"r__R_pinky00_JNT_CTL\"`);\ncatch (`select -add \"r__R_thumb00_JNT_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "LArm" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "LArm" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "LArm" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__L_armIK_CTL\"`);\ncatch (`select -add \"r__L_fk_upArm_CTL\"`);\ncatch (`select -add \"r__L_fk_shoulder_CTL\"`);\ncatch (`select -add \"r__L_thumb00_JNT_CTL\"`);\ncatch (`select -add \"r__L_pinky00_JNT_CTL\"`);\ncatch (`select -add \"r__L_ring00_JNT_CTL\"`);\ncatch (`select -add \"r__L_middle00_JNT_CTL\"`);\ncatch (`select -add \"r__L_index00_JNT_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "bubs" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "bubs" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "bubs" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"r__R_pectoralis_CTL\"`);\ncatch (`select -add \"r__L_pectoralis_CTL\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "SCENE" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "SCENE" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "SCENE" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "aselect.xpm" 
+        -image1 "aselect.xpm" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "select -cl;\ncatch (`select -add \"pCube10\"`);\ncatch (`select -add \"CTL_Book_COG\"`);\ncatch (`select -add \"CTL_Book_Left\"`);\ncatch (`select -add \"CTL_Book_Right\"`);\ncatch (`select -add \"r__L_armIK_CTL\"`);\ncatch (`select -add \"r__R_armIK_CTL\"`);\ncatch (`select -add \"r__C_pelvis_CTL\"`);\ncatch (`select -add \"r__C_belt14_CTL\"`);\ncatch (`select -add \"r__C_pouch_CTL\"`);\ncatch (`select -add \"r__C_belt13_CTL\"`);\ncatch (`select -add \"r__C_belt12_CTL\"`);\ncatch (`select -add \"r__C_belt11_CTL\"`);\ncatch (`select -add \"r__C_belt10_CTL\"`);\ncatch (`select -add \"r__C_belt09_CTL\"`);\ncatch (`select -add \"r__c_wand_CTL\"`);\ncatch (`select -add \"r__C_belt08_CTL\"`);\ncatch (`select -add \"r__C_belt07_CTL\"`);\ncatch (`select -add \"r__C_belt06_CTL\"`);\ncatch (`select -add \"r__C_belt05_CTL\"`);\ncatch (`select -add \"r__C_belt04_CTL\"`);\ncatch (`select -add \"r__C_belt03_CTL\"`);\ncatch (`select -add \"r__C_belt02_CTL\"`);\ncatch (`select -add \"r__C_belt01_CTL\"`);\ncatch (`select -add \"r__c_beltMaster_CTL\"`);\ncatch (`select -add \"r__C_coinSack_CTL\"`);\ncatch (`select -add \"r__C_coinSackBase_CTL\"`);\ncatch (`select -add \"r__R_belt07_CTL\"`);\ncatch (`select -add \"r__L_belt07_CTL\"`);\ncatch (`select -add \"r__R_belt06_CTL\"`);\ncatch (`select -add \"r__R_belt05_CTL\"`);\ncatch (`select -add \"r__L_belt06_CTL\"`);\ncatch (`select -add \"r__L_belt05_CTL\"`);\ncatch (`select -add \"r__L_pectoralis_CTL\"`);\ncatch (`select -add \"r__R_pectoralis_CTL\"`);\ncatch (`select -add \"r__R_belt04_CTL\"`);\ncatch (`select -add \"r__R_belt03_CTL\"`);\ncatch (`select -add \"r__R_belt02_CTL\"`);\ncatch (`select -add \"r__R_belt01_CTL\"`);\ncatch (`select -add \"r__R_thumb00_JNT_CTL\"`);\ncatch (`select -add \"r__R_pinky00_JNT_CTL\"`);\ncatch (`select -add \"r__R_ring00_JNT_CTL\"`);\ncatch (`select -add \"r__R_middle00_JNT_CTL\"`);\ncatch (`select -add \"r__R_index00_JNT_CTL\"`);\ncatch (`select -add \"r__R_fk_hand_CTL\"`);\ncatch (`select -add \"r__R_fk_foreArm_CTL\"`);\ncatch (`select -add \"r__R_fk_upArm_CTL\"`);\ncatch (`select -add \"r__R_fk_shoulder_CTL\"`);\ncatch (`select -add \"r__L_belt04_CTL\"`);\ncatch (`select -add \"r__L_belt03_CTL\"`);\ncatch (`select -add \"r__L_belt02_CTL\"`);\ncatch (`select -add \"r__L_belt01_CTL\"`);\ncatch (`select -add \"r__L_thumb00_JNT_CTL\"`);\ncatch (`select -add \"r__L_pinky00_JNT_CTL\"`);\ncatch (`select -add \"r__L_ring00_JNT_CTL\"`);\ncatch (`select -add \"r__L_middle00_JNT_CTL\"`);\ncatch (`select -add \"r__L_index00_JNT_CTL\"`);\ncatch (`select -add \"r__L_fk_hand_CTL\"`);\ncatch (`select -add \"r__L_fk_foreArm_CTL\"`);\ncatch (`select -add \"r__L_fk_upArm_CTL\"`);\ncatch (`select -add \"r__L_fk_shoulder_CTL\"`);\ncatch (`select -add \"r__hairBangH06_CTL\"`);\ncatch (`select -add \"r__hairBangH05_CTL\"`);\ncatch (`select -add \"r__hairBangH04_CTL\"`);\ncatch (`select -add \"r__hairBangH03_CTL\"`);\ncatch (`select -add \"r__hairBangH02_CTL\"`);\ncatch (`select -add \"r__hairBangH01_CTL\"`);\ncatch (`select -add \"r__hairBangY07_CTL\"`);\ncatch (`select -add \"r__hairBangY06_CTL\"`);\ncatch (`select -add \"r__hairBangY05_CTL\"`);\ncatch (`select -add \"r__hairBangY04_CTL\"`);\ncatch (`select -add \"r__hairBangY03_CTL\"`);\ncatch (`select -add \"r__hairBangY02_CTL\"`);\ncatch (`select -add \"r__C_hairA05_CTL\"`);\ncatch (`select -add \"r__C_hairA04_CTL\"`);\ncatch (`select -add \"r__C_hairA03_CTL\"`);\ncatch (`select -add \"r__C_hairA02_CTL\"`);\ncatch (`select -add \"r__C_hairB05_CTL\"`);\ncatch (`select -add \"r__C_hairB04_CTL\"`);\ncatch (`select -add \"r__C_hairB03_CTL\"`);\ncatch (`select -add \"r__C_hairB02_CTL\"`);\ncatch (`select -add \"r__C_hairB01_CTL\"`);\ncatch (`select -add \"r__R_tassel08_CTL\"`);\ncatch (`select -add \"r__R_tassel07_CTL\"`);\ncatch (`select -add \"r__R_tassel06_CTL\"`);\ncatch (`select -add \"r__R_tassel05_CTL\"`);\ncatch (`select -add \"r__R_tassel04_CTL\"`);\ncatch (`select -add \"r__R_tassel03_CTL\"`);\ncatch (`select -add \"r__R_tassel02_CTL\"`);\ncatch (`select -add \"r__L_tassel08_CTL\"`);\ncatch (`select -add \"r__L_tassel07_CTL\"`);\ncatch (`select -add \"r__L_tassel06_CTL\"`);\ncatch (`select -add \"r__L_tassel05_CTL\"`);\ncatch (`select -add \"r__L_tassel04_CTL\"`);\ncatch (`select -add \"r__L_tassel03_CTL\"`);\ncatch (`select -add \"r__L_tassel02_CTL\"`);\ncatch (`select -add \"r__C_ponytail_CTL\"`);\ncatch (`select -add \"r__C_hairC08_CTL\"`);\ncatch (`select -add \"r__C_hairC07_CTL\"`);\ncatch (`select -add \"r__C_hairC06_CTL\"`);\ncatch (`select -add \"r__C_hairC05_CTL\"`);\ncatch (`select -add \"r__C_hairC04_CTL\"`);\ncatch (`select -add \"r__C_hairC03_CTL\"`);\ncatch (`select -add \"r__C_hairC02_CTL\"`);\ncatch (`select -add \"r__C_hairD07_CTL\"`);\ncatch (`select -add \"r__C_hairD06_CTL\"`);\ncatch (`select -add \"r__C_hairD05_CTL\"`);\ncatch (`select -add \"r__C_hairD04_CTL\"`);\ncatch (`select -add \"r__C_hairD03_CTL\"`);\ncatch (`select -add \"r__C_hairD02_CTL\"`);\ncatch (`select -add \"r__C_hairF07_CTL\"`);\ncatch (`select -add \"r__C_hairF06_CTL\"`);\ncatch (`select -add \"r__C_hairF05_CTL\"`);\ncatch (`select -add \"r__C_hairF04_CTL\"`);\ncatch (`select -add \"r__C_hairF03_CTL\"`);\ncatch (`select -add \"r__C_hairF02_CTL\"`);\ncatch (`select -add \"r__C_hairE08_CTL\"`);\ncatch (`select -add \"r__C_hairE07_CTL\"`);\ncatch (`select -add \"r__C_hairE06_CTL\"`);\ncatch (`select -add \"r__C_hairE05_CTL\"`);\ncatch (`select -add \"r__C_hairE04_CTL\"`);\ncatch (`select -add \"r__C_hairE03_CTL\"`);\ncatch (`select -add \"r__C_hairE02_CTL\"`);\ncatch (`select -add \"r__C_bang07_CTL\"`);\ncatch (`select -add \"r__C_bang06_CTL\"`);\ncatch (`select -add \"r__C_bang05_CTL\"`);\ncatch (`select -add \"r__C_bang04_CTL\"`);\ncatch (`select -add \"r__C_bang03_CTL\"`);\ncatch (`select -add \"r__C_bang02_CTL\"`);\ncatch (`select -add \"r__R_eyebrow01_CTL\"`);\ncatch (`select -add \"r__R_eyebrow02_CTL\"`);\ncatch (`select -add \"r__R_eyebrow03_CTL\"`);\ncatch (`select -add \"r__R_eyebrow04_CTL\"`);\ncatch (`select -add \"r__R_eyebrowMaster_CTL\"`);\ncatch (`select -add \"r__L_eyebrow04_CTL\"`);\ncatch (`select -add \"r__L_eyebrow03_CTL\"`);\ncatch (`select -add \"r__L_eyebrow02_CTL\"`);\ncatch (`select -add \"r__L_eyebrow01_CTL\"`);\ncatch (`select -add \"r__L_eyebrowMaster_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth03_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth02_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth01_CTL\"`);\ncatch (`select -add \"r__C_bttmMouth_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth01_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth02_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth03_CTL\"`);\ncatch (`select -add \"r__L_bttmMouth04_CTL\"`);\ncatch (`select -add \"r__R_bttmMouth04_CTL\"`);\ncatch (`select -add \"r__R_topMouth01_CTL\"`);\ncatch (`select -add \"r__R_topMouth02_CTL\"`);\ncatch (`select -add \"r__R_topMouth04_CTL\"`);\ncatch (`select -add \"r__R_topMouth03_CTL\"`);\ncatch (`select -add \"r__L_topMouth04_CTL\"`);\ncatch (`select -add \"r__L_topMouth03_CTL\"`);\ncatch (`select -add \"r__L_topMouth02_CTL\"`);\ncatch (`select -add \"r__L_topMouth01_CTL\"`);\ncatch (`select -add \"r__C_topMouth_CTL\"`);\ncatch (`select -add \"r__C_mouth_CTL\"`);\ncatch (`select -add \"r__R_topLid01_CTL\"`);\ncatch (`select -add \"r__R_topLid02_CTL\"`);\ncatch (`select -add \"r__R_topLid03_CTL\"`);\ncatch (`select -add \"r__R_topLid04_CTL\"`);\ncatch (`select -add \"r__R_topLid05_CTL\"`);\ncatch (`select -add \"r__R_topLid06_CTL\"`);\ncatch (`select -add \"r__R_bttmLid01_CTL\"`);\ncatch (`select -add \"r__R_bttmLid05_CTL\"`);\ncatch (`select -add \"r__R_bttmLid04_CTL\"`);\ncatch (`select -add \"r__R_bttmLid03_CTL\"`);\ncatch (`select -add \"r__R_bttmLid02_CTL\"`);\ncatch (`select -add \"r__L_topLid01_CTL\"`);\ncatch (`select -add \"r__L_topLid02_CTL\"`);\ncatch (`select -add \"r__L_topLid03_CTL\"`);\ncatch (`select -add \"r__L_topLid04_CTL\"`);\ncatch (`select -add \"r__L_topLid05_CTL\"`);\ncatch (`select -add \"r__L_topLid06_CTL\"`);\ncatch (`select -add \"r__L_bttmLid01_CTL\"`);\ncatch (`select -add \"r__L_bttmLid02_CTL\"`);\ncatch (`select -add \"r__L_bttmLid03_CTL\"`);\ncatch (`select -add \"r__L_bttmLid04_CTL\"`);\ncatch (`select -add \"r__L_bttmLid05_CTL\"`);\ncatch (`select -add \"r__C_nose_CTL\"`);\ncatch (`select -add \"r__L_ear_CTL\"`);\ncatch (`select -add \"r__R_ear_CTL\"`);\ncatch (`select -add \"r__C_jaw_CTL\"`);\ncatch (`select -add \"r__R_eye_CTL\"`);\ncatch (`select -add \"r__L_eye_CTL\"`);\ncatch (`select -add \"r__C_eyeBase_CTL\"`);\ncatch (`select -add \"r__C_head_CTL\"`);\ncatch (`select -add \"r__C_C_neck_CTL\"`);\ncatch (`select -add \"r__C_C_chest_CTL\"`);\ncatch (`select -add \"r__C_spine03_JNT_CTL\"`);\ncatch (`select -add \"r__C_spine02_JNT_CTL\"`);\ncatch (`select -add \"r__C_spine01_JNT_CTL\"`);\ncatch (`select -add \"r__C_cog_CTL\"`);\ncatch (`select -add \"r__R_foot_IK_CTL\"`);\ncatch (`select -add \"r__L_foot_IK_CTL\"`);\ncatch (`select -add \"pCube2\"`);\ncatch (`select -add \"pCube1\"`);\ncatch (`select -add \"pCube3\"`);\ncatch (`select -add \"pCube11\"`);\n" 
+        -sourceType "mel" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 36
+        -height 36
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Toggle - This will toggle animBot toolbar ON and OFF." 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "animBot - Toggle" 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "C:\\Users\\roumenov\\Documents\\maya\\scripts\\animBot\\_resources\\img\\icons_shelf\\white\\create_toggle_button_on_shelf_shelf.png" 
+        -image1 "C:\\Users\\roumenov\\Documents\\maya\\scripts\\animBot\\_resources\\img\\icons_shelf\\white\\create_toggle_button_on_shelf_shelf.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "from animBot._api.core import CORE as ANIMBOT_CORE; ANIMBOT_CORE.trigger.animBotMenu_toggle();" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Old pExport" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "\nimport pymel.core as pm\nimport maya.cmds as cmds\nimport sys\nimp..." 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "pExport" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "\nimport pymel.core as pm\nimport maya.cmds as cmds\nimport sys\nimport inspect\n\n#declaring initial variables\n#global playStartTime\n#global playEndTime\n\ndef ab_getFile():\n    global outputFile\n    testFile = cmds.file(q = True, sn = True)\n    print \"current file:\"\n    print testFile\n    testFile = testFile.replace('.ma','.fbx')\n    if '/latest' in testFile:\n        print \"Sylvia\"\n        testFileA = testFile.split('/latest')[0]\n        testFileB = testFile.split('/latest')[1]\n        outputFile = testFileA + '/export' + testFileB\n        print outputFile\n    elif '/Owl/' in testFile:\n        print \"owl\"\n        testFileA = testFile.split('/Owl/')[0]\n        testFileB = testFile.split('/Owl/')[1]\n        outputFile = testFileA + '/Owl/export/' + testFileB\n        print outputFile\n    elif '/Quinn/' in testFile:\n        print \"Quinn\"\n        testFileA = testFile.split('/Quinn/')[0]\n        testFileB = testFile.split('/Quinn/')[1]\n        outputFile = testFileA + '/Quinn/export/' + testFileB\n        print outputFile\n    elif '/Knight/' in testFile:\n        print \"Knight\"\n        testFileA = testFile.split('/Knight/')[0]\n        testFileB = testFile.split('/Knight/')[1]\n        outputFile = testFileA + '/Knight/export/' + testFileB\n        print outputFile\n    else:\n        print \"other\"\n        outputFile = testFile\n        print outputFile\n#PURPOSE            import all referenced scenes\n#PROCEDURE          list pymel references, looop \n#PRESUMPTION        references are only one reference deep, and right now we really only have one\ndef ab_importReferences():\n    done = False\n    print (\"looking for references ....\")\n    refs = pm.listReferences()\n    totalRefs = len(refs)\n    if len(refs) == 0:\n        print \"no references to import\"\n        return False\n    else:\n        while (done == False and (len(refs) != 0)):\n            refs = pm.listReferences()\n            print (\"importing \", len(refs), \" references....\")\n            for ref in refs:\n                if ref.isLoaded():\n                    done = False\n                    print (\"remaining refs = \")\n                    ref.importContents()\n                    #ref.importContents(removeNamespace = True)  remove namespace doesn't seem to work\n                else:\n                    print (\"All references imported\")\n                    done = True\n        print (\"Imported \" + str(totalRefs) + \" references\")\n        return True\n\n\n#def ab_setTimeline(auto,startVal= 0,endVal = 0): eventually add these option flags\ndef ab_setTimeline():\n    global playStartTime\n    global playEndTime\n    playStartTime = pm.playbackOptions(query = True, minTime = True)\n    playEndTime = pm.playbackOptions(query = True, maxTime = True)\n    playStartTime = int(playStartTime)\n    playEndTime = int(playEndTime)\n    print (playStartTime)\n    print (playEndTime)\n\n#PURPOSE            set up basic selections for baking, exporting, and any other procedures that need a direct reference to scene objects\n#PROCEDURE          \n#PRESUMPTION        user is selecting a node in the hierarchy of the rig they intend to export, names have not been imported\ndef ab_selectify(inputInt=0,characterNode=\"default\"):\n    if inputInt == 0:\n        #global sceneList\n        #sceneList = pm.ls()\n        global rootNode\n        global rigRootName\n        pm.select(characterNode)\n        rootNode = pm.selected()[0].root()\n        pm.select(rootNode)\n        rigRootName = rootNode.name() + \"Set\"\n        rootNode = pm.sets(name = rigRootName)\n        #query .sets to get the name\n    else:\n        pm.select(characterNode)\n        \n        rigRootName = rootNode.name() + \"Set\"\n        rootNode = pm.sets(name = rigRootName)\n#    pm.select(root)\n\ndef ab_setPrefix():\n    global rigPrefix\n    prefixPrompt = pm.promptDialog(\n            text = True,\n            title='Rig Prefix',\n            message='enter rig prefix as \"x_\" ',\n            button=['Confirm', 'Cancel'],\n            dismissString= 'Cancel'\n            )\n    print prefixPrompt\n    if prefixPrompt == 'Confirm':\n        rigPrefix = pm.promptDialog(query=True, text=True)\n        print rigPrefix\n        return rigPrefix\n    else:\n        return \"cancel\"\n\n# Should change this later to take the prefix as an argument.\n#PRESUMPTIONS       prefix takes the form of a single character followed by '_' x_ Any other order will break shit.\n#PRESUMPTIONS       prefix will be one character followed by an underscore and nothing has happened to the name since import\ndef ab_removePrefix(inputString):\n    print \"removing prefix :\"\n    print inputString\n\n    sceneList = pm.ls()\n\n    for item in sceneList:\n        itemString = item.shortName()\n        print (itemString)\n        if itemString.startswith(inputString):\n            print \"removing prefix\"\n            itemName = itemString.split(\"_\", 1)[1]\n            print (itemName)\n            pm.rename(item, itemName)\n        else:\n            print \"no prefix\"\n\n\ndef ab_bakeAnimation(bakeTarget):\n    pm.select(bakeTarget)\n    #Bake Animation\n    pm.bakeResults(bakeTarget, simulation = 1, sampleBy = 1, pok = 1, sac = 0, time = (playStartTime, playEndTime))\n\n\ndef ab_fileExport():\n    pm.select(rootNode)\n    cmds.file(outputFile, exportSelected=True, type=\"FBX export\")\n\n    \n\n\n####====                    ========                    ====####\n#\n#                       ACTION ZONE!!!!\n#\n####====                    ========                    ====####\n\ndef ab_pnomExport():\n    startingSelection = pm.ls(selection = True)\n    prefixValue = ab_setPrefix()\n    bakeSet = rigPrefix + \"bakeSet\"\n    deleteSet = rigPrefix + \"deleteSet\"\n\n    ab_getFile()\n    ab_setTimeline()\n    ab_importReferences()\n    ab_selectify(0,startingSelection)\n    ab_bakeAnimation(bakeSet)\n\n    if prefixValue == \"cancel\":\n        sys.exit(\"setPrefix cancelled\")\n    else:\n        pm.select(deleteSet)\n        pm.delete()\n        ab_removePrefix(rigPrefix)\n        #need to clean out rig\n        #need to write export procedure\n    \n        #build the fbx filename\n        ab_fileExport()\n\n\nab_pnomExport()\n#pm.select(rootNode)\n\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+    shelfButton
+        -enableCommandRepeat 1
+        -enable 1
+        -width 35
+        -height 35
+        -manage 1
+        -visible 1
+        -preventOverride 0
+        -annotation "Roxanne Export" 
+        -enableBackground 0
+        -backgroundColor 0 0 0 
+        -highlightColor 0.321569 0.521569 0.65098 
+        -align "center" 
+        -label "import pymel.core as pm\nimport maya.cmds as cmds\nimport sys\nimpo..." 
+        -labelOffset 0
+        -rotation 0
+        -flipX 0
+        -flipY 0
+        -useAlpha 1
+        -font "plainLabelFont" 
+        -imageOverlayLabel "RoxEx" 
+        -overlayLabelColor 0.8 0.8 0.8 
+        -overlayLabelBackColor 0 0 0 0.5 
+        -image "pythonFamily.png" 
+        -image1 "pythonFamily.png" 
+        -style "iconOnly" 
+        -marginWidth 1
+        -marginHeight 1
+        -command "import pymel.core as pm\nimport maya.cmds as cmds\nimport sys\nimport inspect\n\n#declaring initial variables\n#global playStartTime\n#global playEndTime\n\ndef ab_getFile():\n    global outputFile\n    testFile = cmds.file(q = True, sn = True)\n    print \"current file:\"\n    print testFile\n    testFile = testFile.replace('.ma','.fbx')\n    if '/latest' in testFile:\n        print \"Sylvia\"\n        testFileA = testFile.split('/latest')[0]\n        testFileB = testFile.split('/latest')[1]\n        outputFile = testFileA + '/export' + testFileB\n        print outputFile\n    elif '/Owl/' in testFile:\n        print \"owl\"\n        testFileA = testFile.split('/Owl/')[0]\n        testFileB = testFile.split('/Owl/')[1]\n        outputFile = testFileA + '/Owl/export/' + testFileB\n        print outputFile\n    elif '/Quinn/' in testFile:\n        print \"Quinn\"\n        testFileA = testFile.split('/Quinn/')[0]\n        testFileB = testFile.split('/Quinn/')[1]\n        outputFile = testFileA + '/Quinn/export/' + testFileB\n        print outputFile\n    elif '/Knight/' in testFile:\n        print \"Knight\"\n        testFileA = testFile.split('/Knight/')[0]\n        testFileB = testFile.split('/Knight/')[1]\n        outputFile = testFileA + '/Knight/export/' + testFileB\n        print outputFile\n    elif '/Roxanne/' in testFile:\n        print \"Roxanne\"\n        testFileA = testFile.split('/Roxanne/')[0]\n        testFileB = testFile.split('/Roxanne/')[1]\n        outputFile = testFileA + '/Roxanne/export/' + testFileB\n        print outputFile\n    else:\n        print \"other\"\n        outputFile = testFile\n        print outputFile\n#PURPOSE            import all referenced scenes\n#PROCEDURE          list pymel references, looop \n#PRESUMPTION        references are only one reference deep, and right now we really only have one\ndef ab_importReferences():\n    done = False\n    print (\"looking for references ....\")\n    refs = pm.listReferences()\n    totalRefs = len(refs)\n    if len(refs) == 0:\n        print \"no references to import\"\n        return False\n    else:\n        while (done == False and (len(refs) != 0)):\n            refs = pm.listReferences()\n            print (\"importing \", len(refs), \" references....\")\n            for ref in refs:\n                if ref.isLoaded():\n                    done = False\n                    print (\"remaining refs = \")\n                    #ref.importContents()\n                    ref.importContents(removeNamespace = True) #---- remove namespace doesn't seem to work\n                else:\n                    print (\"All references imported\")\n                    done = True\n        print (\"Imported \" + str(totalRefs) + \" references\")\n        return True\n\n#target_object = pm.ls(sl=1)[0]\n#remove_object_namespace(target_object)\ndef remove_object_namespace(object):\n    target_namespace = object.namespace()\n    print 'removing namespace :: ' + target_namespace\n    pm.namespace(removeNamespace = target_namespace, mergeNamespaceWithRoot = True)\n\n\n\n#def ab_setTimeline(auto,startVal= 0,endVal = 0): eventually add these option flags\ndef ab_setTimeline():\n    global playStartTime\n    global playEndTime\n    playStartTime = pm.playbackOptions(query = True, minTime = True)\n    playEndTime = pm.playbackOptions(query = True, maxTime = True)\n    playStartTime = int(playStartTime)\n    playEndTime = int(playEndTime)\n    print (playStartTime)\n    print (playEndTime)\n\n#PURPOSE            set up basic selections for baking, exporting, and any other procedures that need a direct reference to scene objects\n#PROCEDURE          \n#PRESUMPTION        user is selecting a node in the hierarchy of the rig they intend to export, names have not been imported\ndef tag_root(tag = False,target = None):       ## ---- upgrade to use attr, need to distinguish the character somehow....\n    if tag:\n        pm.select(target)\n        rootNode = pm.selected()[0].root()\n        pm.select(clear = True)\n        if rootNode.hasAttr(\"exportRoot\"):\n            print('success!')\n        else:\n            pm.addAttr(rootNode, longName = 'exportRoot', attributeType = 'message')\n            print('fail')\n        #rigRootName = rootNode.name() + \"Set\"\n        #rootNode = pm.sets(name = rigRootName)\n        return rootNode\n        #query .sets to get the name\n    else:\n        rootNode == pm.ls('*.exportRoot', objectsOnly = True)\n        return rootNode\n        \n        #rigRootName = rootNode.name() + \"Set\"\n        #rootNode = pm.sets(name = rigRootName)\n#    pm.select(root)\n\n\n\n# Should change this later to take the prefix as an argument.\n#PRESUMPTIONS       prefix takes the form of a single character followed by '_' x_ Any other order will break shit.\n#PRESUMPTIONS       prefix will be one character followed by an underscore and nothing has happened to the name since import\ndef ab_removePrefix(inputString):\n    print \"removing prefix :\"\n    print inputString\n\n    sceneList = pm.ls()\n\n    for item in sceneList:\n        itemString = item.shortName()\n        print (itemString)\n        if itemString.startswith(inputString):\n            print \"removing prefix\"\n            itemName = itemString.split(\"_\", 1)[1]\n            print (itemName)\n            pm.rename(item, itemName)\n        else:\n            print \"no prefix\"\n\n\ndef ab_bakeAnimation(*bakeList):#changed to list input\n    #pm.select(bakeTarget)\n    #Bake Animation\n    for target in bakeList:\n        pm.bakeResults(target, simulation = 1, sampleBy = 1, pok = 1, sac = 0, time = (playStartTime, playEndTime))\n\n\ndef ab_fileExport(arg):\n    pm.select(arg)\n    cmds.file(outputFile, exportSelected=True, type=\"FBX export\")\n\n    \n\n\n####====                    ========                    ====####\n#\n#                       ACTION ZONE!!!!\n#\n####====                    ========                    ====####\n\ndef ab_pnomExport():\n    if len(pm.ls(sl=1)):\n\n        root = tag_root(tag = True, target = pm.ls(selection = True)[0])\n        \n        ab_getFile()\n        ab_setTimeline()\n        ab_importReferences()\n        print('refs imported')\n        pm.select(\"bakeSet\", replace = True)\n        bakeSet = pm.ls(sl=1)\n        print 'bake set = ' + str(bakeSet)\n        pm.select(\"deleteSet\", replace = True)\n        deleteSet = pm.ls(sl=1)\n        print('delete set = ' + str(deleteSet))\n        ab_bakeAnimation(bakeSet)\n        print('bake')\n        pm.delete(deleteSet)\n        print('deleted crap')\n        ab_fileExport(root)\n    else:\n        pm.warning('no rig selected')\n\nab_pnomExport()\n\n" 
+        -sourceType "python" 
+        -commandRepeatable 1
+        -flat 1
+    ;
+
+} 
