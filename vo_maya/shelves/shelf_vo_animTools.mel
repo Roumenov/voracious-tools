@@ -843,7 +843,7 @@ global proc shelf_vo_animTools () {
         -flat 1
         -mi "old exporter" ( "\nimport pymel.core as pm\nimport vo_sceneTools as st\nreload(st)\n\nst.export_character('auto')" )
         -mip 0
-        -mi "publish rig binary" ( "#\nvoe.publish_rig()" )
+        -mi "publish rig binary" ( "import vo_maya.core.vo_export as voe\nreload(voe)\nvoe.publish_rig()" )
         -mip 1
         -mi "export skeletal mesh" ( "import vo_maya.core.vo_export as voe\nreload(voe)\n\nvoe.export_skeletal_mesh()\n" )
         -mi "maven export" ( "\nimport vo_maya.core.vo_export as voe\nreload(voe)\n\nroot = pm.ls('Maven', recursive = True)[0]\nroot_control = pm.ls('Maven_MainC', recursive = True)[0]\ndata = voe.prep_character(root, overwrite = True)\ntry:\n    voe.import_references()\n    pm.select(root_control)\n    pm.delete(constraints = 1)\n    pm.xform(root_control, ws=True, translation = (0,0,0), rotation = (0,0,0))\n    voe.export_animation(data)\nexcept:\n    pm.warning('exception occured trying to export character')\n" )
