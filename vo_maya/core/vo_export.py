@@ -866,26 +866,15 @@ def export_animation(data):#TODO    this should go inside ptionomics_export1()
     try:
         play_start_time = int(pm.playbackOptions(query = True, minTime = True))
         play_end_time = int(pm.playbackOptions(query = True, maxTime = True))
-<<<<<<< HEAD
-        #URGENT     this seems to be failing
-        joint_targets = pm.ls('*.jointSkin', objectsOnly = True, recursive = True)
-        blendshape_targets = pm.ls(type='blendShape', objectsOnly = True, recursive = True)#CBB using this operator is probably bad practice
-        bake_targets = joint_targets + blendshape_targets
-        #failure happened here, wasn't passing targets for baking
-=======
         bake_targets = pm.ls('*.jointSkin', objectsOnly = True, recursive = True)
         bake_targets += pm.ls(type = 'blendShape', objectsOnly = True, recursive = True)
->>>>>>> 2ad61e725cd35801c700f7dc36c3b741f2189eaa
         bake_animation(bake_targets, start = play_start_time, end = play_end_time)
         #export_animation1(data['root'], data['path'])#
     except:
         pm.warning('bake failed')
     pm.delete(pm.ls('*.noExport', objectsOnly = True, recursive = True))
-<<<<<<< HEAD
     #we'll be tagging blendshape meshes with noExport to take them out of anim files
     #for sylvia, keeping the blendmesh has become necessary, described in [[Sylv Blendshape Bugs]]
-=======
->>>>>>> 2ad61e725cd35801c700f7dc36c3b741f2189eaa
     #pm.delete(pm.ls('*.blendMesh', objectsOnly = True, recursive = True))
     pm.delete(pm.ls('*.skinMesh', objectsOnly = True, recursive = True))
     pm.select(data['root'], replace = True)

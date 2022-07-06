@@ -107,7 +107,9 @@ def set_character_node(target, meshes):#FIXME   this is unused, replace with fun
     
 
 
-
+#PURPOSE            finding all the bits of a genchar costume, lol
+#PRESUMPTIONS       need to import 'vo_export' same way it's used for in-ine execution
+#                   select network node first
 class meta_navigator:
     def __init__(self):
         if pm.window('MetaNavigator', exists=True):

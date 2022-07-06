@@ -7,8 +7,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 35
-        -height 35
+        -width 39
+        -height 39
         -manage 1
         -visible 1
         -preventOverride 0
@@ -784,6 +784,8 @@ global proc shelf_vo_rigTools () {
         -mip 12
         -mi "transfer weights" ( "#credit : shinyprem\n# https://www.highend3d.com/maya/script/skintransferbetweentwojnt-for-maya\n# .\n# \n# \n# Position the new joint in its new position\n#Follow the UI instruction to transfer the skinWeight between two joint\n\n\nimport maya.cmds as mc\nimport maya.mel as mel\nclass skinInflJnt:\n    def __init__(self):\n        pass\n        if mc.window('SkinInflJnt', exists=True):\n            mc.deleteUI('SkinInflJnt', window=True)\n        mc.window( 'SkinInflJnt', s=1 )\n        mc.rowColumnLayout( numberOfColumns=2 )\n        mc.text( label='Select mesh  ( Geo ) !              ', align = 'left' )\n        mc.button( label='    Get    ', command= 'Geo = mc.ls(sl=True); print(Geo)')\n        mc.text( label='Select New Influence joint ( Jnt ) !            ', align = 'left' )\n        mc.button( label='    Get    ', command='Jnt = mc.ls(sl=True)')\n        mc.text( label='Select Old Influence joint ( Jnt ) !            ', align = 'left' )\n        mc.button( label='    Get    ', command='sourceJnt = mc.ls(sl=True)')\n        mc.button( label='Transfer', command=lambda event:self.skinToJnt())\n        mc.setParent( '..' )\n        mc.showWindow( 'SkinInflJnt' )\n        \n    def skinToJnt(self):\n        skin = mel.eval('findRelatedSkinCluster '+Geo[0])\n        cmds.select (cmds.skinCluster(skin,query=True,inf=True))\n        allJntInfl = cmds.ls(sl=True)\n        eachJnt = 0\n        for eachJnt in allJntInfl:\n            cmds.skinCluster(skin,e=True,inf=eachJnt,lw=1)\n            eachJnt = ++1\n        cmds.skinCluster(skin,edit=True,lw=True,wt=0,ai=Jnt)\n        cmds.skinCluster(skin,e=True,inf=Jnt[0],lw=0)\n        cmds.skinCluster(skin,e=True,inf=sourceJnt[0],lw=0)\n        cmds.skinCluster(skin,edit=True,selectInfluenceVerts=sourceJnt[0])\n        cmds.skinPercent(skin, transformValue=[(sourceJnt[0],0),(Jnt[0],1)])\n        eachJnt = 0\n        for eachJnt in allJntInfl:\n            cmds.skinCluster(skin,e=True,inf=eachJnt,lw=0)\n            eachJnt = ++1\n        cmds.select (cl=True)\nskinInflJnt()" )
         -mip 13
+        -mi "Unparent Unskinned Joints" ( "import vo_maya.core.vo_deformers as deformers\nimport pymel.core as pm\n\nfor item in pm.ls(type = 'joint', objectsOnly=True, selection = False):\n    targetIsSkinned = deformers.check_skincluster(item)\n    if targetIsSkinned:\n        pass#print item.name()\n    else:\n        pm.parent(item, w=1)\n        #pm.delete(item)" )
+        -mip 14
     ;
     shelfButton
         -enableCommandRepeat 1
@@ -1294,8 +1296,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0
@@ -1596,8 +1598,8 @@ global proc shelf_vo_rigTools () {
     shelfButton
         -enableCommandRepeat 1
         -enable 1
-        -width 39
-        -height 39
+        -width 35
+        -height 35
         -manage 1
         -visible 1
         -preventOverride 0

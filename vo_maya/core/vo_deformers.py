@@ -71,7 +71,7 @@ def check_skincluster2(jointObject):
         if node.nodeType() == 'skinCluster':
             return True #CBB if it returned the cluster
         else:
-            return False
+            return False #FAIL  this will constantly return false and abort itself
 
 
 def list_influences(mesh):#CBB: superfluous

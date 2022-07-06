@@ -734,7 +734,7 @@ global proc shelf_vo_animTools () {
         -style "iconOnly" 
         -marginWidth 1
         -marginHeight 1
-        -command "print('loading reference manager')\n" 
+        -command "import pymel.core as pm\nimport vo_maya.core.vo_export as export\nimport vo_maya.core.vo_meta as vom\nreload(vom)\nmeta_nav = vom.meta_navigator()\n" 
         -sourceType "python" 
         -commandRepeatable 1
         -flat 1
